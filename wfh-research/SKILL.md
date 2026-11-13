@@ -15,11 +15,11 @@ user-invocable: false
 | 失败回复 | [失败翻译](references/failure_translation.md)，只在失败时读 |
 | 默认开始／推进／验收 | [动作分派](references/dispatch_protocol.md) |
 | 咨询能力 | [分流协议](references/routing_protocol.md)、[生成索引](references/skills_index.md) |
-| 研究设计 | [盘问协议](references/grilling_protocol.md) 对应章节、[决定分类](references/decision_classes.md) |
+| 研究设计 | [盘问协议](references/grilling_protocol.md) §1–6、§8、[决定分类](references/decision_classes.md)；排轮读 [盘问树](references/grilling_tree.md)，收尾读 [盘问自检](references/grilling_failures.md) |
 | 写研究方案 | [方案模板](references/spec_template.md) §1–4 |
-| 安排步骤 | [步骤规范](references/tickets_template.md) §2–6，写入时只读对应 §8 类型 |
+| 安排步骤 | [步骤规则](references/tickets_template.md) §2–6；写具体类型时读 [类型模板](references/tickets_types.md)，需要样例读 [任务样例](references/tickets_examples.md) |
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |
-| 更新进度布局 | [进度模板](references/flow_template.md) |
+| 更新进度布局 | [进度模板](references/flow_template.md)；写完整模板或对接时读 [进度细节](references/flow_details.md) |
 | 接续会话执行 | [执行协议](references/execution_protocol.md) |
 | 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |
 | 调用生产或核验其结果 | [交接协议](references/ars_handoff_protocol.md) 对应来源分支 |

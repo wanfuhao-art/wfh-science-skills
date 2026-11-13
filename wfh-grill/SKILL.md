@@ -12,12 +12,12 @@ disable-model-invocation: true
 
 - 读本次材料和已有课题记录，把已有答案标为已定；无课题描述时只问研究内容。
 - 尚无研究问题需要探索时，按 [分流协议](../wfh-research/references/routing_protocol.md) 选择探索；已有问题用本入口。
-- 盘问前读 [盘问协议](../wfh-research/references/grilling_protocol.md) §1–6、§8、§11 与 [决定分类](../wfh-research/references/decision_classes.md)；仅读这些章节，不加载无关示例。
-- 初始化或收尾时读 [进度布局](../wfh-research/references/flow_template.md) §8.5；已有目录增量更新。
+- 盘问前读 [盘问协议](../wfh-research/references/grilling_protocol.md) §1–6、§8 与 [决定分类](../wfh-research/references/decision_classes.md)；排轮时读 [盘问树](../wfh-research/references/grilling_tree.md)；收尾自检读 [盘问自检](../wfh-research/references/grilling_failures.md)。
+- 初始化或收尾时读 [进度细节](../wfh-research/references/flow_details.md) §8.5；已有目录增量更新。
 
 ## 动作与输出
 
-1. 默认十四题按依赖分轮，每轮只问前置已定的问题，最多四轮；已有答案跳过。
+1. 核心八题按依赖分轮，加研究类型分支后最多四轮；每轮只问前置已定的问题，已有答案跳过。
 2. 实质性决定只问、不建议；事实由系统查；评分只接收用户值。连续三次接受后下一道可推荐题不给建议。
 3. 定义需要记录时才读 [术语模板](../wfh-research/references/terms_template.md)；决定过三门槛才读 [决定记录模板](../wfh-research/references/mdr_template.md)。由系统写记录。
 4. 用中文完整展示研究决定、理由、未决与待核验内容，请作者确认并停下；确认前不写方案或正文。

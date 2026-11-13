@@ -12,8 +12,8 @@ disable-model-invocation: true
 
 - 定位已确认的决定记录；唯一课题自动选择，多个只问课题，无已确认记录则请作者先确认研究内容。
 - 读已有决定、术语、重要方法记录和已有方案；不凭聊天记忆伪造确认。
-- 合成时读 [方案模板](../wfh-research/references/spec_template.md) §1–4；落盘才读 §3 骨架，不读 §5 合成示例。
-- 核对确认语义才读 [盘问协议](../wfh-research/references/grilling_protocol.md) §7.3、§8；同步进度时读 [进度布局](../wfh-research/references/flow_template.md) §8.5。
+- 合成时读 [方案模板](../wfh-research/references/spec_template.md) §1–4；落盘才读 §3 骨架；需要填好的样例时读 [方案示例](../wfh-research/references/spec_examples.md)。
+- 核对确认语义才读 [盘问协议](../wfh-research/references/grilling_protocol.md) §7.3、§8；同步进度时读 [进度细节](../wfh-research/references/flow_details.md) §8.5。
 
 ## 动作与输出
 
