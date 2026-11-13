@@ -1,6 +1,6 @@
 ---
 name: wfh-tickets
-description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的任务图，写 tasks/T*.md 与 FLOW.md 的任务区 / 初始状态；每条任务有 blocked by、执行方式（ARS / direct / human）、验收标准、产出路径、会话预算；落盘前先确认粒度、依赖、合并/拆分。用于 Brief 确认后的任务切分、写作前规划、判断哪些任务可并行；English triggers: split research brief into tasks, research task graph, wfh-tickets, tickets from brief. 不用于盘问（用 wfh-grill）、不用于合成 Brief（用 wfh-spec）、不用于写作（用 ARS academic-paper）。"
+description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的任务图，写 tasks/T*.md 与 FLOW.md；revision 模式把审稿意见簇切成 R*.md 改稿任务；每条任务有 blocked by、执行方式（ARS / direct / human）、验收标准、产出路径、会话预算；落盘前先确认粒度、依赖、合并/拆分。用于 Brief 确认后的任务切分、审稿后的改稿任务切分、写作前规划、判断哪些任务可并行；English triggers: split research brief into tasks, revision task graph, research task graph, wfh-tickets. 不用于盘问（用 wfh-grill）、不用于合成 Brief（用 wfh-spec）、不用于写作（用 ARS academic-paper）。"
 ---
 
 # wfh-tickets — 任务图切分
@@ -13,6 +13,7 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 ## 定位
 
 - 这是 matt `to-tickets` 的**科研版**：把 `BRIEF.md` 的 claim ledger 切成「最小可验证主张单元」，每条任务能在新会话里独立完成。
+- 两种模式：默认 `claim` 模式（从 Brief 切任务）；`revision` 模式（从审稿意见簇切改稿任务，见文末）。
 - 上游是 `wfh-spec` 的已确认 `BRIEF.md`；下游是 `wfh-ask`（status 模式）/ `wfh-next` / `wfh-close` 与 ARS。
 - 只写 `tasks/T*.md` 与 `FLOW.md` 的任务区 / 初始状态；不改 `BRIEF.md` / `TERMS.md` / `decisions/` / `artifacts/`。
 - 任务文件的第 5 层只写目标章节、字数与边界句，**不写正文成品**。
@@ -38,6 +39,7 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 - `BRIEF.md` 已确认，含 `## RQ Brief` 与 `## 主张清单（Claim Ledger）`；
 - 要把 claim ledger 切成任务图，判断哪些能并行、哪些要等；
 - 已有任务图，需要增量加任务（决策修订、新 claim、新证据）；
+- 已有审稿意见，要切成改稿任务（`revision` 模式）；
 - 要在写作前确认粒度、依赖、合并 / 拆分。
 
 **不用**：
@@ -72,7 +74,8 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 | 文件 | 写入时机 |
 |---|---|
 | `research/<slug>/tasks/T01-<slug>.md` … | 用户确认任务图后 |
-| `research/<slug>/FLOW.md` | 用户确认任务图后；写任务区 + 初始状态 |
+| `research/<slug>/tasks/R01-<slug>.md` … | `revision` 模式，用户确认改稿任务图后 |
+| `research/<slug>/FLOW.md` | 用户确认任务图后；写任务区 + 初始状态 / 阶段 7 状态 |
 
 **不写**：`BRIEF.md`、`TERMS.md`、`decisions/*`、`artifacts/*`、正文、提纲。
 
@@ -230,6 +233,50 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 
 ---
 
+## revision 模式（阶段 7）
+
+输入从 `BRIEF.md` 的 claim ledger 换成审稿意见；其余规则不变。
+
+### 1. 预检
+
+1. 找审稿意见：`artifacts/06-review-report.md` 或用户给的审稿信；没有 → `REVIEW_NOT_FOUND`，停。
+2. 读 `FLOW.md`：阶段 6 应为 `done`；阶段 7 为 `todo` / `active`。
+3. 读 `BRIEF.md`、`TERMS.md`、已有 `tasks/` 与 `artifacts/05-draft.md`。
+
+### 2. 切分
+
+按 `tickets_template.md` §6.13：
+
+1. 一条意见簇一个 `revision` 任务，编号 `R01` 起；
+2. 同一段落的多条意见可合；跨章节的同一问题不拆；
+3. 每条写意见原文、回应策略、受影响章节 / claim、验收；
+4. 需改 claim 的意见 → 不切 `revision`，标回环（`/wfh-grill` 或 `/wfh-spec`）。
+
+### 3. 建图
+
+1. `revision` 任务可依赖 `T` 或 `R`；
+2. 在所有 `revision` 任务之后加一个终端 `integrate` 任务（阶段 7），依赖全部 `R`；
+3. 拓扑排序；有环 → `TASK_GRAPH_CYCLE`。
+
+### 4. 确认门
+
+与主流程相同：输出任务图、边、切分说明、未决映射，问粒度 / 依赖 / 合并拆分；停下。
+
+### 5. 落盘
+
+1. 写 `tasks/R*.md`（`tickets_template.md` §8.4）；
+2. 写终端 `tasks/T<max+1>-integrate-revision.md`（§8.5）；
+3. 更新 `FLOW.md`：阶段 7 `active`，任务图追加行，`Status: stage-7-active`，下一步 `/wfh-next R01`；
+4. 不改 `BRIEF.md` / 正文；正文改动由任务执行。
+
+### 6. 边界
+
+- 不写 response letter 正文（交给 `ARS:academic-paper:revision` 或用户）；
+- 不改 claim；需改 claim → 回环；
+- 不合并跨意见簇的任务。
+
+---
+
 ## 任务切分规则摘要
 
 完整规则见 `tickets_template.md` §6；以下是入口级摘要：
@@ -248,6 +295,9 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 | 未决 | 每个 `[UNRESOLVED]` 转决策任务或显式假设；每个 `[待核验]` 落到任务 |
 | Tracer bullet | T01 必须是可立即执行的 claim 任务，六层完整，产出作样板 |
 | Expand–contract | 全局机械改动拆 `expand` → `migrate` → `contract`；不改内容 |
+| `integrate` | 阶段 5 / 7 终端任务；依赖所有 claim / revision；不新增 claim |
+| `revision` | 一条审稿意见簇一个任务；`R01` 起；不改 claim |
+| 引用 | claim 任务只登记引用键；全局核验集中成一个 `citation-check` 任务 |
 | 无环 | 拓扑排序；有环 → `TASK_GRAPH_CYCLE`，停 |
 
 ---
@@ -292,6 +342,9 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 | 用户要求改 claim / 加 claim | 拒绝：这是研究决策；指向 `wfh-spec` / `wfh-grill` |
 | 用户要求顺便写正文 / 提纲 | 拒绝：本技能只切任务；指向 ARS `academic-paper` |
 | 用户要求把全局改动塞进普通任务 | 拒绝：走 `ec` 组；说明 expand–contract 三阶段 |
+| `revision` 模式找不到审稿意见 | `REVIEW_NOT_FOUND`：停；请用户给 `artifacts/06-review-report.md` 或审稿信 |
+| 阶段 6 未完成就要切改稿任务 | `REVIEW_NOT_READY`：停；先完成审稿（`ARS:academic-paper-reviewer`） |
+| 审稿意见要求改 claim | 不切 `revision`；标回环，指向 `/wfh-grill` / `/wfh-spec` |
 
 ---
 
@@ -308,6 +361,9 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 - [ ] 全局机械改动都在 `ec` 组，三阶段依赖正确？
 - [ ] 每个 `[UNRESOLVED]` / `[待核验]` 都有消费任务？
 - [ ] 确认门已过，用户确认了粒度、依赖、合并 / 拆分？
+- [ ] 终端 `integrate` 任务已建，依赖所有 claim 任务？
+- [ ] 引用核验任务已建（如有多任务共享文献）？
+- [ ] `revision` 模式下：每条意见簇一个 `R` 任务，终端 `integrate` 依赖全部 `R`？
 - [ ] 只写了 `tasks/` 与 `FLOW.md`？
 - [ ] 没有改 ARS 文件、没有引入软件工程流程概念？
 
