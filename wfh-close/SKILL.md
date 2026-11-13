@@ -11,7 +11,9 @@ description: "逐条用可追溯证据核对科研任务验收标准，记录 co
 
 逐条照原验收标准读取证据内容，输出标准 / pass、fail 或 unresolved / 证据位置 / 理由 / 缺件及解决者。核实六层、结论、必要的真实用户确认和实际执行记录；文件存在不等于结论成立。合成 fixture 的确认仅适用于合成测试。
 
-按协议 §6 在授权范围完成记录与同步：全部 pass 才 done；未通过记录 partial（doing）或 blocked（blocked），保留未决和解除条件。先核对读取后是否有并发改动，再更新目标任务及 FLOW 派生字段，追加记录并核对同步结果。不得改主张、降低原标准、代填数据 / 实验 / 评分 / 用户确认或改写上游决策。
+按协议 §6 在授权范围完成记录与同步：全部 pass 才 done；未通过记录 partial（doing）或 blocked（blocked），保留未决和解除条件。先核对读取后是否有并发改动，再更新目标任务及 FLOW 派生字段与「下一步」，追加记录并核对同步结果。不得改主张、降低原标准、代填数据 / 实验 / 评分 / 用户确认或改写上游决策。
+
+未通过项按 §6.1 分类：`EXECUTION_FAILURE` 重跑本任务；`EVIDENCE_GAP` 补 `prep` 或等外部返回物；`CLAIM_REFUTED` / `DESIGN_INVALID` 先展示回环包草案，用户确认后写 `decisions/REOPEN-*.md`，任务保持 `blocked` 并标 `reopen_required: true`，不自动改上游。
 
 ARS 任务检查真实来源、适用输入契约、实际 Skill 调用与响应；只有 next 提示词不能通过验收。close 本身不为补件实际调用 ARS。将 `wfh result` 与 `ARS intake / audit status` 分开写，缺真实回执如实记未执行 / 未验证，不颁发 ARS PASS。
 

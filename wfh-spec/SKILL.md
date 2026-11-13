@@ -159,9 +159,11 @@ description: "把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS
 3. **冲突清单**（如有）：字段 / 两个值 / 各自来源。
 4. **一句提问**：
 
-   > 以上是否可以作为你的 Brief？确认后写入 `BRIEF.md`。未决项可以现在补录（只补值，不展开讨论），也可以保持 `[UNRESOLVED]` 带进下游。
+   > 以上 claim ledger、未决项与 FINER 是否就是你要交给 ARS 的交接缝？确认后写入 `BRIEF.md`。未决项可以现在补录（只补值，不展开讨论），也可以保持 `[UNRESOLVED]` 带进下游。
 
 5. **停下。** 不写正文、不切任务、不调 ARS。
+
+本门只确认**交接缝**（claim ledger + 未决 + FINER），不逐字确认整份 Brief 的措辞；措辞问题在落盘后按「修订记录」增量更新。
 
 允许在确认门做的：
 
@@ -179,7 +181,8 @@ description: "把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS
 
 1. 写 `research/<slug>/BRIEF.md`，`状态：已确认`。
 2. 已有 `BRIEF.md`：先读，保留用户手改；变更写进「修订记录」；不静默覆盖。
-3. 提示下一步：`/wfh-tickets`（切任务）或 ARS `academic-paper`（写作）。
+3. 更新 `FLOW.md`：阶段 1 `done`、阶段 2 `done`、`Status: stage-3-active`；「下一步」= `/wfh-tickets`（命令 / 输入 / 产出 / 失败时 / 更新于），保留用户备注。
+4. 提示下一步：`/wfh-tickets`（切任务）或 ARS `academic-paper`（写作）。
 
 ---
 
@@ -190,7 +193,7 @@ description: "把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS
 3. **FINER 只来自用户**：不代填、不建议、不评价、不排序；用户只给部分，其余保持未决。
 4. **claim 必须可溯源**：无来源的主张不写入 ledger，放进未决问题。
 5. **不改上游产物**：`TERMS.md` / `LEDGER.md` / MDR 只读。
-6. **不写正文 / 提纲 / 任务 / `FLOW.md`**。
+6. **不写正文 / 提纲 / 任务**；只更新 `FLOW.md` 的阶段状态与「下一步」，不改任务区、决策台账与未决问题。
 7. **冲突不静默裁决**：列出两个值与来源，请用户定。
 8. **`[待核验]` 原样带入**，不升级为确定结论。
 9. **不引入代码 / GitHub / PR / TDD 概念**。
