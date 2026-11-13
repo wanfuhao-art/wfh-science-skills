@@ -42,6 +42,8 @@ wfh-science-skills/
 - GitHub：换成 `wanfuhao-art/wfh-science-skills`（Private 仓库需要先把对方加为 collaborator，或改成 Public）。
 - 只想用 wfh、不装内置 ARS：只跑 `/plugin install wfh-science-skills`，再按下面的官方 ARS 命令安装。
 
+> `/plugin marketplace add` 只下载仓库一次；两个 `/plugin install` 都从本地 marketplace 安装，不会重复下载。
+
 ### 方式 2：项目级 skills（手动复制）
 
 如果不使用插件，也可以把 `wfh-*` 目录复制到项目的 `.claude/skills/`：
