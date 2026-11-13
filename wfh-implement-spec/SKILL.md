@@ -194,7 +194,7 @@ ARS 任务按交接协议写调用草案；`direct` 任务写分析步骤；`hum
 5. **验收不改标准、不代填数据、不把提示词当 ARS 回执。**
 6. **不改 `BRIEF.md` / `TERMS.md` / `LEDGER.md` / MDR / 其他任务**；回环包由 `wfh-close` 按 `state_protocol.md` §6.1 写。
 7. **不轮询**；只靠 `<side-sessions-event>` 唤醒。
-8. **不改 wfh 共享包和六个入口**；本技能是独立编排层。
+8. **不改 wfh 共享包和七个入口**；本技能是独立编排层。
 9. **不把合成 fixture 当真实证据**；合成测试只在测试工作区有效。
 10. **会话失败不编造结果**；报 `SESSION_INCOMPLETE`，让用户决定重试或转人工。
 

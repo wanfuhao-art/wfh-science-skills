@@ -4,11 +4,11 @@
 
 用户问「该用哪个 / 怎么用」或调用 `/wfh-ask` 咨询时，只读并建议，不因展示命令而执行它。用户明确要求执行已有 `/ars-*`、某个确定模式或研究动作时，让当前 ARS 路由接管：读取其 `shared/references/routing_core.md`；歧义及跨阶段材料另按 `intent_clarification_protocol.md`，不另加 wfh 决策门，不让咨询层抢占明确请求。`[direct-mode]` 的解析也归 ARS 原协议。
 
-只有明确要求整套研究到成稿时才推荐 `academic-pipeline`；它的 finalize 不等于替作者向期刊提交或保证发表。默认保留任务图里的执行边界。推荐范围限已安装的 ARS 与六个 wfh 入口。
+只有明确要求整套研究到成稿时才推荐 `academic-pipeline`；它的 finalize 不等于替作者向期刊提交或保证发表。默认保留任务图里的执行边界。推荐范围限已安装的 ARS 与七个 wfh 入口。
 
 ## 2. 定位与索引检查
 
-1. 先定位本共享包与同级七入口。ARS 根只接受可靠来源：当前工具 / 已加载技能返回的基目录上一级、宿主提供的插件根，或调用方明确提供的安装根。不要从索引中的旧缓存路径推定当前安装，不枚举缓存后选择「看起来最新」的版本，不读取 settings、凭证或 env 内容来找插件。无法确认根时报告 `ARS_NOT_AVAILABLE`，仅如实说明可读 wfh 范围；请求提供安装根不等于假装 ARS 可用。
+1. 先定位本共享包与同级七入口（`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-ask` / `wfh-next` / `wfh-close` / `wfh-implement-spec`）。ARS 根只接受可靠来源：当前工具 / 已加载技能返回的基目录上一级、宿主提供的插件根，或调用方明确提供的安装根。不要从索引中的旧缓存路径推定当前安装，不枚举缓存后选择「看起来最新」的版本，不读取 settings、凭证或 env 内容来找插件。无法确认根时报告 `ARS_NOT_AVAILABLE`，仅如实说明可读 wfh 范围；请求提供安装根不等于假装 ARS 可用。
 2. 用 [刷新工具](../scripts/refresh_index.py) 的 `--check` 比较当前输入与索引；普通咨询保持只读。把当前 ARS 根作为 `--ars-root` 明确传入，脚本不读取环境或设置。路径含空格时使用 shell 引号。
 
 ```bash

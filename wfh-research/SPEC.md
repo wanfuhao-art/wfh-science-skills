@@ -2,9 +2,10 @@
 
 > 由 matt `to-spec` 从当前对话合成，**不再访谈**。
 > 日期：2026-11-13
-> 状态：待确认（验证接缝）
+> 状态：已确认（2026-11-13 修订）
 > 说明：本项目没有 issue tracker，也不引入 GitHub 概念；按 matt 的 local-markdown 回退，规格落在共享包内。
-> 2026-11-13 更新：`wfh-status` 已并入 `wfh-ask` 的 status 模式；下文出现的 `wfh-status` 为历史设计记录。当前可执行入口为 6 个。
+> 2026-11-13 更新：`wfh-status` 已并入 `wfh-ask` 的 status 模式；下文出现的 `wfh-status` 为历史设计记录。当前可执行入口为 7 个。
+> 2026-11-13 修订：ARS 改为外部依赖；新增 `REOPEN` 回环包、`revision` 模式、终端 `integrate` 任务与 FLOW 唯一「下一步」；FINER 进默认树。
 
 ---
 
@@ -23,17 +24,18 @@ matt 的 `grilling` / `grill-with-docs` / `to-spec` / `to-tickets` / `ask-matt` 
 
 ## Solution
 
-一个科研专用的 **6 技能套件**，前缀 `wfh-`，加一个共享包 `wfh-research`：
+一个科研专用的 **7 技能套件**，前缀 `wfh-`，加一个共享包 `wfh-research`：
 
 | 技能 | 对应 matt | 职责 |
 |---|---|---|
 | `wfh-grill` | `grill-with-docs` | 按轮盘问 + 即时写 `TERMS.md` / `decisions/MDR-*.md` / 决策台账 |
 | `wfh-spec` | `to-spec` | 把对话合成 `BRIEF.md`，不再访谈 |
-| `wfh-tickets` | `to-tickets` | 切成“最小可验证主张单元”的任务图 |
-| `wfh-ask` | `ask-matt` | 在 ARS 35 个 mode + 6 个 wfh 模式之间给一条路径 |
+| `wfh-tickets` | `to-tickets` | 切成“最小可验证主张单元”的任务图；`revision` 模式切改稿任务 |
+| `wfh-ask` | `ask-matt` | 在 ARS 35 个 mode + 7 个 wfh 入口之间给一条路径 |
 | `wfh-ask`（status 模式） | paper-pipeline `status` | 读 `FLOW.md`，报告阶段 / 当前任务 / frontier / 缺失产物 |
 | `wfh-next` | paper-pipeline `next` | 生成新会话启动提示词 |
-| `wfh-close` | paper-pipeline `close` | 校验任务产出，更新 `FLOW.md` |
+| `wfh-close` | paper-pipeline `close` | 校验任务产出，更新 `FLOW.md`；claim 失败出回环包 |
+| `wfh-implement-spec` | `implement-spec` | 生成提示词 → 开新会话 → 自动验收 |
 | `wfh-research` | 共享包（类似 `nature-shared`） | 总览、共享协议、模板、路由索引；不执行具体动作 |
 
 生产仍由 ARS 完成；wfh 只决定“什么时候、拿什么输入、调哪个 ARS 模式”。
@@ -114,7 +116,7 @@ matt 的 `grilling` / `grill-with-docs` / `to-spec` / `to-tickets` / `ask-matt` 
 ```
 .claude/skills/
 ├── wfh-research/                 # 共享包，不执行具体动作
-│   ├── SKILL.md                  # 总览：6 个技能怎么串
+│   ├── SKILL.md                  # 总览：7 个技能怎么串
 │   └── references/
 │       ├── grilling_protocol.md  # frontier / 轮次 / 推荐 / facts-decisions / 确认门
 │       ├── decision_classes.md   # 程序性 / 学科惯例 / 实质性
@@ -122,19 +124,20 @@ matt 的 `grilling` / `grill-with-docs` / `to-spec` / `to-tickets` / `ask-matt` 
 │       ├── mdr_template.md       # MDR 模板与三门槛
 │       ├── spec_template.md      # 外部 Brief 模板（内容字段参考 Schema 1）
 │       ├── ars_handoff_protocol.md # 来源判定、内容预检、Skill 调用与内部链边界
-│       ├── tickets_template.md   # tasks/T*.md 模板
+│       ├── tickets_template.md   # tasks/T*.md 模板（claim / prep / ec / revision / integrate）
 │       ├── flow_template.md      # FLOW.md 模板
+│       ├── reopen_template.md    # REOPEN 回环包模板
 │       └── skills_index.md       # ARS + wfh 的路由索引（自动生成）
 ├── wfh-grill/SKILL.md
 ├── wfh-spec/SKILL.md
 ├── wfh-tickets/SKILL.md
 ├── wfh-ask/SKILL.md
-├── wfh-status/SKILL.md
 ├── wfh-next/SKILL.md
-└── wfh-close/SKILL.md
+├── wfh-close/SKILL.md
+└── wfh-implement-spec/SKILL.md
 ```
 
-共享包是**唯一的协议来源**；6 个技能只写自己的入口、输入、输出和边界，不复制协议。这样避免 6 份规则漂移。
+共享包是**唯一的协议来源**；7 个技能只写自己的入口、输入、输出和边界，不复制协议。这样避免 7 份规则漂移。
 
 ### 2. 命名与调用
 
@@ -245,7 +248,7 @@ Current task: ...
 
 ### 12. 边界
 
-- 不改 ARS 文件、不 fork、不往 ARS 缓存写东西。
+- ARS 外置：本仓库不包含 ARS 代码；不改 ARS 安装目录；不往 ARS 缓存写东西。
 - 不接 `nature-*`。
 - 不调用 `academic-pipeline`，除非用户明确要“一口气跑完”，此时退出任务图模式。
 - 不引入 issue tracker、GitHub、git worktree、PR、TDD。
@@ -264,7 +267,7 @@ Current task: ...
 
 ### 最高接缝
 
-只测一条端到端链路：**`wfh-grill → wfh-spec → wfh-tickets → wfh-status/next → ARS handoff`**。不按单个技能的措辞或内部步骤测试。理想情况下这是唯一的接缝；如果某段协议需要单独验证，优先用合成案例而不是新增测试层。
+只测一条端到端链路：**`wfh-grill → wfh-spec → wfh-tickets → wfh-ask/next → ARS handoff`**。不按单个技能的措辞或内部步骤测试。理想情况下这是唯一的接缝；如果某段协议需要单独验证，优先用合成案例而不是新增测试层。
 
 ### 什么算好测试
 
@@ -274,14 +277,18 @@ Current task: ...
 
 ### 测试用例
 
-1. **合成盘问**：以“AI 辅助科研对研究者能力的影响”为题，`wfh-grill` 应在 ≤4 轮内问完 13 个规划问题；不得问任何 agent 本可查到的事实；实质性决策不得出现推荐；结束时生成 `TERMS.md`、至少 1 条 MDR、决策台账，并停在确认门。
+1. **合成盘问**：以“AI 辅助科研对研究者能力的影响”为题，`wfh-grill` 应在 ≤4 轮内问完 14 个规划问题；不得问任何 agent 本可查到的事实；实质性决策不得出现推荐；结束时生成 `TERMS.md`、至少 1 条 MDR、决策台账，并停在确认门。
 2. **合成 Brief**：`wfh-spec` 从上述对话生成 `BRIEF.md`，含 Schema 1 四个必需字段 + claim ledger；不得重新访谈；缺项标 `[UNRESOLVED]`；FINER 分数来自用户。
 3. **合成任务图**：`wfh-tickets` 生成 ≥6 条任务；每条有 `blocked by`、`执行方式`、验收标准；任务图无环；每条声明“一个会话可完成”。
-4. **状态板闭环**：`wfh-status` 报告 frontier；`wfh-next` 生成只读任务输入的提示词；`wfh-close` 校验产出并更新 `FLOW.md`；frontier 正确推进。
+4. **状态板闭环**：`wfh-ask`（status 模式）报告 frontier；`wfh-next` 生成只读任务输入的提示词；`wfh-close` 校验产出并更新 `FLOW.md`；frontier 正确推进。
 5. **路由**：对“我有审稿意见”“我有个模糊想法”“我要投稿”三种输入，`wfh-ask` 各给一条路径、一个命令、一条反模式；推荐前读取对应 `SKILL.md`。
 6. **真实案例（电池课题）**：以“乙腈电解液中 LCO 与 LNO 循环寿命差异的机理研究”为题，检查 `TERMS.md` 覆盖 LCO/LNO/CEI/循环寿命/过渡金属溶解；MDR 覆盖乙腈选择、电压窗口、LCO vs LNO 对照；claim ledger 含 C1–C4；任务图含 `human` 类型的 XPS/ICP-MS 任务与正确的 blocking edges。
 7. **ARS 交接**：wfh 外部 Brief 经内容预检后，以明确来源交给 `academic-paper` 普通 intake，实际接受并导入已有配置；未提供配置仍可问。相同前置条件只删 Scope，wfh 预检须列 `scope` 并报 `HANDOFF_INCOMPLETE`；ARS 直接输入若也拒绝，单独记录其缺项和原因。保留 FINER 未决拒绝样本。内部链的 Passport/#672 门禁继续有效，不靠假身份或命令跳过；单次提示词测试不宣称确定性稳定。
 8. **反谄媚与完整性**：连续 3 次接受推荐后，下一题无推荐；任何文献事实必须有来源或 `[待核验]`；不得编造引用。
+9. **回环**：把一条 claim 的验收标为 `CLAIM_REFUTED`，`wfh-close` 应输出 `reopen_required: true` 并写 `decisions/REOPEN-0001-*.md`；`wfh-grill` 能读包重开对应决策，台账标「已修订」。
+10. **改稿任务图**：给定一份审稿报告，`wfh-tickets` revision 模式生成 ≥3 条 `R` 任务 + 1 条终端 `integrate`；每条 `R` 有意见原文、回应策略、response 条目；任务图无环。
+11. **下一步**：从阶段 4 任一 frontier 任务出发，只读 `FLOW.md` 的「下一步」+ 任务文件即可执行；把「下一步」指向已 done 任务，`wfh-ask` 报 `NEXT_STEP_DRIFT`。
+12. **引用层**：claim 任务只登记引用键与 `[待核验]`；全局 `citation-check` 任务产出逐条核验报告，不重复核验同一文献。
 
 ### 先例
 
@@ -293,9 +300,9 @@ Current task: ...
 
 ## Out of Scope
 
-- v2 执行编排：并行 frontier、subagent 调度、自动合并。
+- 并行 frontier、subagent 调度、自动合并（当前串行逐任务）。
 - `nature-*` 技能集成。
-- 修改或 fork ARS。
+- 内置或 fork ARS（ARS 为外部依赖）。
 - issue tracker、GitHub、git worktree、PR、TDD。
 - 多人协作、实时共编。
 - DOCX/LaTeX/PDF 生成（交给 ARS `format-convert`）。
@@ -320,15 +327,17 @@ Current task: ...
 
 ### 成功标准
 
-- `wfh-grill`：13 个规划问题 ≤4 轮问完；零个“本可查到”的事实问题；实质性决策零推荐。
+- `wfh-grill`：14 个规划问题 ≤4 轮问完；零个“本可查到”的事实问题；实质性决策零推荐。
 - `wfh-spec`：零重复访谈；Schema 1 四字段齐全；`[UNRESOLVED]` 可见。
 - `wfh-tickets`：每条任务一个新会话可完成；完成后能独立回答“这条主张站得住吗”。
 - `wfh-ask`：3 轮内给出一条路径 + 一个命令 + 一条反模式。
 - 真实案例：电池课题能跑通 `grill → spec → tickets → status/next`，且 `TERMS.md` / MDR / claim ledger 符合材料学写作习惯。
+- 从阶段 4 任一 frontier 任务出发，只读 FLOW「下一步」+ 任务文件即可执行；lco-lno-acn 能从 T01 跑到阶段 8 不迷路。
+- claim 失败能触发 `REOPEN_REQUIRED` 并回到正确决策分支。
 
-### 待定问题
+### 已解决问题（2026-11-13）
 
-- `wfh-grill` 是直接写 `FLOW.md` 的决策台账，还是只写 `decisions/LEDGER.md`、由 `wfh-close` 合并进 `FLOW.md`？
-- `wfh-close` 只校验任务验收标准，还是也校验 Schema 1？
-- v2 是否增加 `wfh-implement`（任务级执行入口），还是由 `wfh-next` 直接承担？
-- `skills_index.md` 的自动生成脚本放在 `wfh-research/scripts/` 还是项目根 `scripts/`？
+- `wfh-grill` 创建最小 `FLOW.md` 并写阶段 1；`LEDGER.md` 仍是决策源，`FLOW.md` 只同步已确认行。
+- `wfh-close` 校验任务验收标准与 ARS 实际调用，不套 Schema 1。
+- 任务级执行入口为 `wfh-implement-spec`（可选编排层），`wfh-next` 仍可单独使用。
+- `skills_index.md` 的脚本在 `wfh-research/scripts/`。
