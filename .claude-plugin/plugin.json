@@ -10,6 +10,7 @@
   "repository": "https://github.com/wanfuhao-art/wfh-science-skills",
   "license": "CC-BY-NC-4.0",
   "skills": [
+    "./wfh",
     "./wfh-ask",
     "./wfh-close",
     "./wfh-grill",

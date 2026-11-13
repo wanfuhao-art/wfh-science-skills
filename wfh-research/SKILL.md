@@ -12,6 +12,7 @@ user-invocable: false
 | 动作发生时 | 读取 |
 |---|---|
 | 任一用户回复 | [研究者界面](references/user_output_protocol.md) |
+| 默认开始／推进／验收 | [动作分派](references/dispatch_protocol.md) |
 | 咨询能力 | [分流协议](references/routing_protocol.md)、[生成索引](references/skills_index.md) |
 | 研究设计 | [盘问协议](references/grilling_protocol.md) 对应章节、[决定分类](references/decision_classes.md) |
 | 写研究方案 | [方案模板](references/spec_template.md) §1–4 |

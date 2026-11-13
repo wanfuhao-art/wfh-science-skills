@@ -2,15 +2,15 @@
 """Generate/check navigation from explicit ARS root and sibling wfh skills (stdlib)."""
 import argparse
 import hashlib
+import json
 import os
 from pathlib import Path
 import re
 import sys
 from urllib.parse import quote
 
-WFH = ('wfh-grill', 'wfh-spec', 'wfh-tickets', 'wfh-ask',
-       'wfh-next', 'wfh-close', 'wfh-implement-spec')
 WFH_SUPPORT = {
+    'wfh': ('dispatch_protocol.md', 'user_output_protocol.md', 'ars_intent_map.md'),
     'wfh-grill': ('grilling_protocol.md', 'decision_classes.md', 'terms_template.md',
                   'mdr_template.md', 'reopen_template.md'),
     'wfh-spec': ('spec_template.md', 'ars_handoff_protocol.md'),
@@ -74,14 +74,36 @@ def registry_rows(text):
 def build(skills, ars, output):
     sources, diagnostics = {}, []
 
+    def logical(path):
+        if path == Path(__file__).resolve():
+            return 'generator/refresh_index.py'
+        # Check ARS first: an explicitly supplied root may be inside the suite.
+        if ars is not None and path.is_relative_to(ars):
+            return 'ars/' + path.relative_to(ars).as_posix()
+        if path.is_relative_to(skills):
+            return 'wfh/' + path.relative_to(skills).as_posix()
+        return 'generator/' + path.name
+
     def read(path):
         try:
             data = path.read_bytes()
             sources[path] = data
             return data.decode('utf-8')
         except (OSError, UnicodeError) as exc:
-            diagnostics.append(f'INDEX_INVALID: {path}: {exc}')
+            reason = exc.strerror if isinstance(exc, OSError) else 'invalid UTF-8'
+            diagnostics.append(f'INDEX_INVALID: {logical(path)}: {reason}')
             return None
+
+    def manifest(path):
+        text = read(path)
+        try:
+            data = json.loads(text) if text is not None else None
+            if not isinstance(data, dict):
+                raise ValueError('expected manifest object')
+            return data
+        except (ValueError, TypeError) as exc:
+            diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
+            return {}
 
     def link(path, label):
         # Suite references stay relative so the package can move together. ARS
@@ -96,8 +118,28 @@ def build(skills, ars, output):
         return text.replace('|', '\\|').replace('\n', ' ')
 
     package = skills / 'wfh-research'
+    plugin = manifest(skills / '.claude-plugin/plugin.json')
+    market = manifest(skills / '.claude-plugin/marketplace.json')
+    entries = market.get('plugins', [])
+    candidates = [p for p in entries if isinstance(p, dict) and p.get('name') == plugin.get('name')] if isinstance(entries, list) else []
+    if len(candidates) != 1 or candidates[0].get('skills') != plugin.get('skills'):
+        diagnostics.append('INDEX_INVALID: plugin and marketplace skill lists differ')
+    declared = plugin.get('skills', [])
+    if not isinstance(declared, list):
+        diagnostics.append('INDEX_INVALID: skills must be a list')
+        declared = []
+    valid = [p for p in declared if isinstance(p, str) and re.fullmatch(r'\./[a-z][a-z0-9-]*', p)]
+    if len(valid) != len(declared) or len(set(valid)) != len(valid):
+        diagnostics.append('INDEX_INVALID: invalid or duplicate skill directory')
+    names = sorted({p[2:] for p in valid})
+    actual = {p.parent.name for p in skills.glob('wfh*/SKILL.md')}
+    if set(names) != actual:
+        diagnostics.append('INDEX_INVALID: manifest and skill directories differ')
+    if 'wfh' not in names or 'wfh-research' not in names:
+        diagnostics.append('INDEX_INVALID: default entry or shared package missing')
+    wfh = [n for n in names if n != 'wfh-research']
     wfh_rows = []
-    for name in WFH:
+    for name in wfh:
         path = skills / name / 'SKILL.md'
         text = read(path)
         try:
@@ -105,15 +147,15 @@ def build(skills, ars, output):
             if data and data['name'] != name:
                 raise ValueError('frontmatter name differs from directory')
         except ValueError as exc:
-            diagnostics.append(f'INDEX_INVALID: {path}: {exc}')
+            diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
             data = None
         support = []
-        for ref in WFH_SUPPORT[name]:
+        for ref in WFH_SUPPORT.get(name, ('user_output_protocol.md',)):
             ref_path = package / 'references' / ref
             if ref_path.is_file():
                 support.append(link(ref_path, ref.removesuffix('.md')))
             else:
-                diagnostics.append(f'INDEX_INVALID: missing shared reference {ref_path}')
+                diagnostics.append(f'INDEX_INVALID: missing shared reference {logical(ref_path)}')
                 support.append('MISSING ' + ref)
         wfh_rows.append(f'| {name} | /{name} | {cell(data["description"]) if data else "UNAVAILABLE"} | '
                         f'{link(path, "SKILL") if data else "UNAVAILABLE"} | {"、".join(support)} |')
@@ -124,10 +166,18 @@ def build(skills, ars, output):
         if path.name != 'skills_index.md' and path.resolve() != output:
             read(path)
     rows, command_map = [], {}
+    ars_identity = '未提供'
     available = ars is not None and (ars / 'MODE_REGISTRY.md').is_file()
     if not available:
         diagnostics.append('ARS_NOT_AVAILABLE: pass --ars-root from a verified current installation')
     else:
+        ars_manifest = manifest(ars / '.claude-plugin/plugin.json')
+        ars_name = ars_manifest.get('name', '')
+        ars_version = ars_manifest.get('version', '')
+        if not isinstance(ars_name, str) or not re.fullmatch(r'[a-z][a-z0-9-]*', ars_name) or not isinstance(ars_version, str) or not re.fullmatch(r'[0-9A-Za-z.+-]+', ars_version):
+            diagnostics.append('INDEX_INVALID: invalid ARS plugin identity')
+        else:
+            ars_identity = f'{ars_name}@{ars_version}'
         registry = read(ars / 'MODE_REGISTRY.md')
         try:
             rows, problems = registry_rows(registry or '')
@@ -146,7 +196,7 @@ def build(skills, ars, output):
             try:
                 data = metadata(text)
             except ValueError as exc:
-                diagnostics.append(f'INDEX_INVALID: {path}: {exc}')
+                diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
                 continue
             target = re.search(r'skill:\s*"(?:academic-research-skills|wfh-science-skills):([a-z-]+)"', text)
             if not target:
@@ -168,7 +218,7 @@ def build(skills, ars, output):
             if data and data['name'] != skill:
                 raise ValueError('frontmatter name differs from registry')
         except ValueError as exc:
-            diagnostics.append(f'INDEX_INVALID: {path}: {exc}')
+            diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
             data = None
         navigation = [ars_path(path)] if data else ['UNAVAILABLE']
         for name in ('references', 'agents'):
@@ -182,19 +232,17 @@ def build(skills, ars, output):
                             f'{ars_path(path) if data else "UNAVAILABLE"} | {slash} |')
 
     digest = hashlib.sha256()
-    for path, content in sorted(sources.items()):
-        # Suite paths are relative so moving the suite together preserves meaning.
-        key = os.path.relpath(path, skills) if path.is_relative_to(skills) else str(path)
-        digest.update(key.encode() + b'\0' + content + b'\0')
+    for path, content in sorted(sources.items(), key=lambda item: logical(item[0])):
+        digest.update(logical(path).encode() + b'\0' + content + b'\0')
     lines = ['# ARS + wfh 路由索引（生成文件）', '',
              '仅定位，不证明已读取、已加载、已验证或研究已执行。推荐前读取目标 SKILL 与模式要求的支持文件。', '',
-             f'- 来源 ARS 根：`{ars if ars else "未提供"}`',
+             f'- 来源 ARS：`{ars_identity}`；运行时显式提供当前根，不保存安装路径。',
              f'- ARS 状态：{"LOCATED（宿主加载状态另查）" if available else "ARS_NOT_AVAILABLE"}',
-             f'- 实际 ARS 模式记录：{len(rows)}；wfh 预期入口：{len(WFH)}；可读入口：{sum("UNAVAILABLE" not in r for r in wfh_rows)}',
+             f'- 实际 ARS 模式记录：{len(rows)}；wfh 执行入口：{len(wfh)}（默认 1，高级 {max(0, len(wfh)-1)}）；可读入口：{sum("UNAVAILABLE" not in r for r in wfh_rows)}',
              f'- 来源指纹 SHA-256：`{digest.hexdigest()}`；输入文件：{len(sources)}',
              '- 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)',
              '', '## 诊断', '', *(diagnostics or ['OK：已按当前来源生成；每次咨询仍需 --check。']), '',
-             f'## {len(WFH)} 个 wfh 执行入口', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
+             f'## {len(wfh)} 个 wfh 执行入口（一个默认入口）', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
              '|---|---|---|---|---|', *wfh_rows, '', '## ARS 模式', '',
              '路径均相对上方 ARS 根；升级或迁移后重新 refresh，索引不把旧缓存路径当默认安装。',
              '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 wfh-science-skills:<技能>，mode=<模式>，<请求>」。',
