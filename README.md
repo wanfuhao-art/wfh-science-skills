@@ -20,6 +20,7 @@
 
 ```text
 wfh-science-skills/
+├── .claude-plugin/               # 插件与 marketplace 清单
 ├── wfh-*/                         # 六个 wfh 入口 + wfh-research + wfh-implement-spec
 └── vendor/
     └── academic-research-skills/  # ARS 3.24.2 快照（CC-BY-NC-4.0）
@@ -27,20 +28,37 @@ wfh-science-skills/
 
 ## 安装
 
-### 1. 安装 ARS（生产层）
+### 方式 1：作为插件安装（推荐，和 ARS 一样）
 
-wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修订、格式转换由 ARS 完成。ARS 已随仓库放在 `vendor/academic-research-skills/`，可以一次安装；也可以从官方仓库安装最新版。
+在 Claude Code 中运行：
 
-**方式 A：用仓库内置的 ARS（一次安装）**
+```text
+/plugin marketplace add <仓库路径或 GitHub 仓库>
+/plugin install wfh-science-skills
+/plugin install academic-research-skills
+```
 
-在仓库根目录运行：
+- 本地 zip / 文件夹：`<仓库路径或 GitHub 仓库>` 换成解压后的仓库绝对路径。
+- GitHub：换成 `wanfuhao-art/wfh-science-skills`（Private 仓库需要先把对方加为 collaborator，或改成 Public）。
+- 只想用 wfh、不装内置 ARS：只跑 `/plugin install wfh-science-skills`，再按下面的官方 ARS 命令安装。
+
+### 方式 2：项目级 skills（手动复制）
+
+如果不使用插件，也可以把 `wfh-*` 目录复制到项目的 `.claude/skills/`：
+
+```bash
+mkdir -p .claude/skills
+cp -R wfh-* .claude/skills/
+```
+
+ARS 可以用仓库内置的 `vendor/academic-research-skills/`：
 
 ```text
 /plugin marketplace add ./vendor/academic-research-skills
 /plugin install academic-research-skills
 ```
 
-**方式 B：从官方仓库安装（推荐，便于更新）**
+或者从官方仓库安装最新版：
 
 ```text
 /plugin marketplace add Imbad0202/academic-research-skills
@@ -49,18 +67,7 @@ wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修�
 
 官方仓库：https://github.com/Imbad0202/academic-research-skills
 
-`vendor/` 里是 ARS 3.24.2 的快照；官方仓库更新后，建议用方式 B 或重新拉取本仓库。
-
-### 2. 安装 wfh skills（本仓库）
-
-把这些目录复制到项目的 `.claude/skills/`：
-
-```bash
-mkdir -p .claude/skills
-cp -R wfh-* .claude/skills/
-```
-
-也可以复制到用户级 `~/.claude/skills/`，让所有项目可用。
+`vendor/` 里是 ARS 3.24.2 的快照；官方仓库更新后，建议用官方 marketplace 或重新拉取本仓库。
 
 ## 快速开始
 
