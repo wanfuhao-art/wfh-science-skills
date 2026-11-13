@@ -13,7 +13,7 @@ disable-model-invocation: true
 - 默认从已确认方案与已有步骤增量安排；作者明确要求草稿时标明草稿状态。
 - 改稿从意见原文、现有稿件及其来源开始，不把“收到意见”误当已回应；外部意见不要求先运行本地模拟审稿。
 - 建图前读 [步骤规范](../wfh-research/references/tickets_template.md) §2–6 和 [状态规则](../wfh-research/references/state_protocol.md) §2–3；核对说法时读 [方案规则](../wfh-research/references/spec_template.md) §4.6。
-- 写具体类型时读 [类型模板](../wfh-research/references/tickets_types.md) 对应类型；改稿读 §6.13，终端整合读 §6.14，格式迁移才读 §6.9。需要填好的样例时读 [任务样例](../wfh-research/references/tickets_examples.md)。
+- 写具体类型时读 [类型模板](../wfh-research/references/tickets_types.md) 对应类型；改稿读 [步骤规则](../wfh-research/references/tickets_template.md) §6.13，终端整合读 §6.14，格式迁移才读 §6.9。需要填好的样例时读 [任务样例](../wfh-research/references/tickets_examples.md)。
 - 更新进度才读 [进度布局](../wfh-research/references/flow_template.md) §7 与 [进度细节](../wfh-research/references/flow_details.md) §8–9，不加载无关类型和示例。
 
 ## 动作与输出

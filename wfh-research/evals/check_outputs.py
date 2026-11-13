@@ -29,8 +29,14 @@ def check(results, overrides=None):
         leaks=INTERNAL.findall(FILES.sub('',text))
         missing=[]
         for found in FILES.finditer(text):
-            tail=text[found.end():].lstrip('` ')
-            if not re.match(r'[（(][^）)\n]*[一-鿿]',tail):
+            # Accept a Chinese explanation in the same line, before or after the path.
+            line_start=max(0, text.rfind('\n', 0, found.start())+1)
+            line_end=text.find('\n', found.end())
+            if line_end==-1:
+                line_end=len(text)
+            sentence=text[line_start:line_end]
+            sentence=sentence[:found.start()-line_start]+sentence[found.end()-line_start:]
+            if not re.search(r'[一-鿿]', sentence):
                 missing.append(found.group())
         rows.append({'eval_id':ident,'reply_exists':True,'source':str(path),
                      'leaked_terms':leaks,'files_without_chinese_explanation':missing,

@@ -5,7 +5,7 @@
 - 来源 ARS：`academic-research-skills@3.24.2`；运行时显式提供当前根，不保存安装路径。
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 执行入口：8（默认 1，高级 7）；可读入口：8
-- 来源指纹 SHA-256：`caf61b8f66ecd4451c25d700ee149aa7c884e8f80a831870b3818a0b522a33fe`；输入文件：277
+- 来源指纹 SHA-256：`6aa9a5562bb53705e981ed2b5476230a931720f8102436ddec12fbf7f548b2a8`；输入文件：277
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断

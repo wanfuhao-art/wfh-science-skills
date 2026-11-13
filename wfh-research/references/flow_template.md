@@ -75,6 +75,7 @@ Updated: YYYY-MM-DD
 | 8 | 定稿 | 格式化稿 + AI disclosure | `format-convert` + `disclosure` |
 
 - 阶段状态只用 `done` / `active` / `waiting-user` / `blocked` / `todo`。
+- 阶段名是内部记录；面向用户时把「任务执行」说成「执行步骤」，把「任务图」说成「步骤安排」。
 - 阶段 2 有未决项时状态仍写 `done`，在「校验」列写「含 N 项未决」；未决项不阻塞阶段 3，但必须进「未决问题」区。
 - 阶段 4 是任务图执行期；不按「先做完所有分析再写所有正文」推进，按任务逐条推进。
 - 阶段 5 与 7 由任务图中的 `integrate` / `revision` 任务驱动；阶段 6 与 8 由 ARS 主导，wfh 只记录状态与产物路径。
