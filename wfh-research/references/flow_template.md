@@ -167,7 +167,7 @@ Updated: YYYY-MM-DD
 - `失败时` 至少写一个回退路径；claim 失败必须指向回环，不写「重试」了事。
 - 更新时机：`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-next` / `wfh-close` / `wfh-implement-spec` 的收尾。
 - 保留「备注」里的用户手写内容；不覆盖旧备注。
-- 与任务图不一致时，`wfh-ask` 报 `NEXT_STEP_DRIFT`，展示记录值与计算值；不静默改。
+- 「下一步」指向的任务必须存在，且处于 frontier 或合法的 `doing`；指向 `done` / `dropped` / 不存在 / 既不在 frontier 也不是 `doing` 时，`wfh-ask` 报 `NEXT_STEP_DRIFT`，展示记录值与计算值；不静默改。
 - 启动提示词只引用 `FLOW.md` + 目标任务文件 + 任务声明输入 + 必要共享协议；不引用历史对话。
 - ARS 按 `ars_handoff_protocol.md` 判来源及模式；适用的字段值预检不通过 → `HANDOFF_INCOMPLETE` / `rejected_by: wfh-precheck` / `ars_invoked: false`。其他模式在执行会话读其真实要求，不全套 Schema 1。next 只生成提示词，不实际调用 ARS。
 
@@ -297,7 +297,7 @@ Updated: YYYY-MM-DD
 6. **未决项不消失。** 解决后改成具体值 / 来源，保留行与修订记录。
 7. **阶段不跳级。** 阶段 4 未完成不进阶段 5；阶段 5 未完成不进阶段 6。
 8. **不写研究内容。** `FLOW.md` 不写正文、不写新决策、不写文献综述。
-9. **下一步与 frontier 一致。** 每次改任务状态后重写「下一步」；`wfh-ask` 发现不一致报 `NEXT_STEP_DRIFT`，展示记录值与计算值，不静默改。
+9. **下一步与 frontier / doing 一致。** 每次改任务状态后重写「下一步」；`wfh-ask` 发现指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值，不静默改。
 
 ---
 
@@ -318,7 +318,7 @@ Updated: YYYY-MM-DD
 5. 阻塞项（`blocked` 任务与原因）；
 6. 未决问题（带消费任务）；
 7. 一句下一步建议；
-8. FLOW「下一步」与重算 frontier 的一致性；不一致报 `NEXT_STEP_DRIFT`，展示记录值与计算值。
+8. FLOW「下一步」与重算 frontier / doing 的一致性；指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值。
 
 不写任何文件。
 

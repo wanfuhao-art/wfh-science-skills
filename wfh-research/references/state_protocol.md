@@ -49,7 +49,7 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 
 ## 4. status 模式输出（`wfh-ask`）
 
-给出工作区、读取范围 / 未读项、graph_valid 与错误 / 缓存差异；当前阶段与状态（注明记录值 / 计算建议）；doing / 当前建议；重算 frontier 及逐条 startability；缺失输入 / 产出（按任务状态区别）；blocked / 依赖链及原因为何仍未完成；未决问题与消费任务；一句下一步建议；并核对 FLOW「下一步」是否指向 frontier 中的任务，不一致报 `NEXT_STEP_DRIFT`，展示记录值与计算值。完成标准：每个未完成任务有可解释的排程位置，且没有写文件。
+给出工作区、读取范围 / 未读项、graph_valid 与错误 / 缓存差异；当前阶段与状态（注明记录值 / 计算建议）；doing / 当前建议；重算 frontier 及逐条 startability；缺失输入 / 产出（按任务状态区别）；blocked / 依赖链及原因为何仍未完成；未决问题与消费任务；一句下一步建议；并核对 FLOW「下一步」是否指向 frontier 中的任务或合法的 `doing` 任务；指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值。完成标准：每个未完成任务有可解释的排程位置，且没有写文件。
 
 ## 5. next：生成交给新会话的提示词
 
