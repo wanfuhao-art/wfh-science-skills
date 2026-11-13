@@ -22,7 +22,7 @@ user-invocable: false
 | 更新进度布局 | [进度模板](references/flow_template.md)；写完整模板或对接时读 [进度细节](references/flow_details.md) |
 | 接续会话执行 | [执行协议](references/execution_protocol.md) |
 | 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |
-| 调用生产或核验其结果 | [交接协议](references/ars_handoff_protocol.md) 对应来源分支 |
+| 调用生产或核验其结果 | [交接协议](references/ars_handoff_protocol.md) 对应来源分支；内部链读 [内部链](references/ars_internal_chain.md) |
 | 结论或设计失败 | [回环模板](references/reopen_template.md) |
 
 技能只加载当前分支要求的内容；不为了开始一个动作通读全包。术语和重要方法决定模板只在实际写入或语义核对时读取。内部字段、文件名和事实源保持兼容，研究者输出单独翻译。
