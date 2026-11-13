@@ -55,7 +55,7 @@ Updated: YYYY-MM-DD
   - `blocked`：等待人工测量、ARS 或外部资源。
   - `done`：阶段产出与校验都完成。
   - `todo`：阶段尚未开始。
-- `Current task`：下一个要执行的任务；默认取 frontier 中的 tracer bullet 或用户指定的任务。
+- `Current task`：下一个要执行的任务；优先级为合法 `doing` → 用户指定 → frontier 中首个可启动任务（与 `state_protocol.md` §3 一致）。
 - `Frontier`：所有 `status: todo` 且 blockers 全部有效 `done` 的任务；完成证明与实际可启动性的区别见 `state_protocol.md` §3。`wfh-ask`（status 模式）只在回复重算，不写缓存；`wfh-tickets` 写初始值，`wfh-close` 同步后写缓存。
 - `Updated`：最后一次改 `FLOW.md` 的日期。
 
