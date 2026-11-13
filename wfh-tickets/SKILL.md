@@ -204,14 +204,15 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
    - 状态 `todo`；
    - 六层骨架 + 验收标准 + 完成记录（初始行「初始计划」）；
    - `prep` / `ec` 用对应模板。
-2. 按 `flow_template.md` §8–§9 写 `FLOW.md`：
+2. 按 `flow_template.md` §8–§9 写或更新 `FLOW.md`：
    - `Status: stage-4-active`；
    - 阶段 1–3 `done`，阶段 4 `active`，阶段 5–8 `todo`；
    - 任务图（每条任务一行）；
    - 决策台账（从 `LEDGER.md` 同步已确认行）；
    - 未决问题（从 `BRIEF.md` 带入，写消费任务）；
-   - 下一步（占位；04 实现前手工填「从 T01 开始」）；
-   - 修订记录（初版一行）。
+   - 下一步（五字段：命令 `/wfh-next T01`、输入、产出、失败时、更新于）；
+   - 修订记录（初版一行；已有 FLOW 时追加）。
+   - 已有 `FLOW.md`（由 `wfh-grill` / `wfh-spec` 创建）：保留阶段 1–2 的确认记录与用户备注，只更新阶段 3/4、任务图、台账、未决、下一步。
 3. 增量模式：
    - 先读已有 `tasks/` / `FLOW.md`；
    - 保留用户手改；
@@ -224,7 +225,8 @@ description: "把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的
 
 - 报一句：任务图已落盘；frontier 是哪些；建议从 T01 开始。
 - 不执行任务、不调 ARS、不写正文。
-- 下一步：`/wfh-ask`（status 模式）或直接按 T01 任务文件开始；需要新会话启动提示词时用 `/wfh-next`（04 实现后）。
+- 更新 `FLOW.md` 的「下一步」= `/wfh-next T01`（五字段），保留用户备注。
+- 下一步：`/wfh-ask`（status 模式）或直接按 T01 任务文件开始；需要新会话启动提示词时用 `/wfh-next`。
 
 ---
 

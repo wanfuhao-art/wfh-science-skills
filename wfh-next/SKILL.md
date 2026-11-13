@@ -11,4 +11,4 @@ description: "为一条科研任务生成可复制到新会话的启动或恢复
 
 按共享协议 §5 输出完整提示词，包含精确文件清单、主张与六层要求、执行方式 / 预算、产出、逐条验收、未决、失败处理和收尾。ARS 来源先判 external-wfh / ars-internal / unknown；按适用模式预检具体值，保留内部链门禁。缺 Scope 或 FINER 未决归 wfh-precheck，不能说成 ARS 拒绝。其他模式只要求未来执行会话读取其真实契约，不强套 Schema 1。
 
-默认只在回复中输出；用户要求保存时仅更新 FLOW「下一步」节，保留用户内容。不改任务状态，不执行研究任务，不自动启动新会话或实际调用 ARS。末尾写 `prompt_only: true; ars_invoked: false; task_executed: false; task_status_changed: false`。调用草案和预检通过都不是实际 intake 回执。
+生成提示词后更新 FLOW「下一步」五字段（命令 / 输入 / 产出 / 失败时 / 更新于），保留用户备注；不改其他节。不改任务状态，不执行研究任务，不自动启动新会话或实际调用 ARS。末尾写 `prompt_only: true; ars_invoked: false; task_executed: false; task_status_changed: false`。调用草案和预检通过都不是实际 intake 回执。

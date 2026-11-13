@@ -89,8 +89,9 @@ description: "按轮盘问研究课题，收敛决策，边问边写 TERMS.md / 
 
 1. 从课题描述生成 slug：小写英文 / 数字 / 连字符，2–5 词（如 `ai-research-capability`）。slug 是程序性决策，可给建议，用户可改。
 2. 创建 `research/<slug>/` 与 `research/<slug>/decisions/`。
-3. 若目录已存在：读入 `TERMS.md`、`decisions/LEDGER.md`、已有 MDR，作为「已定」输入，从剩余 frontier 继续；**不覆盖**已有文件。
-4. 若用户没给课题描述：先问一句课题是什么，不要空转建目录。
+3. 创建最小 `FLOW.md`（按 `flow_template.md` §8.5：`stage-1-active`，下一步 `/wfh-grill`）；已存在则只增量更新，不覆盖用户内容。
+4. 若目录已存在：读入 `TERMS.md`、`decisions/LEDGER.md`、已有 MDR 与 `FLOW.md`，作为「已定」输入，从剩余 frontier 继续；**不覆盖**已有文件。
+5. 若用户没给课题描述：先问一句课题是什么，不要空转建目录。
 
 ### 2. 建树
 
@@ -136,14 +137,15 @@ description: "按轮盘问研究课题，收敛决策，边问边写 TERMS.md / 
 1. 下一轮开头明说重开了哪一支、影响哪些节点；
 2. 受影响节点回到「待定」，重新进入 frontier；
 3. 台账原行标 `已修订`，新决策用新 ID；
-4. 受影响的 TERMS / MDR 更新并写修订记录。
+4. 受影响的 TERMS / MDR 更新并写修订记录；
+5. 从回环包重开（跨会话）：读 `decisions/REOPEN-*.md`，按 `classification` 与 `affected_decisions` 重开对应分支；台账原行标 `已修订`，新决策用新 ID；在回环包「处理记录」写 `accepted` / `rejected` 与日期；受影响任务按 `recommended_path` 交给 `wfh-tickets` 重切。
 
 ### 6. 确认门
 
 1. frontier 空（或用户明确接受剩余未决项）后，输出**完整决策台账** + 产物清单 + 未决 / 待核验项。
 2. 问一句：「以上是否就是我们的共同理解？」
 3. **停下。** 不写 Brief、不写正文、不调用 ARS 生产技能。
-4. 用户确认后：写 `decisions/LEDGER.md`；`TERMS.md` / MDR 状态改 `已确认`；提示下一步 `/wfh-spec`。
+4. 用户确认后：写 `decisions/LEDGER.md`；`TERMS.md` / MDR 状态改 `已确认`；按 `flow_template.md` §8.5 把 `FLOW.md` 的阶段 1 改 `done`，写「下一步」= `/wfh-spec`（命令 / 输入 / 产出 / 失败时 / 更新于）；提示下一步 `/wfh-spec`。
 5. 用户不确认：回到对应分支重开，不落盘台账。
 
 ---
@@ -186,6 +188,7 @@ description: "按轮盘问研究课题，收敛决策，边问边写 TERMS.md / 
 - [ ] 过三门槛的决策都有 MDR？没过门槛的只进台账？
 - [ ] 台账完整，含未决项与待核验项？
 - [ ] 停在确认门，没有提前动笔？
+- [ ] `FLOW.md` 的阶段 1 与「下一步」已更新？
 - [ ] 没有引入软件工程流程概念？
 
 ---
