@@ -286,3 +286,14 @@
 - 首轮：10/10 行为符合预期；词汇检查 4/10，原因是「任务执行」「任务文件」未翻译、文件名后缺括号中文用途。
 - 修正：补「任务执行 → 执行步骤、当前任务 → 当前步骤、任务文件 → 步骤记录、任务图 → 步骤安排」和「文件名同一句内给中文用途」；重跑受影响场景。
 - 最终：行为 10/10 符合预期；词汇检查 10/10（iteration-3）。证据与限制见 [可用性验证记录](UX-TEST-RESULTS.md) 的「工作流优化验证」一节。
+
+---
+
+## 9. 补充：整稿自检与文献库交接（2026-11-13）
+
+对照 ARS `docs/ARCHITECTURE.md` 后补两处，不新增技能或模块：
+
+1. **整稿自检**：新增 [integrity_selfcheck.md](../wfh-research/references/integrity_selfcheck.md)，把 ARS 的 7 类 AI 失败模式压缩成 `integrate` / 最终稿的验收表。`wfh-close`、`state_protocol` §6、`tickets_template` §5.8 / §6.14、`tickets_types`、`flow_template` 阶段 5 / 7 / 8 都已接入。它是 wfh 层自检，不替代 ARS 2.5 / 4.5，也不颁发 PASS / VERIFIED。
+2. **文献库交接**：`ars_handoff_protocol` 增加可选 `literature_corpus[]` 路径、来源与使用状态；`tickets_template` §5.6 / §6.6、`state_protocol` §5 提示词、`ars_intent_map` 同步。wfh 只传 `passport.yaml` / `*_literature_corpus.yaml` 路径，不生成、不校验、不改写 corpus；只有原始 Zotero / Obsidian 文件夹时不直接当 corpus 传入。
+
+未改 ARS 原文，未新增用户可见入口。两项都只在对应分支读取，默认入口和普通步骤的读取量不变。

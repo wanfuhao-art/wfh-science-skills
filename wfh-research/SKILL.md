@@ -19,6 +19,7 @@ user-invocable: false
 | 写研究方案 | [方案模板](references/spec_template.md) §1–4 |
 | 安排步骤 | [步骤规则](references/tickets_template.md) §2–6；写具体类型时读 [类型模板](references/tickets_types.md)，需要样例读 [任务样例](references/tickets_examples.md) |
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |
+| 整稿或终稿验收 | [整稿自检](references/integrity_selfcheck.md)，只在 `integrate` 或最终稿时读 |
 | 更新进度布局 | [进度模板](references/flow_template.md)；写完整模板或对接时读 [进度细节](references/flow_details.md) |
 | 接续会话执行 | [执行协议](references/execution_protocol.md) |
 | 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |

@@ -69,10 +69,10 @@ Updated: YYYY-MM-DD
 | 2 | Brief 合成 | `BRIEF.md` | `## RQ Brief` + Schema 1 四字段 + claim ledger |
 | 3 | 任务图 | `tasks/T*.md`、`FLOW.md` 任务区 | 无环；每条任务五要素齐全；用户确认粒度 |
 | 4 | 任务执行 | `tasks/T*.md`（六层记录）、`tasks/assets/` | 每条任务的验收标准 |
-| 5 | 成稿整合 | `artifacts/05-draft.md` | 终端 `integrate` 任务通过；全部 claim 任务 `done`；引用键齐全 |
+| 5 | 成稿整合 | `artifacts/05-draft.md` | 终端 `integrate` 任务通过；全部 claim 任务 `done`；引用键齐全；整稿自检 7 项通过 |
 | 6 | 审稿 | `artifacts/06-review-report.md` | ARS `academic-paper-reviewer` |
-| 7 | 改稿 | `artifacts/07-revision-roadmap.md`、`artifacts/09-response.md` | `revision` 任务逐条通过；终端 `integrate` 复检 |
-| 8 | 定稿 | 格式化稿 + AI disclosure | `format-convert` + `disclosure` |
+| 7 | 改稿 | `artifacts/07-revision-roadmap.md`、`artifacts/09-response.md` | `revision` 任务逐条通过；终端 `integrate` 复检；整稿自检 7 项通过 |
+| 8 | 定稿 | 格式化稿 + AI disclosure | `format-convert` + `disclosure`；整稿自检 7 项通过 |
 
 - 阶段状态只用 `done` / `active` / `waiting-user` / `blocked` / `todo`。
 - 阶段名是内部记录；面向用户时把「任务执行」说成「执行步骤」，把「任务图」说成「步骤安排」。

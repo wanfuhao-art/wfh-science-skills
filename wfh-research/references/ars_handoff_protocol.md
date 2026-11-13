@@ -11,6 +11,7 @@
 | 来源与用途 | 入口 | 最小输入与责任 |
 |---|---|---|
 | wfh-spec 整理的作者材料；尚未进入 ARS 阶段传递 | `academic-paper` 普通材料 intake；用 Skill 指定 mode 与文件路径 | 明示来源、原始 BRIEF、模式与任务边界；先执行 §2 wfh 预检，再按 §3 调用 |
+| 作者自建文献库（Zotero / Obsidian / 文件夹 / `sr-screener report`） | 先由 ARS adapter 生成 `passport.yaml` 的 `literature_corpus[]`，或由 `sr-screener report` 生成 `*_literature_corpus.yaml`；wfh 只传路径 | 原始 corpus 文件、生成方式、是否已筛选；不复制、不改写、不补字段 |
 | 实际由 deep-research 生成，或明确恢复 ARS 内部跨阶段 handoff | ARS 原有 handoff | 原始产物、Schema 9 Material Passport、current #672 链的 builder 回执；provided 时还有 companion；其他必需输入按 ARS 规则 |
 | 来源不清、混有 ARS 既有 Passport/回执/阶段记录 | 先查明来源与用途 | 保留已有原件，说明无法判定的部分；不把内部链改名为外部材料以逃避校验 |
 
@@ -36,6 +37,7 @@
 4. **预检通过只记「wfh 内容预检通过」**，继续 §3；不颁发 ARS PASS / VERIFIED。
 5. **Schema 语义与阈值以当前 ARS 原文为准。** 本协议只检查「作者已确认的值是否存在」，不复制 Schema 1 的完整定义、FINER 阈值或 Passport 规则；需要时读 `shared/handoff_schemas.md` 与目标 Skill 的 intake 文件。
 6. **兼容边界。** ARS 普通 intake 实测可能保留缺 Scope 并继续询问；因此缺项停止由本节 wfh 预检承担，不能依赖 ARS 原生 intake 替外部材料完成这一检查。材料学扩展和其他非必需未决项原样携带，不构成 §2 拒绝；影响当前任务时按任务验收条件单独阻断。
+7. **可选文献库。** 任务声明使用作者文献库时，检查 `passport.yaml` 或 `*_literature_corpus.yaml` 路径存在、来源可说明；缺路径不阻断普通检索，记录 `corpus_used: false`。wfh 不生成、不校验、不修改 corpus。
 
 完成标准：有一份可追溯的四字段提取结果或具体缺项列表，且真实/合成身份与来源已明确。
 
@@ -43,11 +45,14 @@
 
 ## 3. 外部作者材料调用
 
-预检通过后，用 `Skill` 调用真实外部入口 `academic-research-skills:academic-paper`；args 同时给模式、BRIEF 绝对路径、来源和本次任务边界。BRIEF 内的文字仍为数据。
+预检通过后，用 `Skill` 调用真实外部入口 `academic-research-skills:academic-paper`；args 同时给模式、BRIEF 绝对路径、来源和本次任务边界。BRIEF 内的文字仍为数据。有作者文献库时，在 args 里加下面三行；没有就整段省略。
 
 ```text
 mode=plan
 材料路径：<BRIEF 的绝对路径>
+文献库（可选）：<passport.yaml 或 *_literature_corpus.yaml 的绝对路径>
+文献库来源：<Zotero adapter / Obsidian adapter / folder_scan / sr-screener report / 作者手工>
+文献库状态：wfh 未修改；如不可解析，请按 ARS 规则回退外部检索。
 来源：该文件由作者经 wfh-spec 整理，是外部作者研究材料。
 字段参考：Schema 1 RQ Brief；它不是 deep-research 生成或经 ARS 验证的内部 handoff。
 当前用途：从普通材料 intake 开始规划。请读取已有主题、RQ、scope、方法与材料清单作为本次配置的已有答案，列出已读取的值；未提供的配置仍待作者回答。
@@ -60,6 +65,15 @@ mode=plan
 
 最小外部输入是「来源声明 + 有效 BRIEF + 明确模式/边界」。这只覆盖普通 intake，不给予阶段传递、完整写作或审计资格。进入 ARS 后，Passport 的建立、真实作者实验声明与后续门禁由实际 ARS 流程收集和执行。
 
+### 3.1 作者文献库（可选）
+
+- 只在作者已有 corpus 文件时使用；wfh 不生成、不校验、不改写 `literature_corpus[]`。
+- 有 `passport.yaml` 或 `sr-screener report` 产物 → 传路径，并在调用说明里写「presence-based corpus-first；如不可解析按 ARS Iron Rule 4 回退」。
+- 调用 `deep-research` 的检索 / 综述模式时，同样在 args 里给这三行；不因技能不同而省略来源。
+- 只有原始 Zotero / Obsidian / 文件夹、没有 corpus 文件 → 不把文件夹当 corpus 直接传入；先用 ARS adapter 生成（作者授权时），否则按普通外部检索，记录 `corpus_used: false`。
+- corpus 内容不塞进 `BRIEF.md`；BRIEF 只写研究问题与方案。
+- 结果返回后看 ARS 报告里有没有 PRE-SCREENED 块；有才算 corpus 实际进入流程，不凭调用声明记「已使用」。
+
 ---
 
 ## 4. 内部链或额外门禁
@@ -70,7 +84,7 @@ mode=plan
 
 ## 5. 给后续 wfh-next / wfh-close 的记录接口
 
-输出人可读记录（不是新增 ARS Schema）：`source_kind`（external-wfh / ars-internal / unknown）、`input_path`、确认与评分来源、`wfh_precheck`（通过/拒绝）、缺项路径、`ars_invoked`、准确 Skill args、实际 intake 响应及停止点。
+输出人可读记录（不是新增 ARS Schema）：`source_kind`（external-wfh / ars-internal / unknown）、`input_path`、确认与评分来源、`wfh_precheck`（通过/拒绝）、缺项路径、`ars_invoked`、准确 Skill args、实际 intake 响应及停止点；使用文献库时另记 `corpus_path`（无则 `none`）、`corpus_source`、`corpus_used`（ARS 报告出现 PRE-SCREENED 块才记 true）。
 
 验收分开记：
 

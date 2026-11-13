@@ -9,8 +9,8 @@ disable-model-invocation: true
 先读 [研究者界面](../wfh-research/references/user_output_protocol.md) 和 [状态协议](../wfh-research/references/state_protocol.md) §1–3、§6。
 
 1. 定位课题和目标步骤，核对完整图与记录的一致性，读取目标声明输入、产出及完成证据。
-2. 按原验收标准和步骤预算逐项核对，记录证据位置、理由与缺口；文件存在不等于结论成立。
-3. 生产步骤才读 [交接协议](../wfh-research/references/ars_handoff_protocol.md)，核对实际调用及响应；只准备说明或读文件不能当生产完成。
+2. 按原验收标准和步骤预算逐项核对，记录证据位置、理由与缺口；文件存在不等于结论成立。目标是 `integrate`（阶段 5 / 7）或最终稿时，另读 [整稿自检](../wfh-research/references/integrity_selfcheck.md)，把 7 类失败模式并入验收表；这是 wfh 自检，不颁发 ARS PASS。
+3. 生产步骤才读 [交接协议](../wfh-research/references/ars_handoff_protocol.md)，核对实际调用及响应；声明使用文献库时，核对报告里是否出现 PRE-SCREENED 块，未出现记 corpus 未实际使用。只准备说明或读文件不能当生产完成。
 4. 用中文展示每项“通过／未通过／还不能判断”、证据及最终结论；不降低标准、不代填实验或确认。
 5. 全部通过才完成；执行有误待重做；证据缺失则等待材料。原解释或设计被否定时读 [回环模板](../wfh-research/references/reopen_template.md)，先请作者确认分类与受影响决定，再写包，不改上游决定。
 6. 按协议检查并发改动，更新目标步骤与进度，保留历史、其他步骤和用户备注；同步失败即停。

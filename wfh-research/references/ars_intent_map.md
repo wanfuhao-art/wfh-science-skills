@@ -32,6 +32,7 @@
 
 - **默认由 wfh 选能力，具体 mode 交给 ARS 的路由或模式契约**；用户不需要说 mode。用户明确指定 mode 时优先。
 - `sr-screener` 只在用户明确要求纳排筛选、试筛、裁决或筛选计数时进入；普通系统综述不自动进入。
+- 作者已有文献库时，检索 / 综述优先让 ARS 走 corpus-first；wfh 只传 `passport.yaml` / `*_literature_corpus.yaml` 路径，不生成或改写 corpus。
 - `academic-pipeline` 只在用户明确要一口气跑全链时选择；解释它将改变逐步流程。
 - 跨阶段材料无明确研究目标时只问一个目标问题，不因材料像某阶段就派单。
 

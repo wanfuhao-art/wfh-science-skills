@@ -129,6 +129,7 @@
 
 - 列出本任务要读的文件，精确到路径：`BRIEF.md`、`TERMS.md`、`decisions/MDR-xxxx.md`、`tasks/T01-....md`、数据文件。
 - 只列本任务需要的；不写「读全部」。
+- 如任务使用作者文献库，列 `passport.yaml` 或 `*_literature_corpus.yaml` 的路径；只传路径，不复制、不改写 corpus 内容。
 - 输入不存在 → 任务不能开始；标 `blocked` 并写缺什么。
 
 ### 5.7 产出路径
@@ -152,6 +153,7 @@
   8. 独立验证者只读本文件 + 产出 + `BRIEF.md` 对应行即可判断。
 - 不写「写得好」「分析充分」这类主观标准。
 - `prep` / `ec` 的验收标准按支撑性主张改写，但 1–4、6–8 仍适用。
+- `integrate` 任务额外要求 [整稿自检](integrity_selfcheck.md) 七项通过；其他类型不套用。
 
 ### 5.9 会话预算
 
@@ -232,6 +234,7 @@
 - 适用：文献检索（`ARS:deep-research:lit-review`）、事实核验（`ARS:deep-research:fact-check`）、筛选（`ARS:sr-screener:*`）、审稿（`ARS:academic-paper-reviewer:*`）、格式转换（`ARS:academic-paper:format-convert`）、引用核验（`ARS:academic-paper:citation-check`）。
 - 必须写全 `ARS:<skill>:<mode>`；不写「用 ARS 查一下」。
 - ARS 产出要落到任务文件或 `tasks/assets/T<nn>/`；不把 ARS 对话当产出。
+- 如使用作者文献库，把 `passport.yaml` / `*_literature_corpus.yaml` 路径列入输入，并在调用时声明来源；不把原始 Zotero / Obsidian 文件夹当 corpus 直接传入。
 - ARS 不可用 → `ARS_NOT_AVAILABLE`；任务保持 `blocked`，不降级为 `direct`。
 
 ### 6.7 未决项映射
@@ -316,6 +319,7 @@
   - 术语与 `TERMS.md` 一致；
   - 引用键齐全，无 `[citation]` 占位；
   - 不新增 claim、不改主张强度；
+  - 整稿自检 7 项通过（见 [整稿自检](integrity_selfcheck.md)）；
   - 阶段 7 还要求每条审稿意见有 response 条目。
 - `integrate` 不替代 `wfh-close`；由 close 逐条验收。
 
