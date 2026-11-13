@@ -14,12 +14,33 @@
 | `wfh-close/` | 逐条证据验收，更新任务与 `FLOW.md` |
 | `wfh-research/` | 共享协议、模板、索引生成器（不是执行入口） |
 | `wfh-implement-spec/` | 可选编排层：生成提示词 → 开新会话 → 自动验收 |
+| `vendor/academic-research-skills/` | ARS 3.24.2 快照，方便一次安装（CC-BY-NC-4.0） |
+
+## 仓库结构
+
+```text
+wfh-science-skills/
+├── wfh-*/                         # 六个 wfh 入口 + wfh-research + wfh-implement-spec
+└── vendor/
+    └── academic-research-skills/  # ARS 3.24.2 快照（CC-BY-NC-4.0）
+```
 
 ## 安装
 
-### 1. 安装 ARS（推荐，生产层）
+### 1. 安装 ARS（生产层）
 
-wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修订、格式转换由 ARS 完成。ARS 是独立插件，不在本仓库内，需要从官方仓库安装：
+wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修订、格式转换由 ARS 完成。ARS 已随仓库放在 `vendor/academic-research-skills/`，可以一次安装；也可以从官方仓库安装最新版。
+
+**方式 A：用仓库内置的 ARS（一次安装）**
+
+在仓库根目录运行：
+
+```text
+/plugin marketplace add ./vendor/academic-research-skills
+/plugin install academic-research-skills
+```
+
+**方式 B：从官方仓库安装（推荐，便于更新）**
 
 ```text
 /plugin marketplace add Imbad0202/academic-research-skills
@@ -27,6 +48,8 @@ wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修�
 ```
 
 官方仓库：https://github.com/Imbad0202/academic-research-skills
+
+`vendor/` 里是 ARS 3.24.2 的快照；官方仓库更新后，建议用方式 B 或重新拉取本仓库。
 
 ### 2. 安装 wfh skills（本仓库）
 
@@ -84,12 +107,14 @@ cp -R wfh-* .claude/skills/
 
 ## 第三方依赖与许可
 
-- ARS 不在本仓库内，遵循其原仓库许可证 **CC-BY-NC-4.0**（非商业使用；请遵守原仓库条款）。
-- 本仓库只包含 wfh skills，不包含 ARS 代码或研究数据。
+- **wfh skills**（本仓库作者原创）：MIT，见根目录 `LICENSE`。
+- **ARS**（`vendor/academic-research-skills/`）：CC-BY-NC-4.0，作者 Cheng-I Wu，原仓库 https://github.com/Imbad0202/academic-research-skills。非商业使用；请遵守原仓库条款。
+- 两层许可分开：根目录 MIT 只覆盖 wfh skills，不覆盖 `vendor/` 里的 ARS。
+- 本仓库不包含任何研究数据。
 
 ## 说明
 
 - `wfh-status` 已并入 `wfh-ask` 的 status 模式；当前有 6 个 wfh 执行入口。
 - `wfh-research` 是共享包，不是第八个执行入口。
 - `wfh-implement-spec` 的自动开新会话依赖 Claude Desktop 的 session 工具；不可用时回退为手动复制提示词，再用 `/wfh-implement-spec --close <ID>` 验收。
-- 本仓库只包含 skills，不包含任何研究数据。
+- 本仓库包含 wfh skills 和 ARS 快照，不包含任何研究数据。
