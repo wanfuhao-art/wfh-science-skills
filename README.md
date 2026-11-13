@@ -116,9 +116,9 @@ ARS 可以用仓库内置的 `vendor/academic-research-skills/`：
 
 ## 第三方依赖与许可
 
-- **wfh skills**（本仓库作者原创）：MIT，见根目录 `LICENSE`。
+- **wfh skills**（本仓库作者原创）：CC-BY-NC-4.0，见根目录 `LICENSE`；版权归 wanfuhao-art。
 - **ARS**（`vendor/academic-research-skills/`）：CC-BY-NC-4.0，作者 Cheng-I Wu，原仓库 https://github.com/Imbad0202/academic-research-skills。非商业使用；请遵守原仓库条款。
-- 两层许可分开：根目录 MIT 只覆盖 wfh skills，不覆盖 `vendor/` 里的 ARS。
+- 两层许可都是 CC-BY-NC-4.0，但版权人不同：根目录覆盖 wfh skills（wanfuhao-art），`vendor/` 覆盖 ARS（Cheng-I Wu）。
 - 本仓库不包含任何研究数据。
 
 ## 说明

@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/wanfuhao-art/wfh-science-skills",
   "repository": "https://github.com/wanfuhao-art/wfh-science-skills",
-  "license": "MIT",
+  "license": "CC-BY-NC-4.0",
   "skills": [
     "./wfh-ask",
     "./wfh-close",

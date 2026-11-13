@@ -11,7 +11,7 @@
       "source": "./",
       "description": "科研工作流 skills：决策台账、Brief、任务图、状态、验收，配合 ARS 使用。",
       "version": "1.0.0",
-      "license": "MIT",
+      "license": "CC-BY-NC-4.0",
       "skills": [
         "./wfh-ask",
         "./wfh-close",
