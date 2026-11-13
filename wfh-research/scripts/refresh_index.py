@@ -9,15 +9,17 @@ import sys
 from urllib.parse import quote
 
 WFH = ('wfh-grill', 'wfh-spec', 'wfh-tickets', 'wfh-ask',
-       'wfh-next', 'wfh-close')
+       'wfh-next', 'wfh-close', 'wfh-implement-spec')
 WFH_SUPPORT = {
-    'wfh-grill': ('grilling_protocol.md', 'decision_classes.md', 'terms_template.md', 'mdr_template.md'),
+    'wfh-grill': ('grilling_protocol.md', 'decision_classes.md', 'terms_template.md',
+                  'mdr_template.md', 'reopen_template.md'),
     'wfh-spec': ('spec_template.md', 'ars_handoff_protocol.md'),
     'wfh-tickets': ('tickets_template.md', 'flow_template.md', 'spec_template.md'),
     'wfh-ask': ('routing_protocol.md', 'skills_index.md', 'state_protocol.md', 'flow_template.md'),
     'wfh-next': ('state_protocol.md', 'tickets_template.md', 'ars_handoff_protocol.md'),
     'wfh-close': ('state_protocol.md', 'flow_template.md', 'tickets_template.md',
-                  'ars_handoff_protocol.md'),
+                  'ars_handoff_protocol.md', 'reopen_template.md'),
+    'wfh-implement-spec': ('state_protocol.md', 'tickets_template.md', 'ars_handoff_protocol.md'),
 }
 
 
@@ -192,7 +194,7 @@ def build(skills, ars, output):
              f'- 来源指纹 SHA-256：`{digest.hexdigest()}`；输入文件：{len(sources)}',
              '- 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)',
              '', '## 诊断', '', *(diagnostics or ['OK：已按当前来源生成；每次咨询仍需 --check。']), '',
-             '## 六个 wfh 执行入口', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
+             f'## {len(WFH)} 个 wfh 执行入口', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
              '|---|---|---|---|---|', *wfh_rows, '', '## ARS 模式', '',
              '路径均相对上方 ARS 根；升级或迁移后重新 refresh，索引不把旧缓存路径当默认安装。',
              '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 wfh-science-skills:<技能>，mode=<模式>，<请求>」。',

@@ -74,10 +74,10 @@ description: "按轮盘问研究课题，收敛决策，边问边写 TERMS.md / 
 
 按顺序读（括号内为项目根路径；两者指向同一文件）：
 
-1. [`../wfh-research/references/grilling_protocol.md`](../wfh-research/references/grilling_protocol.md)（`.claude/skills/wfh-research/references/grilling_protocol.md`）— 设计树 / frontier / 轮次 / 格式 / facts / 反谄媚 / 重开 / 确认门 / 默认 13 题
-2. [`../wfh-research/references/decision_classes.md`](../wfh-research/references/decision_classes.md)（`.claude/skills/wfh-research/references/decision_classes.md`）— 程序性 / 学科惯例 / 实质性
-3. [`../wfh-research/references/terms_template.md`](../wfh-research/references/terms_template.md)（`.claude/skills/wfh-research/references/terms_template.md`）— `TERMS.md` 模板
-4. [`../wfh-research/references/mdr_template.md`](../wfh-research/references/mdr_template.md)（`.claude/skills/wfh-research/references/mdr_template.md`）— MDR 模板与三门槛
+1. [`../wfh-research/references/grilling_protocol.md`](../wfh-research/references/grilling_protocol.md)（`wfh-research/references/grilling_protocol.md`）— 设计树 / frontier / 轮次 / 格式 / facts / 反谄媚 / 重开 / 确认门 / 默认 14 题
+2. [`../wfh-research/references/decision_classes.md`](../wfh-research/references/decision_classes.md)（`wfh-research/references/decision_classes.md`）— 程序性 / 学科惯例 / 实质性
+3. [`../wfh-research/references/terms_template.md`](../wfh-research/references/terms_template.md)（`wfh-research/references/terms_template.md`）— `TERMS.md` 模板
+4. [`../wfh-research/references/mdr_template.md`](../wfh-research/references/mdr_template.md)（`wfh-research/references/mdr_template.md`）— MDR 模板与三门槛
 
 **不要凭记忆执行。** 本文件只写入口、输入、输出与边界；协议冲突时以共享包为准。
 

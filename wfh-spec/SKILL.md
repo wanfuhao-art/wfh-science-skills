@@ -76,7 +76,7 @@ description: "把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS
 
 按顺序读（括号内为项目根路径；两者指向同一文件）：
 
-1. [`../wfh-research/references/spec_template.md`](../wfh-research/references/spec_template.md)（`.claude/skills/wfh-research/references/spec_template.md`）— BRIEF.md 模板、Schema 1 映射、claim ledger 与材料学扩展写法
+1. [`../wfh-research/references/spec_template.md`](../wfh-research/references/spec_template.md)（`wfh-research/references/spec_template.md`）— BRIEF.md 模板、Schema 1 映射、claim ledger 与材料学扩展写法
 2. [`../wfh-research/references/grilling_protocol.md`](../wfh-research/references/grilling_protocol.md) §7.3 / §8.5 — 台账字段与确认状态的含义
 3. 准备交给 ARS 或说明下一步时：读 [`../wfh-research/references/ars_handoff_protocol.md`](../wfh-research/references/ars_handoff_protocol.md) — 区分外部作者材料与 ARS 内部 handoff，检查必需值并声明来源。
 4. 需要核对术语 / MDR 语义时：[`../wfh-research/references/terms_template.md`](../wfh-research/references/terms_template.md)、[`../wfh-research/references/mdr_template.md`](../wfh-research/references/mdr_template.md)
@@ -188,7 +188,7 @@ description: "把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS
 
 ## 硬规则
 
-1. **零重复访谈**：不问 13 题树里的任何研究决策；只允许问工作区选择、产物冲突裁决、Brief 确认、缺项补录。
+1. **零重复访谈**：不问 14 题树里的任何研究决策；只允许问工作区选择、产物冲突裁决、Brief 确认、缺项补录。
 2. **缺项标 `[UNRESOLVED]`，不猜填**：尤其 FINER 与材料学数值。
 3. **FINER 只来自用户**：不代填、不建议、不评价、不排序；用户只给部分，其余保持未决。
 4. **claim 必须可溯源**：无来源的主张不写入 ledger，放进未决问题。
