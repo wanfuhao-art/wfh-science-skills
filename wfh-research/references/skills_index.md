@@ -5,7 +5,7 @@
 - 来源 ARS 根：`/Users/wanfuhao/.claude/plugins/cache/academic-research-skills/academic-research-skills/3.24.2`
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 预期入口：7；可读入口：7
-- 来源指纹 SHA-256：`6ea56b48db43e5a70f0d2b4f0d9715280688420655a158ba65ba28fb951917ec`；输入文件：260
+- 来源指纹 SHA-256：`87e668f564db32bd20060075e1b032901e530dff20f95854d89a65d557a353e4`；输入文件：260
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断

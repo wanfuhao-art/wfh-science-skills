@@ -1,6 +1,6 @@
 {
   "name": "wfh-science-skills",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "科研工作流：决策台账、Brief、任务图、状态与验收；检索、写作、审稿与格式转换由外部 ARS 插件提供。",
   "author": {
     "name": "wanfuhao-art",
