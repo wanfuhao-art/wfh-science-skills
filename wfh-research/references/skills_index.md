@@ -2,10 +2,10 @@
 
 仅定位，不证明已读取、已加载、已验证或研究已执行。推荐前读取目标 SKILL 与模式要求的支持文件。
 
-- 来源 ARS 根：`/Users/wanfuhao/.claude/plugins/cache/academic-research-skills/academic-research-skills/3.24.2`
+- 来源 ARS 根：`/Users/wanfuhao/Documents/ClaudeProjects/wfh-science-skills/ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2`
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 预期入口：7；可读入口：7
-- 来源指纹 SHA-256：`87e668f564db32bd20060075e1b032901e530dff20f95854d89a65d557a353e4`；输入文件：260
+- 来源指纹 SHA-256：`59a423f49647f7112a435302d2e3f13ba1183bac9480c9cffb1327f4b38d47c1`；输入文件：262
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断
@@ -16,13 +16,13 @@ OK：已按当前来源生成；每次咨询仍需 --check。
 
 | 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |
 |---|---|---|---|---|
-| wfh-grill | /wfh-grill | 按轮盘问研究课题，收敛决策，边问边写 TERMS.md / MDR，结束时出决策台账并停在确认门。用于研究设计盘问、课题盘问、把模糊想法问清楚、投稿前决策自检；English triggers: grill a research idea, research design interview, decision convergence, wfh-grill. 不用于探索式 Socratic（用 ARS deep-research socratic），不用于直接写作（用 ARS academic-paper）。 | [SKILL](../../wfh-grill/SKILL.md) | [grilling_protocol](grilling_protocol.md)、[decision_classes](decision_classes.md)、[terms_template](terms_template.md)、[mdr_template](mdr_template.md)、[reopen_template](reopen_template.md) |
-| wfh-spec | /wfh-spec | 把 wfh-grill 的盘问产物合成 research/<slug>/BRIEF.md（ARS Handoff Schema 1 四字段 + claim ledger + 材料学扩展），不重新访谈，缺项标 [UNRESOLVED]。用于盘问确认后的 Brief 合成、交接 ARS academic-paper 前的准备；English triggers: synthesize research brief, research spec, wfh-spec, brief from grilling. 不用于继续盘问（用 wfh-grill），不用于切任务（用 wfh-tickets），不用于写作（用 ARS academic-paper）。 | [SKILL](../../wfh-spec/SKILL.md) | [spec_template](spec_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
-| wfh-tickets | /wfh-tickets | 把 BRIEF.md 的 claim ledger 切成最小可验证主张单元的任务图，写 tasks/T*.md 与 FLOW.md；revision 模式把审稿意见簇切成 R*.md 改稿任务；每条任务有 blocked by、执行方式（ARS / direct / human）、验收标准、产出路径、会话预算；落盘前先确认粒度、依赖、合并/拆分。用于 Brief 确认后的任务切分、审稿后的改稿任务切分、写作前规划、判断哪些任务可并行；English triggers: split research brief into tasks, revision task graph, research task graph, wfh-tickets. 不用于盘问（用 wfh-grill）、不用于合成 Brief（用 wfh-spec）、不用于写作（用 ARS academic-paper）。 | [SKILL](../../wfh-tickets/SKILL.md) | [tickets_template](tickets_template.md)、[flow_template](flow_template.md)、[spec_template](spec_template.md) |
-| wfh-ask | /wfh-ask | 科研入口咨询与课题状态：不知道该用哪个 ARS / wfh 入口，或想知道课题现在做到哪、frontier、阻塞、缺件、未决，都用这个入口。输出取决于问题：路由问题给一条路径、一个可用命令和一条反模式；状态问题给阶段、frontier、startability、阻塞、缺件与未决。用于不知道用哪个技能、怎么用、已有工作如何续做、查看课题进度、检查状态板是否漂移、wfh-ask refresh；English: which research skill, research workflow advice, research task status, research frontier, wfh-ask. 只读，不执行；明确 ARS 命令或研究执行请求沿 ARS 原有路由，不由本入口抢占。 | [SKILL](../../wfh-ask/SKILL.md) | [routing_protocol](routing_protocol.md)、[skills_index](skills_index.md)、[state_protocol](state_protocol.md)、[flow_template](flow_template.md) |
-| wfh-next | /wfh-next | 为一条科研任务生成可复制到新会话的启动或恢复提示词，限定为 FLOW、目标任务及声明输入；检查阻塞和 ARS 交接预检。用于接着做哪个任务、新会话如何接手、生成科研任务交接提示词；English: next research task, task handoff prompt, wfh-next。不自动开会话或执行任务；验收用 wfh-close。 | [SKILL](../../wfh-next/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
-| wfh-close | /wfh-close | 逐条用可追溯证据核对科研任务验收标准，记录 complete / partial / blocked，更新目标任务及 FLOW、重算 frontier；claim 被证伪时输出 REOPEN 回环包。用于任务做完后的验收、收尾、产物缺件检查和推进状态板；English: close research task, verify task evidence, wfh-close, reopen。缺数据、实验结果或用户确认保留未决；不执行研究或生成缺失结果。 | [SKILL](../../wfh-close/SKILL.md) | [state_protocol](state_protocol.md)、[flow_template](flow_template.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md)、[reopen_template](reopen_template.md) |
-| wfh-implement-spec | /wfh-implement-spec | 执行 wfh 任务图中的单条任务：生成可编辑的启动提示词，用户确认后开启新会话执行，会话结束后自动按 wfh-close 逐条验收，并在每个任务后停下等用户确认。用于把 wfh-next 和 wfh-close 合成一条命令、推进阶段 4 的 claim/prep 任务、逐条跑任务图；English triggers: implement spec, execute task, run task, wfh implement, wfh-implement-spec, run this task, start the task session. 不用于重新盘问（用 wfh-grill）、不用于切任务（用 wfh-tickets）、不用于直接写正文（用 ARS academic-paper）。 | [SKILL](../../wfh-implement-spec/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
+| wfh-grill | /wfh-grill | 高级入口：问清研究问题与设计，记录研究决定；已有答案不重复问，关键判断由研究者作出。 | [SKILL](../../wfh-grill/SKILL.md) | [grilling_protocol](grilling_protocol.md)、[decision_classes](decision_classes.md)、[terms_template](terms_template.md)、[mdr_template](mdr_template.md)、[reopen_template](reopen_template.md) |
+| wfh-spec | /wfh-spec | 高级入口：把已确认的研究决定整理成研究方案，保留未决信息，不重复访谈。 | [SKILL](../../wfh-spec/SKILL.md) | [spec_template](spec_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
+| wfh-tickets | /wfh-tickets | 高级入口：从已确认研究方案或审稿意见安排可验证的研究步骤，确认顺序、工作范围和验收要求。 | [SKILL](../../wfh-tickets/SKILL.md) | [tickets_template](tickets_template.md)、[flow_template](flow_template.md)、[spec_template](spec_template.md) |
+| wfh-ask | /wfh-ask | 高级只读入口：查看课题进度，或咨询现有材料接下来适合做什么。 | [SKILL](../../wfh-ask/SKILL.md) | [routing_protocol](routing_protocol.md)、[skills_index](skills_index.md)、[state_protocol](state_protocol.md)、[flow_template](flow_template.md) |
+| wfh-next | /wfh-next | 高级入口：准备当前步骤的接手或恢复说明，先检查材料和先后顺序；只准备，不执行。 | [SKILL](../../wfh-next/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
+| wfh-close | /wfh-close | 高级入口：按真实证据验收当前步骤并更新进度；证据不支持原解释时重新讨论受影响的研究决定。 | [SKILL](../../wfh-close/SKILL.md) | [state_protocol](state_protocol.md)、[flow_template](flow_template.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md)、[reopen_template](reopen_template.md) |
+| wfh-implement-spec | /wfh-implement-spec | 高级入口：准备单个研究步骤，确认后在新会话开展，返回后逐项验收；每次只推进一步。 | [SKILL](../../wfh-implement-spec/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 
 ## ARS 模式
 

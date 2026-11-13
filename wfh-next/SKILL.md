@@ -1,14 +1,18 @@
 ---
 name: wfh-next
-description: "为一条科研任务生成可复制到新会话的启动或恢复提示词，限定为 FLOW、目标任务及声明输入；检查阻塞和 ARS 交接预检。用于接着做哪个任务、新会话如何接手、生成科研任务交接提示词；English: next research task, task handoff prompt, wfh-next。不自动开会话或执行任务；验收用 wfh-close。"
+description: "高级入口：准备当前步骤的接手或恢复说明，先检查材料和先后顺序；只准备，不执行。"
+disable-model-invocation: true
 ---
 
-# wfh-next — 新会话提示词
+# 准备接手说明
 
-先读 [共享状态协议](../wfh-research/references/state_protocol.md) §1–3、§5；需要核对字段布局才读 [任务模板](../wfh-research/references/tickets_template.md)。ARS 任务另读 [ARS 交接协议](../wfh-research/references/ars_handoff_protocol.md)。
+先读 [研究者界面](../wfh-research/references/user_output_protocol.md) 和 [状态协议](../wfh-research/references/state_protocol.md) §1–3、§5。
 
-定位工作区与可选目标 ID。仅读 FLOW、目标任务与其明确声明的输入，不读聊天历史或搜整个课题补背景。检查 FLOW 图与目标一致性、依赖完成证明、缺件及影响本任务的未决。指定目标被阻塞就解释原因并停；输入未声明不足以验证前置时列缺项，不偷读额外任务。
+1. 定位课题与可选步骤，只读进度、目标步骤和明确声明的输入；不得用聊天记忆或全课题搜索补背景。
+2. 核对依赖的有效完成证明、必需输入和未决信息；进行中可恢复，已完成或已取消需明确重开。
+3. 生产步骤才读 [交接协议](../wfh-research/references/ars_handoff_protocol.md)，来源不明先查明；按适用模式预检，不套用无关模式字段。
+4. 生成完整内部启动说明，默认向用户给中文目标、读取范围、预期产物和验收要求，不原样显示技术字段。
+5. 用户明确要复制接手说明时，生成使用研究语言的可复制版本，文件路径附中文说明；精确内部契约通过引用加载。
+6. 只更新进度“下一步”及允许的派生摘要，保留用户备注，不改步骤状态。
 
-按共享协议 §5 输出完整提示词，包含精确文件清单、主张与六层要求、执行方式 / 预算、产出、逐条验收、未决、失败处理和收尾。ARS 来源先判 external-wfh / ars-internal / unknown；按适用模式预检具体值，保留内部链门禁。缺 Scope 或 FINER 未决归 wfh-precheck，不能说成 ARS 拒绝。其他模式只要求未来执行会话读取其真实契约，不强套 Schema 1。
-
-生成提示词后更新 FLOW「下一步」五字段（命令 / 输入 / 产出 / 失败时 / 更新于），保留用户备注；不改其他节。不改任务状态，不执行研究任务，不自动启动新会话或实际调用 ARS。末尾写 `prompt_only: true; ars_invoked: false; task_executed: false; task_status_changed: false`。调用草案和预检通过都不是实际 intake 回执。
+本入口不启动会话、不调用生产、不实际执行。内部记录明确区分说明生成、实际调用和实际完成；用户收尾说明“已准备好接手说明，尚未开始这一步”。

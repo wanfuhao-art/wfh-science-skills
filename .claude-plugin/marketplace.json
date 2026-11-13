@@ -4,12 +4,12 @@
     "name": "wanfuhao-art",
     "url": "https://github.com/wanfuhao-art"
   },
-  "description": "wfh 科研工作流：决策台账、Brief、任务图、状态与验收。ARS 为外部依赖。",
+  "description": "wfh 科研流程：问清研究问题、安排步骤、记录进度与验收结果。",
   "plugins": [
     {
       "name": "wfh-science-skills",
       "source": "./",
-      "description": "科研工作流：决策台账、Brief、任务图、状态与验收；检索、写作、审稿与格式转换由外部 ARS 插件提供。",
+      "description": "帮助研究者问清问题、安排步骤、查看进度和验收结果；检索、写作与审稿由外部科研扩展提供。",
       "version": "3.0.1",
       "license": "CC-BY-NC-4.0",
       "skills": [

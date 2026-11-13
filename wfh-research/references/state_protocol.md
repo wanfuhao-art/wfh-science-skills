@@ -1,5 +1,6 @@
 # 状态、启动与收尾协议
 
+> 用户展示统一经过 [研究者界面](user_output_protocol.md)，本协议的机器字段和诊断只作内部记录。
 > `wfh-ask`（status 模式）/ `wfh-next` / `wfh-close` 的唯一行为协议。布局见 [flow_template.md](flow_template.md)，任务字段见 [tickets_template.md](tickets_template.md)。ARS 分支另读 [ars_handoff_protocol.md](ars_handoff_protocol.md)，后者负责来源、具体字段预检和拒绝归属。
 
 ## 1. 工作区与读写责任
@@ -49,7 +50,9 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 
 ## 4. status 模式输出（`wfh-ask`）
 
-给出工作区、读取范围 / 未读项、graph_valid 与错误 / 缓存差异；当前阶段与状态（注明记录值 / 计算建议）；doing / 当前建议；重算 frontier 及逐条 startability；缺失输入 / 产出（按任务状态区别）；blocked / 依赖链及原因为何仍未完成；未决问题与消费任务；一句下一步建议；并核对 FLOW「下一步」是否指向 frontier 中的任务或合法的 `doing` 任务；指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值。完成标准：每个未完成任务有可解释的排程位置，且没有写文件。
+本节枚举的是内部核对记录。面向研究者只展示中文现状、材料缺口和一项下一步；任何内部标记、字段及失败均按 [研究者界面](user_output_protocol.md) 翻译，不把本节清单原样打印。
+
+内部记录给出工作区、读取范围 / 未读项、graph_valid 与错误 / 缓存差异；当前阶段与状态（注明记录值 / 计算建议）；doing / 当前建议；重算 frontier 及逐条 startability；缺失输入 / 产出（按任务状态区别）；blocked / 依赖链及原因为何仍未完成；未决问题与消费任务；一句下一步建议；并核对 FLOW「下一步」是否指向 frontier 中的任务或合法的 `doing` 任务；指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值。完成标准：每个未完成任务有可解释的排程位置，且没有写文件。
 
 ## 5. next：生成交给新会话的提示词
 
