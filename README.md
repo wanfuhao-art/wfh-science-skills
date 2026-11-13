@@ -17,6 +17,19 @@
 
 ## 安装
 
+### 1. 安装 ARS（推荐，生产层）
+
+wfh 负责决策、Brief、任务图和验收；检索、写作、审稿、修订、格式转换由 ARS 完成。ARS 是独立插件，不在本仓库内，需要从官方仓库安装：
+
+```text
+/plugin marketplace add Imbad0202/academic-research-skills
+/plugin install academic-research-skills
+```
+
+官方仓库：https://github.com/Imbad0202/academic-research-skills
+
+### 2. 安装 wfh skills（本仓库）
+
 把这些目录复制到项目的 `.claude/skills/`：
 
 ```bash
@@ -54,10 +67,25 @@ cp -R wfh-* .claude/skills/
               阶段 5–8：ARS 审稿 → 改稿 → 格式 → 定稿
 ```
 
-## 依赖
+## 前置依赖
 
-- **ARS（可选）**：`academic-research-skills` 插件，用于检索、写作、审稿、修订、格式转换。没有 ARS 时，wfh 的决策与任务管理仍可用，但 `ARS:` 任务会保持 blocked。
+- **Claude Code / Claude Desktop**：需要支持 skills 的版本。
+- **ARS（可选，但强烈建议）**：`academic-research-skills` 插件，提供检索、写作、审稿、修订、格式转换。安装方式见上。
 - **Python 3**：仅 `wfh-research/scripts/refresh_index.py` 需要，用于生成 / 校验路由索引。
+
+## 没有 ARS 时能用什么
+
+| 能力 | 没有 ARS | 有 ARS |
+|---|---|---|
+| `wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-ask` / `wfh-next` / `wfh-close` | ✅ | ✅ |
+| `direct` 任务（你自己分析） | ✅ | ✅ |
+| `human` 任务（实验 / 仪器 / 作者裁决） | ✅ | ✅ |
+| `ARS:` 任务（检索 / 写作 / 审稿 / 改稿 / 格式） | ❌ 保持 blocked | ✅ |
+
+## 第三方依赖与许可
+
+- ARS 不在本仓库内，遵循其原仓库许可证 **CC-BY-NC-4.0**（非商业使用；请遵守原仓库条款）。
+- 本仓库只包含 wfh skills，不包含 ARS 代码或研究数据。
 
 ## 说明
 
