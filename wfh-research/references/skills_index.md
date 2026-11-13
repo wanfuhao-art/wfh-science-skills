@@ -2,10 +2,10 @@
 
 仅定位，不证明已读取、已加载、已验证或研究已执行。推荐前读取目标 SKILL 与模式要求的支持文件。
 
-- 来源 ARS 根：`/Users/wanfuhao/.claude/plugins/cache/academic-research-skills/academic-research-skills/3.24.2`
+- 来源 ARS 根：`/Users/wanfuhao/Documents/ClaudeProjects/AI for science/.scratch/wfh-science-skills`
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 预期入口：6；可读入口：6
-- 来源指纹 SHA-256：`fbd7fb914186e1beb8cfe324036c7be9f23a359e7fafc9c0fd03bae1b29c459e`；输入文件：258
+- 来源指纹 SHA-256：`34727fd2b00377161c002bac6c5201a8aa1d9a3401659e8d5f8efb1a8fae4a7d`；输入文件：258
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断
@@ -26,7 +26,7 @@ OK：已按当前来源生成；每次咨询仍需 --check。
 ## ARS 模式
 
 路径均相对上方 ARS 根；升级或迁移后重新 refresh，索引不把旧缓存路径当默认安装。
-下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 academic-research-skills:<技能>，mode=<模式>，<请求>」。
+下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 wfh-science-skills:<技能>，mode=<模式>，<请求>」。
 `(pipeline)` 是编排入口而非命名模式；`resume_from_passport=<hash>` 是恢复参数，使用前须读其 opt-in 协议。
 
 | Skill | mode / 入口 | 注册表产出与触发 | 路径 | 真实 slash 命令文件 |

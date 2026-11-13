@@ -146,7 +146,7 @@ def build(skills, ars, output):
             except ValueError as exc:
                 diagnostics.append(f'INDEX_INVALID: {path}: {exc}')
                 continue
-            target = re.search(r'skill:\s*"academic-research-skills:([a-z-]+)"', text)
+            target = re.search(r'skill:\s*"(?:academic-research-skills|wfh-science-skills):([a-z-]+)"', text)
             if not target:
                 continue
             skill = target[1]
@@ -195,7 +195,7 @@ def build(skills, ars, output):
              '## 六个 wfh 执行入口', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
              '|---|---|---|---|---|', *wfh_rows, '', '## ARS 模式', '',
              '路径均相对上方 ARS 根；升级或迁移后重新 refresh，索引不把旧缓存路径当默认安装。',
-             '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 academic-research-skills:<技能>，mode=<模式>，<请求>」。',
+             '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 wfh-science-skills:<技能>，mode=<模式>，<请求>」。',
              '`(pipeline)` 是编排入口而非命名模式；`resume_from_passport=<hash>` 是恢复参数，使用前须读其 opt-in 协议。', '',
              '| Skill | mode / 入口 | 注册表产出与触发 | 路径 | 真实 slash 命令文件 |',
              '|---|---|---|---|---|', *ars_rows, '', '## 支持文件导航', '',

@@ -4,13 +4,13 @@
     "name": "wanfuhao-art",
     "url": "https://github.com/wanfuhao-art"
   },
-  "description": "wfh 科研工作流 skills + ARS 插件快照",
+  "description": "wfh 科研工作流 + 内置 ARS 学术研究技能，一个插件装齐。",
   "plugins": [
     {
       "name": "wfh-science-skills",
       "source": "./",
-      "description": "科研工作流 skills：决策台账、Brief、任务图、状态、验收，配合 ARS 使用。",
-      "version": "1.0.0",
+      "description": "科研工作流 + 学术研究技能：决策台账、Brief、任务图、状态、验收，以及检索、写作、审稿、修订、格式转换。",
+      "version": "2.0.0",
       "license": "CC-BY-NC-4.0",
       "skills": [
         "./wfh-ask",
@@ -20,16 +20,7 @@
         "./wfh-next",
         "./wfh-research",
         "./wfh-spec",
-        "./wfh-tickets"
-      ]
-    },
-    {
-      "name": "academic-research-skills",
-      "source": "./vendor/academic-research-skills",
-      "description": "Academic Research Skills 3.24.2：research → write → review → revise → finalize。",
-      "version": "3.24.2",
-      "license": "CC-BY-NC-4.0",
-      "skills": [
+        "./wfh-tickets",
         "./academic-paper",
         "./academic-paper-reviewer",
         "./academic-pipeline",

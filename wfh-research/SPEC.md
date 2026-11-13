@@ -170,7 +170,7 @@ research/<slug>/
 ### 4. 与 ARS 的三层衔接
 
 1. **文件契约**：`BRIEF.md` 是 wfh 整理的外部作者材料，含 `## RQ Brief` 与参考 Schema 1 的四个必需字段（`research_question`、`sub_questions`、`finer_scores`、`scope`）。先按共享 `ars_handoff_protocol.md` 校验值；标题或字段齐全不保证 ARS 接受，也不代表已验证内部 handoff。
-2. **Skill 调用**：任务声明 `执行方式: ARS:<skill>:<mode>` / `direct` / `human`；`wfh-next` 或 `wfh-close` 按此调用 ARS 的 `academic-research-skills:*` 技能。外部材料以真实来源和文件路径进入普通 intake；真正的 ARS 内部链保留并校验 Passport、current #672 receipt 与条件性 companion。
+2. **Skill 调用**：任务声明 `执行方式: ARS:<skill>:<mode>` / `direct` / `human`；`wfh-next` 或 `wfh-close` 按此调用 ARS 的 `wfh-science-skills:*` 技能。外部材料以真实来源和文件路径进入普通 intake；真正的 ARS 内部链保留并校验 Passport、current #672 receipt 与条件性 companion。
 3. **会话交接**：`wfh-next` 生成启动提示词，只读 `FLOW.md` + 任务文件 + 任务声明的输入；调用前按 Schema 校验，缺必需值报 `HANDOFF_INCOMPLETE`、列缺项并停止。分别记录 wfh 预检与 ARS intake 的拒绝；成功导入需实际响应证据，不能以首错停止时“没重复提问”冒充。
 
 ### 5. 数据契约

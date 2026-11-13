@@ -6,8 +6,14 @@
 - Author: Cheng-I Wu
 - Source: https://github.com/Imbad0202/academic-research-skills
 - License: CC-BY-NC-4.0
-- Location: `vendor/academic-research-skills/`
+- Bundled location: the plugin root (`academic-paper/`, `academic-paper-reviewer/`, `academic-pipeline/`, `deep-research/`, `sr-screener/`, `shared/`, `scripts/`, `commands/`, `agents/`, `hooks/`, `docs/`, `MODE_REGISTRY.md`).
+- Original license, NOTICE, README, and plugin manifests: `third_party/academic-research-skills/`.
+- The ARS files are included unmodified; only the directory layout was adjusted for bundling.
 
-The vendored copy is included for convenience so users can install ARS from this repository without downloading it separately. It is a snapshot; the official repository is the source of truth for updates.
+## wfh skills
 
-Both the wfh skills (repository root) and the vendored ARS (`vendor/academic-research-skills/`) are licensed under CC-BY-NC-4.0. The copyright holders differ: the wfh skills are © wanfuhao-art; the vendored ARS is © 2026 Cheng-I Wu.
+- Author: wanfuhao-art
+- License: CC-BY-NC-4.0
+- Location: `wfh-*` at the plugin root.
+
+The repository-root `LICENSE` is CC-BY-NC-4.0 and applies to the plugin as a whole; the original ARS license and copyright notice are preserved under `third_party/academic-research-skills/`.

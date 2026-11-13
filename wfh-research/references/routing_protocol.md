@@ -41,7 +41,7 @@ python3 -I '<共享包绝对路径>/scripts/refresh_index.py' --ars-root '<当�
 
 推荐前实际读取目标 `SKILL.md` 的模式分支、它所指本次必需的支持文件 / agent 定义。索引里的支持导航只是起点，不能以目录存在推断契约已核验。wfh 同样读其对应共享协议。按内容继续追踪与本次推荐相关的条件性协议；无需为一句咨询加载不相关的完整生产链。
 
-核对目标是否处理当前材料、还缺什么、实际产物与停止点。ARS 的真实 slash 只从当前 `commands/*.md` 核对映射；同名 mode 不自动产生 slash。没有 slash 时给一个可复制自然语言调用，例如「请使用 academic-research-skills:deep-research，mode=socratic，带我探索……」，明确标注这是「技能名 + mode 的请求」，不是新增 slash。wfh 用实际同名入口。不要为了咨询实际调用会启动生产的目标 Skill；用 Read 加载原文即可。后续执行时才用 Skill 工具加载目标，读取不冒充独立服务运行。
+核对目标是否处理当前材料、还缺什么、实际产物与停止点。ARS 的真实 slash 只从当前 `commands/*.md` 核对映射；同名 mode 不自动产生 slash。没有 slash 时给一个可复制自然语言调用，例如「请使用 wfh-science-skills:deep-research，mode=socratic，带我探索……」，明确标注这是「技能名 + mode 的请求」，不是新增 slash。wfh 用实际同名入口。不要为了咨询实际调用会启动生产的目标 Skill；用 Read 加载原文即可。后续执行时才用 Skill 工具加载目标，读取不冒充独立服务运行。
 
 若本次建议涉及外部 Brief 的 ARS 交接，另读 [交接协议](ars_handoff_protocol.md)：本次仅说明预检责任，不给未读 / 未确认材料颁发通过，不推断内部 Passport、receipt 或实验声明。实验、FINER 与作者确认依然来自真实作者。
 
