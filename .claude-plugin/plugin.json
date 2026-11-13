@@ -1,7 +1,7 @@
 {
   "name": "wfh-science-skills",
-  "version": "2.0.0",
-  "description": "科研工作流 + 学术研究技能：wfh 决策台账、Brief、任务图、状态、验收，内置 ARS 检索、写作、审稿、修订与格式转换。",
+  "version": "3.0.0",
+  "description": "科研工作流：决策台账、Brief、任务图、状态与验收；检索、写作、审稿与格式转换由外部 ARS 插件提供。",
   "author": {
     "name": "wanfuhao-art",
     "url": "https://github.com/wanfuhao-art"
@@ -17,12 +17,7 @@
     "./wfh-next",
     "./wfh-research",
     "./wfh-spec",
-    "./wfh-tickets",
-    "./academic-paper",
-    "./academic-paper-reviewer",
-    "./academic-pipeline",
-    "./deep-research",
-    "./sr-screener"
+    "./wfh-tickets"
   ],
   "keywords": [
     "academic",
@@ -30,7 +25,6 @@
     "workflow",
     "skills",
     "wfh",
-    "science",
-    "ars"
+    "science"
   ]
 }
