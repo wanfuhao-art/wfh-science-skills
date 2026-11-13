@@ -106,6 +106,16 @@ class NavigationChecks(unittest.TestCase):
         self.assertEqual(result.returncode, 1, result.stderr)
         self.assertFalse(output.exists())
 
+    def test_default_entry_must_allow_model_invocation(self):
+        path = self.suite / 'wfh/SKILL.md'
+        path.write_text(path.read_text().replace('name: wfh\n', 'name: wfh\ndisable-model-invocation: true\n', 1))
+        self.assertTrue(any('invocation role' in p for p in self.build()[1]))
+
+    def test_shared_package_is_not_a_user_entry(self):
+        path = self.suite / 'wfh-research/SKILL.md'
+        path.write_text(path.read_text().replace('user-invocable: false', 'user-invocable: true'))
+        self.assertTrue(any('not be user-invocable' in p for p in self.build()[1]))
+
     def test_duplicate_registry_rows_rejected(self):
         registry = '## demo (2 modes)\n| Mode | Spectrum | Output | Oversight | Triggers |\n|---|---|---|---|---|\n| `full` | x | y | z | a |\n| `full` | x | y | z | a |\n'
         with self.assertRaisesRegex(ValueError, 'duplicate'):

@@ -4,12 +4,12 @@
 
 用户问「该用哪个 / 怎么用」或调用 `/wfh-ask` 咨询时，只读并建议，不因展示命令而执行它。用户明确要求执行已有 `/ars-*`、某个确定模式或研究动作时，让当前 ARS 路由接管：读取其 `shared/references/routing_core.md`；歧义及跨阶段材料另按 `intent_clarification_protocol.md`，不另加 wfh 决策门，不让咨询层抢占明确请求。`[direct-mode]` 的解析也归 ARS 原协议。
 
-只有明确要求整套研究到成稿时才推荐 `academic-pipeline`；它的 finalize 不等于替作者向期刊提交或保证发表。默认保留任务图里的执行边界。推荐范围限已安装的 ARS 与七个 wfh 入口。
+只有明确要求整套研究到成稿时才推荐 `academic-pipeline`；它的 finalize 不等于替作者向期刊提交或保证发表。默认保留任务图里的执行边界。推荐范围限实际可用的 ARS 与当前发布清单中的 wfh 入口。
 
 ## 2. 定位与索引检查
 
 1. 先定位本共享包与同级七入口（`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-ask` / `wfh-next` / `wfh-close` / `wfh-implement-spec`）。ARS 根只接受可靠来源：当前工具 / 已加载技能返回的基目录上一级、宿主提供的插件根，或调用方明确提供的安装根。不要从索引中的旧缓存路径推定当前安装，不枚举缓存后选择「看起来最新」的版本，不读取 settings、凭证或 env 内容来找插件。无法确认根时报告 `ARS_NOT_AVAILABLE`，仅如实说明可读 wfh 范围；请求提供安装根不等于假装 ARS 可用。
-2. 用 [刷新工具](../scripts/refresh_index.py) 的 `--check` 比较当前输入与索引；普通咨询保持只读。把当前 ARS 根作为 `--ars-root` 明确传入，脚本不读取环境或设置。路径含空格时使用 shell 引号。
+2. 有 Python 时用 [刷新工具](../scripts/refresh_index.py) 的 `--check` 比较当前输入与索引；无解释器则直接读当前真实注册表与命令核对本次所选分支，不声称索引新鲜，不阻断独立的本地研究整理。普通咨询保持只读。把当前 ARS 根作为 `--ars-root` 明确传入，脚本不读取环境或设置。路径含空格时使用 shell 引号。
 
 ```bash
 python3 -I '<共享包绝对路径>/scripts/refresh_index.py' --ars-root '<当前 ARS 根>' --check
@@ -41,7 +41,7 @@ python3 -I '<共享包绝对路径>/scripts/refresh_index.py' --ars-root '<当�
 
 推荐前实际读取目标 `SKILL.md` 的模式分支、它所指本次必需的支持文件 / agent 定义。索引里的支持导航只是起点，不能以目录存在推断契约已核验。wfh 同样读其对应共享协议。按内容继续追踪与本次推荐相关的条件性协议；无需为一句咨询加载不相关的完整生产链。
 
-核对目标是否处理当前材料、还缺什么、实际产物与停止点。ARS 的真实 slash 只从当前 `commands/*.md` 核对映射；同名 mode 不自动产生 slash。没有 slash 时给一个可复制自然语言调用，例如「请使用 wfh-science-skills:deep-research，mode=socratic，带我探索……」，明确标注这是「技能名 + mode 的请求」，不是新增 slash。wfh 用实际同名入口。不要为了咨询实际调用会启动生产的目标 Skill；用 Read 加载原文即可。后续执行时才用 Skill 工具加载目标，读取不冒充独立服务运行。
+核对目标是否处理当前材料、还缺什么、实际产物与停止点。ARS 的真实 slash 只从当前 `commands/*.md` 核对映射；同名 mode 不自动产生 slash。没有 slash 时给一个可复制自然语言调用，例如「请使用 academic-research-skills:deep-research，mode=socratic，带我探索……」，明确标注这是「技能名 + mode 的请求」，不是新增 slash。wfh 用实际同名入口。不要为了咨询实际调用会启动生产的目标 Skill；用 Read 加载原文即可。后续执行时才用 Skill 工具加载目标，读取不冒充独立服务运行。
 
 若本次建议涉及外部 Brief 的 ARS 交接，另读 [交接协议](ars_handoff_protocol.md)：本次仅说明预检责任，不给未读 / 未确认材料颁发通过，不推断内部 Passport、receipt 或实验声明。实验、FINER 与作者确认依然来自真实作者。
 

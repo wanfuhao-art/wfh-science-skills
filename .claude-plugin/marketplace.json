@@ -10,7 +10,7 @@
       "name": "wfh-science-skills",
       "source": "./",
       "description": "帮助研究者问清问题、安排步骤、查看进度和验收结果；检索、写作与审稿由外部科研扩展提供。",
-      "version": "3.0.1",
+      "version": "3.1.0",
       "license": "CC-BY-NC-4.0",
       "skills": [
         "./wfh",

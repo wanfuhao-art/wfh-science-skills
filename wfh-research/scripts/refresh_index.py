@@ -146,6 +146,11 @@ def build(skills, ars, output):
             data = metadata(text) if text is not None else None
             if data and data['name'] != name:
                 raise ValueError('frontmatter name differs from directory')
+            if data:
+                header = text.split('---', 2)[1]
+                disabled = bool(re.search(r'^disable-model-invocation:\s*true\s*$', header, re.M))
+                if (name == 'wfh' and disabled) or (name != 'wfh' and not disabled):
+                    raise ValueError('default/advanced invocation role differs from manifest role')
         except ValueError as exc:
             diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
             data = None
@@ -160,7 +165,15 @@ def build(skills, ars, output):
         wfh_rows.append(f'| {name} | /{name} | {cell(data["description"]) if data else "UNAVAILABLE"} | '
                         f'{link(path, "SKILL") if data else "UNAVAILABLE"} | {"、".join(support)} |')
     # Shared contracts and generator are fingerprinted; never read settings/env.
-    read(package / 'SKILL.md')
+    shared = read(package / 'SKILL.md')
+    try:
+        if shared is None or metadata(shared)['name'] != 'wfh-research':
+            raise ValueError('shared package name differs from directory')
+        header = shared.split('---', 2)[1]
+        if not re.search(r'^user-invocable:\s*false\s*$', header, re.M):
+            raise ValueError('shared package must not be user-invocable')
+    except ValueError as exc:
+        diagnostics.append('INDEX_INVALID: ' + str(exc))
     read(Path(__file__).resolve())
     for path in sorted((package / 'references').glob('*.md')):
         if path.name != 'skills_index.md' and path.resolve() != output:
@@ -245,7 +258,7 @@ def build(skills, ars, output):
              f'## {len(wfh)} 个 wfh 执行入口（一个默认入口）', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
              '|---|---|---|---|---|', *wfh_rows, '', '## ARS 模式', '',
              '路径均相对上方 ARS 根；升级或迁移后重新 refresh，索引不把旧缓存路径当默认安装。',
-             '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 wfh-science-skills:<技能>，mode=<模式>，<请求>」。',
+             '下列 slash 只列当前 commands 文件中可核对的映射。无 slash 的行可用「请使用 academic-research-skills:<技能>，mode=<模式>，<请求>」。',
              '`(pipeline)` 是编排入口而非命名模式；`resume_from_passport=<hash>` 是恢复参数，使用前须读其 opt-in 协议。', '',
              '| Skill | mode / 入口 | 注册表产出与触发 | 路径 | 真实 slash 命令文件 |',
              '|---|---|---|---|---|', *ars_rows, '', '## 支持文件导航', '',

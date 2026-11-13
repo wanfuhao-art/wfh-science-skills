@@ -20,6 +20,7 @@ user-invocable: false
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |
 | 更新进度布局 | [进度模板](references/flow_template.md) |
 | 接续会话执行 | [执行协议](references/execution_protocol.md) |
+| 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |
 | 调用生产或核验其结果 | [交接协议](references/ars_handoff_protocol.md) 对应来源分支 |
 | 结论或设计失败 | [回环模板](references/reopen_template.md) |
 

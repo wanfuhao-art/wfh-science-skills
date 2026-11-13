@@ -206,7 +206,7 @@ Updated: YYYY-MM-DD
 | 2 | Brief 合成 | done | `BRIEF.md` | `## RQ Brief` + 四字段 + claim ledger |
 | 3 | 任务图 | done | `tasks/T*.md` | 无环；五要素齐全；用户确认 |
 | 4 | 任务执行 | active | `tasks/T*.md` / `tasks/assets/` | 每条任务验收标准 |
-| 5 | 成稿整合 | todo | `artifacts/05-draft.md` | 全部任务 done（含 ec）；引用完整 |
+| 5 | 成稿整合 | todo | `artifacts/05-draft.md` | 阶段4的 claim/prep/ec 全部有效 done；整合另验收 |
 | 6 | 审稿 | todo | `artifacts/06-review-report.md` | ARS reviewer |
 | 7 | 改稿 | todo | `artifacts/07-revision-roadmap.md` / `artifacts/09-response.md` | 逐条回应 |
 | 8 | 定稿 | todo | 格式化稿 + disclosure | format-convert + disclosure |
