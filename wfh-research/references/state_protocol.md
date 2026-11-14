@@ -1,11 +1,11 @@
-# 状态、启动与收尾协议
+# 课题状态、启动与收尾协议
 
 > 用户展示统一经过 [研究者界面](user_output_protocol.md)，本协议的机器字段和诊断只作内部记录。
 > `wfh-ask`（status 模式）/ `wfh-next` / `wfh-close` 的唯一行为协议。布局见 [flow_template.md](flow_template.md)，任务字段见 [tickets_template.md](tickets_template.md)。ARS 分支另读 [ars_handoff_protocol.md](ars_handoff_protocol.md)，后者负责来源、具体字段预检和拒绝归属。
 
 ## 1. 工作区与读写责任
 
-用户指定 `research/<slug>/` 或 FLOW 路径就用该工作区；未指定只查项目的 `research/*/FLOW.md`，唯一才选择，多个请用户选，无则 `FLOW_NOT_FOUND`。测试使用调用方明确指定的夹具路径，不把 `.scratch/` 当真实课题。所有相对路径以课题目录为基准，保留原始路径；缺文件就报缺失，不按名字猜一个替代品。
+本协议仅用于已有课题；独立请求按交付目标和 ARS 模式验收，不要求创建 FLOW。用户指定 `research/<slug>/` 或 FLOW 路径就用该工作区；未指定只查项目的 `research/*/FLOW.md`，唯一才选择，多个请用户选，无则 `FLOW_NOT_FOUND`。测试使用调用方明确指定的夹具路径，不把 `.scratch/` 当真实课题。所有相对路径以课题目录为基准，保留原始路径；缺文件就报缺失，不按名字猜一个替代品。
 
 | 入口 | 读取 | 写入 |
 |---|---|---|
@@ -44,7 +44,7 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 
 分别报告 `frontier`（依赖排程资格）与 `startability`（输入 / 外部资源 / 未决项是否满足）。缺输入不改变只读 status 的任务 token：列 `INPUT_MISSING` 与待补项。未来任务缺产出通常是尚未执行，区别于 done 任务丢失证据。frontier 有任务也可能全不可启动，不因缺数据造结果。
 
-当前建议：优先保留合法 doing；否则用户指定且可启动的 frontier；否则可启动 T01（样板未确认时）；否则 frontier 中首个可启动任务。不可启动则给具体补件 / 人工动作。多条 doing 如实全列，不臆断单一负责人。无 frontier 不等于全部完成；逐项区分 doing、blocked、未完成依赖、dropped 阻塞及图错误。
+当前建议：优先保留合法 doing；否则用户指定且可启动的 frontier；否则已声明且可启动的样板任务；否则 frontier 中首个可启动任务。T01 只是编号，不隐含任务类型或样板身份。不可启动则给具体补件 / 人工动作。多条 doing 如实全列，不臆断单一负责人。无 frontier 不等于全部完成；逐项区分 doing、blocked、未完成依赖、dropped 阻塞及图错误。
 
 阶段沿用 FLOW 的已知记录，不从任务状态倒推阶段 1–3 已确认。close 在阶段 4 内：有 doing / 可启动任务为 active；只等用户确认为 waiting-user；只等资源 / 依赖为 blocked。阶段 4 的全部 claim / prep / ec 任务有效 done（不含阶段 5 integrate 和阶段 7 revision / integrate）才把阶段 4 记 done、当前阶段设 5（todo），只是待启动成稿整合，不自动执行 ARS 或把阶段 5 标完成。含 dropped 时报告剩余范围未裁决，不能自动通过「全部 done」门。已在阶段 5–8 时只依据该阶段真实产物与验收更新；本协议不自动认证这些阶段，也不因重核旧任务而覆盖后续阶段记录。
 
@@ -56,17 +56,17 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 
 ## 5. next：生成交给新会话的提示词
 
-1. 读 FLOW 计算排程候选，不信任缓存 frontier；未指定目标按 §3 选择。只在选定后读一条任务及其声明输入；检查其存在性、六层 / 验收要求、主执行方式、影响本任务的未决项和依赖完成证明。
+1. 读 FLOW 计算排程候选，不信任缓存 frontier；未指定目标按 §3 选择。只在选定后读一条任务及其声明输入；检查其存在性、适用最小层 / 验收要求、主执行方式、影响本任务的未决项和依赖完成证明。
 2. 用户指定被阻塞任务：列每个未完成 blocker 的 ID / 当前状态、缺输入或外部返回物；报告 `TASK_BLOCKED`。不另选任务冒充成功，不输出可以绕过 blocker 开始研究的提示词。doing 可生成明确的「恢复任务」提示词；done / dropped 说明已关闭，需用户明确重开后再启动。
-3. 对 ARS 任务按交接协议先辨 `source_kind`。只有已验证的 academic-paper plan / 普通 intake 外部 Brief 分支使用协议 §2 的 Schema 1 具体值预检。缺值 / FINER 未决则准确返回 `HANDOFF_INCOMPLETE`、字段路径、`rejected_by: wfh-precheck`、`ars_invoked: false`，不产出可执行交接、不保存「下一步」。unknown 停待查明，真实 ars-internal 保留 Passport / receipt 身份与缺项，不能改名为外部放行。
-4. 其他 ARS skill / mode 在提示词内要求执行会话先读实际 Skill 及该模式支持文件、验证它自己的输入契约。next 仅记录 `mode_contract: pending-execution-check`，不套 Schema 1，不声称模式已通过。必要协议可读；若 next 的只读范围内不足以核对模式要求，诚实保留待检边界。
+3. 对 ARS 任务按交接协议辨明来源、当前模式与输入责任。只检查本次契约必需值；必需输入缺失则记录 `HANDOFF_INCOMPLETE`、具体路径、`rejected_by: wfh-precheck`、`ars_invoked: false`，不生成可执行交接。可由原生 intake 收集的配置保留待询问；无关 FINER / Scope 未决不阻断其他模式。unknown 核实来源，ars-internal 保留原件身份与原生缺项。
+4. 提示词要求执行会话调用前重新读取实际 Skill 和模式支持文件；未在本次读取范围内核验的要求记 `mode_contract: pending-execution-check`，不虚称通过。真正的 Schema 1 阶段传递才按其当前完整要求检查；普通材料不因标题像 Schema 就变成内部链。
 5. 提示词用以下结构输出，路径明确到工作区及文件；声明输入缺漏先返回错误，不依赖历史聊天补值。
 
 ```text
 任务：<ID / 标题>；工作区：<绝对路径>；用途：启动 / 恢复
 仅读取：FLOW；目标任务；逐项列出的声明输入（含必要 blocker 证明）
 必要协议：state_protocol；ARS 时另含 ars_handoff_protocol
-目标与边界：照录任务主张、对应 claim / 子问题；六层的具体要求
+目标与边界：照录任务目标、对应 claim / 子问题；适用最小层的具体要求
 执行方式与预算：direct / human / ARS:<skill>:<mode>；预算与人工返回物
 产出：逐个精确路径；已有文件先读再增量写，保留用户数据
 验收：逐条照录；包括用户确认与结论要求
@@ -74,7 +74,7 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 ARS 时：来源与确认 / 评分依据；本次预检提取值或待检边界；调用前重新检查
 ARS 时：在执行会话实际 Skill 调用的完整 args 草案，含模式、输入路径、真实来源、任务边界
 ARS 时（可选）：文献库路径与来源；wfh 未修改；不可解析按 ARS 规则回退
-收尾：研究工作完成后调用 wfh-close 逐项核对，未达标记录 partial / blocked
+收尾：执行方只返回产物与证据，由发起方按本协议 §6 逐项验收并同步，未达标记录 partial / blocked
 本次状态：prompt_only；ars_invoked:false；task_executed:false；task_status_changed:false
 ```
 
@@ -83,20 +83,20 @@ ARS args 的写法按交接协议；来源、mode 不明则不生成猜测 args�
 ## 6. close：逐验收核对与同步
 
 1. 明确目标 ID，读 §1 范围；先完成图与视图一致性检查。保留任务主张、验收标准、上游数据、原始证据和历史记录。未决 / 缺数据不是编造完成记录的授权。
-2. 按原文枚举每条验收标准，读取其证据内容，输出 `标准 | pass / fail / unresolved | 文件+小节/行/记录ID | 核对理由 | 缺件/解决者`。复核六层是否有实际记录而不只是标题；数据能回溯样本和方法；图表能回溯数据源；正文强度与证据一致；引用按任务要求核验或保留待核验。结论为 `站得住 / 部分站得住 / 站不住 / 证据不足` 之一，含理由和边界。主张被否定时保留诚实检验结果，但按 §6.1 进入回环，当前任务保持 blocked，不直接记 done；缺数据时不能用四选一 token 取代验收。
+2. 按原文枚举每条验收标准，读取其证据内容，输出 `标准 | pass / fail / unresolved | 文件+小节/行/记录ID | 核对理由 | 缺件/解决者`。按任务类型和研究证据方式复核适用层是否有实际记录，不以空标题或无理由的不适用替代；数据能回溯样本和方法；图表能回溯数据源；正文强度与证据一致；引用按任务要求核验或保留待核验。结论为 `站得住 / 部分站得住 / 站不住 / 证据不足` 之一，含理由和边界。交付完成与主张支持程度分开：若原标准是完成检验，否定结果也可满足标准；若标准要求某项支持但未达到，仍记录缺口。需要改变已确认解释或设计时按 §6.1 请求回环，受影响后续任务等待作者决定；缺数据不能用结论 token 取代验收。
 3. 依赖逐个有效 done；否则 `TASK_BLOCKED`，即使目标文件齐也不越过依赖验收。外部返回物 / 湿实验日志缺失、必要用户确认缺失、证据影响的未决项未解，均保留 unresolved 与负责人。合成确认明确标 `fixture`，仅在测试工作区有效；不能迁入真实课题，不能代替真实用户确认。
-4. ARS 任务：读交接协议，核对 source_kind、预检字段值、准确实际 Skill args、实际响应 / 停止点与产出路径；只有提示词、伪回执或本地文件名不足。缺 Scope / FINER 按 wfh 预检归属记录且不调用 ARS；unknown / ars-internal 按实际来源门禁停，不造 Passport 或作者声明。其他模式以实际模式契约验收，不一律要求 Schema 1。close 只验收，不为补证而执行 ARS 研究任务。
+4. ARS 任务：读交接协议，核对来源、当前模式必需输入、准确实际 Skill args、实际响应 / 停止点、产出与原生检查报告。只有提示词或文件名不足。必需缺项按实际拒绝方记录，普通小任务不补套 Schema 1；内部链遵守其原生门禁。close 读取报告及其绑定版本，不重建专业核验；缺必需检查就记录缺口，不为补证实际执行 ARS。
 5. 核对结果：全部 pass 且有效依赖与必要确认齐全 → `result: complete`、任务 `done`；已有工作但有未通过项 → `result: partial`、任务 `doing`；受缺数据 / 人工 / 用户确认 / ARS 契约 / 依赖约束无法继续 → `result: blocked`、任务 `blocked`，列具体解除条件。todo 可因实际产出直接验收，不能只因调用 close 就视为执行过。已有 done 复核失败先报 `TASK_DONE_UNVERIFIED`，不自动撤销历史 done 及下游；请用户裁决重开范围。
 
-   验收深度按任务预算缩放：
+   预算决定核对投入，不能降低任务原标准或 ARS 必需检查；有冲突先拆分或报告预算不足：
 
    | 预算 | 验收深度 |
    |---|---|
-   | `S` | 产出存在、证据位置、结论四选一；不要求逐图逐引用复核 |
-   | `M` | S + 最小层齐全、分析可复现、图 / 表有数据源 |
+   | `S` | 核对全部适用原标准、产出、证据位置与结论；专业核验复用实际报告 |
+   | `M` | S + 核对适用最小层及分析 / 图表的来源记录 |
    | `L` | M + 独立验证者只读任务文件即可判断、跨任务一致性 |
 
-   `integrate` 任务（阶段 5 / 7）或最终稿另做 [整稿自检](integrity_selfcheck.md)：逐项核对 7 类失败模式，结果并入同一张验收核对表。七项全部 pass 才能记 `done`；任何 fail / unresolved 按 §6.1 分类。该自检是 wfh 层检查，不是 ARS 2.5 / 4.5 门禁，不颁发 PASS / VERIFIED。
+   `integrate` 或最终稿另做 [交付检查](integrity_selfcheck.md)，核对目标、产物来源、ARS 专业检查状态及研究一致性。适用必需项通过才可完成，不适用给理由；未执行的专业检查如实记录，不冒充 ARS PASS，也不另套 M1–M7 门禁。
 
 6. 先展示核对结果，再在同一授权范围落盘：任务仅改状态 / 对应通过的勾选 / 新增验收核对表与完成记录；不修改原标准以适配结果，不用新的核对覆盖历史行。记录日期、会话标识、result、逐项证据、未决、确认身份与 ARS 调用事实；会话标识未知写「本次 close（未提供外部会话 ID）」而非编造。资料本就未提供不猜实验结论。
 7. 重新读即将修改的原文件，若发现读取后被其他会话改动，报 `STATE_CHANGED` 并停止写入；按目标状态更新 FLOW 目标行、重算 frontier / 当前建议、Updated、阶段4派生状态、「下一步」，追加修订记录。解决的未决行保留原问题并附具体值、证据和日期；只有证据充分才记解决。不替写 LEDGER / MDR / BRIEF；需要上游决策同步的验收项仍 unresolved，返回对应技能处理。
@@ -110,9 +110,9 @@ close 在给出 result 前，先把未通过项归入三类：
 |---|---|---|
 | `EXECUTION_FAILURE` | 任务执行有误、产出缺失或分析错误，claim 本身未被否定 | `result: partial`，任务 `doing`；重跑本任务 |
 | `EVIDENCE_GAP` | 证据不足、数据缺失、仪器 / 文献 / 用户确认未到位 | `result: blocked`，任务 `blocked`；补 `prep` 或等外部返回物 |
-| `CLAIM_REFUTED` / `DESIGN_INVALID` | 证据与 claim 冲突，或设计无法支持该 claim | `result: blocked` + `reopen_required: true`；写回环包，停 |
+| `CLAIM_REFUTED` / `DESIGN_INVALID` | 证据与 claim 冲突，或设计无法支持该 claim | 科学结论如实记录；当前任务按原交付标准判定，需改变上游时 `reopen_required: true`，受影响后续工作停待作者决定 |
 
-整稿自检的 7 类失败模式按上表归类：M1 / M4 通常进入 `EXECUTION_FAILURE`，M2 / M3 / M6 进入 `EVIDENCE_GAP`，M5 按实际归入 `EXECUTION_FAILURE` 或 `CLAIM_REFUTED`，M7 进入 `DESIGN_INVALID`。
+ARS 专业报告中的失败按实际原因归类，保留原判断、适用性与版本；wfh 只核对交付缺口及影响，不维护另一份专业失败模式分类。
 
 回环包写到 `decisions/REOPEN-<NNNN>-<slug>.md`，编号四位递增，不复用。字段：
 
@@ -127,4 +127,4 @@ close 在给出 result 前，先把未通过项归入三类：
 
 写回环包前先展示草案并请用户确认分类；用户不确认就只记 unresolved，不写包。close 不改 BRIEF / LEDGER / MDR，不替用户决定重开范围。回环包由 `wfh-grill` 读取并执行重开（见 `grilling_protocol.md` §6）。
 
-完成标准：每条原验收标准有可指向的证据或明确缺口，结果与 token 对应，目标任务和 FLOW 同步，frontier 可复算，所有遗留有解除条件。wfh 的 complete 不表示 ARS PASS、内部审计完成或真实研究结论成立。
+完成标准：每条原验收标准有可指向的证据或明确缺口，执行结果与科学支持程度分开，目标任务和 FLOW 同步，frontier 可复算，所有遗留有解除条件。默认入口在同一授权目标内能否接着执行，按 execution_protocol；独立 close 不自行生产后续。wfh 的 complete 不表示 ARS PASS、内部审计完成或真实研究结论成立。

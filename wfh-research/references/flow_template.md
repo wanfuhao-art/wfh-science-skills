@@ -61,20 +61,20 @@ Updated: YYYY-MM-DD
 
 ---
 
-## 3. 阶段表（固定 8 阶段）
+## 3. 阶段目录（保留既有 8 个编号）
 
 | # | 阶段 | 产出 | 校验 |
 |---|---|---|---|
 | 1 | 盘问与决策 | `TERMS.md`、`decisions/LEDGER.md`、`decisions/MDR-*.md` | 台账有确认日期；无「frontier 未完成」 |
-| 2 | Brief 合成 | `BRIEF.md` | `## RQ Brief` + Schema 1 四字段 + claim ledger |
+| 2 | Brief 合成 | `BRIEF.md` | 已确认问题、主张、证据与验证方式；交接字段按当前 ARS 模式 |
 | 3 | 任务图 | `tasks/T*.md`、`FLOW.md` 任务区 | 无环；每条任务五要素齐全；用户确认粒度 |
 | 4 | 任务执行 | `tasks/T*.md`（六层记录）、`tasks/assets/` | 每条任务的验收标准 |
-| 5 | 成稿整合 | `artifacts/05-draft.md` | 终端 `integrate` 任务通过；全部 claim 任务 `done`；引用键齐全；整稿自检 7 项通过 |
+| 5 | 成稿整合 | `artifacts/05-draft.md` | 终端 integrate 通过；所需上游任务完成；引用键齐全；交付核对通过且适用原生检查记录齐全 |
 | 6 | 审稿 | `artifacts/06-review-report.md` | ARS `academic-paper-reviewer` |
-| 7 | 改稿 | `artifacts/07-revision-roadmap.md`、`artifacts/09-response.md` | `revision` 任务逐条通过；终端 `integrate` 复检；整稿自检 7 项通过 |
-| 8 | 定稿 | 格式化稿 + AI disclosure | `format-convert` + `disclosure`；整稿自检 7 项通过 |
+| 7 | 改稿 | `artifacts/07-revision-roadmap.md`、`artifacts/09-response.md` | `revision` 任务逐条通过；终端交付复检；原生检查状态明确 |
+| 8 | 定稿 | 本次请求的格式化稿与适用声明 | 按实际模式核对交付及检查记录；不自动执行未请求的格式或声明 |
 
-- 阶段状态只用 `done` / `active` / `waiting-user` / `blocked` / `todo`。
+- 阶段状态只用 `done` / `active` / `waiting-user` / `blocked` / `todo`。阶段表是长期课题导航，不是所有请求的必经清单；未纳入范围的阶段保留 todo 并注记不适用及理由，不伪称 done。独立请求不创建此表。
 - 阶段名是内部记录；面向用户时把「任务执行」说成「执行步骤」，把「任务图」说成「步骤安排」。
 - 阶段 2 有未决项时状态仍写 `done`，在「校验」列写「含 N 项未决」；未决项不阻塞阶段 3，但必须进「未决问题」区。
 - 阶段 4 是任务图执行期；不按「先做完所有分析再写所有正文」推进，按任务逐条推进。
@@ -164,7 +164,7 @@ Updated: YYYY-MM-DD
 
 ## 7. 下一步
 
-这是**唯一持久位置**：新会话只看这一节，就知道下一条命令、输入、产出和失败回退。每个技能收尾时都必须更新它；`wfh-ask`（status 模式）负责检查它是否与任务图一致。
+这是课题的**唯一持久下一步位置**：新会话从此节定位命令、输入、产出和失败回退；它不是扩大交付目标或自动连跑的授权。每个技能收尾时都必须更新它；`wfh-ask`（status 模式）负责检查它是否与任务图一致。
 
 ```markdown
 ## 下一步
@@ -172,7 +172,7 @@ Updated: YYYY-MM-DD
 - 命令：`/wfh-next T03`
 - 输入：`tasks/T03-literature-evidence.md`、`tasks/assets/T01/TB-C1-01.md`
 - 产出：`tasks/T03-literature-evidence.md`、`tasks/assets/T03/TB-LIT-01.md`
-- 失败时：缺文献 → 补 `prep` 任务；claim 被证伪 → `/wfh-grill` 重开 D04
+- 失败时：缺文献 → 补 `prep` 任务；claim 被证伪 → `/wfh-grill` 重开实际受影响的研究决定
 - 更新于：YYYY-MM-DD
 - 备注：（用户手写，技能不覆盖）
 ```

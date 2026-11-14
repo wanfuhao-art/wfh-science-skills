@@ -7,7 +7,7 @@ user-invocable: false
 
 # 科研流程共享规则
 
-本包不独立执行。wfh 组织研究决定、输入和进度，外部 ARS 承担研究生产；不复制或修改 ARS。用户只需查看 FLOW.md（进度文件）。
+本包不独立执行。wfh 主持研究设计、维护决定和进度，ARS 主持专业任务内规划与生产。独立小请求按需直接调用；长期课题才维护 FLOW.md（进度文件）。Matt 仅作为设计参考，ARS 原生契约和专业检查保持唯一来源。
 
 | 动作发生时 | 读取 |
 |---|---|
@@ -19,7 +19,7 @@ user-invocable: false
 | 写研究方案 | [方案模板](references/spec_template.md) §1–4 |
 | 安排步骤 | [步骤规则](references/tickets_template.md) §2–6；写具体类型时读 [类型模板](references/tickets_types.md)，需要样例读 [任务样例](references/tickets_examples.md) |
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |
-| 整稿或终稿验收 | [整稿自检](references/integrity_selfcheck.md)，只在 `integrate` 或最终稿时读 |
+| 整稿或终稿验收 | [交付检查](references/integrity_selfcheck.md)，只在 `integrate` 或最终稿时读，核对 ARS 实际检查记录 |
 | 更新进度布局 | [进度模板](references/flow_template.md)；写完整模板或对接时读 [进度细节](references/flow_details.md) |
 | 接续会话执行 | [执行协议](references/execution_protocol.md) |
 | 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |

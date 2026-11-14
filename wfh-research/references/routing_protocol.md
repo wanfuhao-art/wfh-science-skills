@@ -8,7 +8,7 @@
 
 ## 2. 定位与索引检查
 
-1. 先定位本共享包与同级七入口（`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-ask` / `wfh-next` / `wfh-close` / `wfh-implement-spec`）。ARS 根只接受可靠来源：当前工具 / 已加载技能返回的基目录上一级、宿主提供的插件根，或调用方明确提供的安装根。不要从索引中的旧缓存路径推定当前安装，不枚举缓存后选择「看起来最新」的版本，不读取 settings、凭证或 env 内容来找插件。无法确认根时报告 `ARS_NOT_AVAILABLE`，仅如实说明可读 wfh 范围；请求提供安装根不等于假装 ARS 可用。
+1. 先定位本共享包、默认入口 `wfh` 与同级七个高级入口（`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-ask` / `wfh-next` / `wfh-close` / `wfh-implement-spec`）。ARS 根只接受可靠来源：当前工具 / 已加载技能返回的基目录上一级、宿主提供的插件根，或调用方明确提供的安装根。不要从索引中的旧缓存路径推定当前安装，不枚举缓存后选择「看起来最新」的版本，不读取 settings、凭证或 env 内容来找插件。无法确认根时报告 `ARS_NOT_AVAILABLE`，仅如实说明可读 wfh 范围；请求提供安装根不等于假装 ARS 可用。
 2. 有 Python 时用 [刷新工具](../scripts/refresh_index.py) 的 `--check` 比较当前输入与索引；无解释器则直接读当前真实注册表与命令核对本次所选分支，不声称索引新鲜，不阻断独立的本地研究整理。普通咨询保持只读。把当前 ARS 根作为 `--ars-root` 明确传入，脚本不读取环境或设置。路径含空格时使用 shell 引号。
 
 ```bash
@@ -26,9 +26,9 @@ python3 -I '<共享包绝对路径>/scripts/refresh_index.py' --ars-root '<当�
 |---|---|
 | 已有 FLOW，问现在做什么 / 进度不清 | `wfh-ask` 的 status 模式；知道目标，只需新会话恢复提示词则 `wfh-next`。尊重 doing / blocked，不重做 grill |
 | 已有已确认台账但未合成 Brief | `wfh-spec`；Brief 已确认只缺任务图则 `wfh-tickets` |
-| 「我有个模糊想法」没有更多上下文 | 只问「你想探索研究方向，还是方向已有、要收敛研究设计？」；未答前不强推 grill |
-| 作者想探索方向 / 尚无确定问题 | `deep-research` 的 `socratic`；只解释咨询路径，不在这里开始 Socratic |
-| 方向已有、作者要把设计决策定下来 | `wfh-grill`；不代作者定义贡献或机理结论 |
+| 有模糊想法 / 尚无确定问题 | 默认由 wfh 主持研究设计讨论，读取已有材料并给有依据的候选与推荐；缺事实时由 ARS 补证，不默认再开一套访谈 |
+| 作者明确要苏格拉底式探索 | `deep-research` 的 `socratic`；遵守原生非生成与显式退出规则；咨询本身不开始执行 |
+| 方向已有、要确定设计 | `wfh-grill`；已有答案沿用，关键研究决定由作者确认 |
 | 收到审稿意见，尚无回复稿 | `academic-paper` 的 `revision-coach`；无需先要求已有回复稿 |
 | 有意见和回复稿，明确想核对回复覆盖性 | `academic-paper` 的 `rebuttal-audit`；只做 advisory QA |
 | 「我要投稿」没说明材料与剩余工作 | 只问「现在已有初稿、目标期刊和作者指南吗，当前还差内容修改、投稿前评估还是格式整理？」；已有答案不重问 |
@@ -43,7 +43,7 @@ python3 -I '<共享包绝对路径>/scripts/refresh_index.py' --ars-root '<当�
 
 核对目标是否处理当前材料、还缺什么、实际产物与停止点。ARS 的真实 slash 只从当前 `commands/*.md` 核对映射；同名 mode 不自动产生 slash。没有 slash 时给一个可复制自然语言调用，例如「请使用 academic-research-skills:deep-research，mode=socratic，带我探索……」，明确标注这是「技能名 + mode 的请求」，不是新增 slash。wfh 用实际同名入口。不要为了咨询实际调用会启动生产的目标 Skill；用 Read 加载原文即可。后续执行时才用 Skill 工具加载目标，读取不冒充独立服务运行。
 
-若本次建议涉及外部 Brief 的 ARS 交接，另读 [交接协议](ars_handoff_protocol.md)：本次仅说明预检责任，不给未读 / 未确认材料颁发通过，不推断内部 Passport、receipt 或实验声明。实验、FINER 与作者确认依然来自真实作者。
+实际执行前按 [交接协议](ars_handoff_protocol.md) 准备当前模式所需输入，独立请求不附加完整研究方案、FINER 或任务图。咨询仅说明缺件，不颁发预检通过；内部链、原始实验、作者自评与确认均按真实来源保留。
 
 ## 5. 收束输出
 

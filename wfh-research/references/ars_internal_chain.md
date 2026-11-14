@@ -1,34 +1,21 @@
-# ARS 内部链：Passport、回执与额外门禁
+# ARS 内部链：保留原件、按当前契约恢复
 
-> 只在来源为 ars-internal 时读取；外部作者材料走 [交接协议](ars_handoff_protocol.md) §1–§3。
-> 保留收到的原始 Passport、回执及 companion 的身份和字节；按当前 ARS 原文重放。
+> 只在实际 ARS 阶段产物或明确恢复内部流程时读取。外部作者材料及仅附文献库的调用见 [交接协议](ars_handoff_protocol.md)。
 
----
+## 1. 原件与身份
 
-## 1. 身份与边界
+保留原产物、Material Passport、实际 builder 回执和条件性 companion 的身份与内容。wfh 整理的研究方案仍是外部作者材料；完整字段、作者确认或文献库 Passport 不能将其变成 deep-research 阶段产物。
 
-- 不把 wfh 改称 deep-research，不把没有验证的状态写成 VERIFIED。
-- 来源为 deep-research 生成或明确恢复 ARS 内部跨阶段 handoff 时，保留 Schema 9 Material Passport、current #672 链的 builder 回执；provided 时保留 companion。
-- 来源不清、混有既有 Passport/回执/阶段记录时，先查明来源与用途；不把内部链改名为外部材料以逃避校验。
+来源或恢复用途不清时核实，不能换标签避开校验；原件缺失时保留缺项，不填造 VERIFIED、实验声明、预注册状态或作者确认。
 
-## 2. 指定工具
+## 2. 当前工具与规则
 
-```text
-python -B <ARS_ROOT>/scripts/build_cross_document_consistency_advisory.py build-preregistration-artifact
-  --status <provided|not_provided|access_failed|retrieval_failed>
-  --artifact-id <显式标识>
-  --declared-at <调用方显式提供的 RFC3339 时间>
-  --output <任务允许的输出路径>
-```
+读取实际 ARS 生产方和接收方的 Handoff Protocol、`shared/handoff_schemas.md`，以及该分支要求的支持文件。需要 builder 时先读当前协议与工具 `--help`，使用其实际参数；本文件不维护第二份 CLI、状态枚举或 Schema。
 
-运行前读当前工具 `--help` 与协议。`provided` 还需 `--companion`、`--relative-path`；真实来源使用 `author_provided_completed_preregistration`。builder 校验 UTF-8、拒绝空白指导模板并计算字节/内容绑定。不可用状态禁止 companion/path，provenance 为 `not_provided`；缺少文件本身不授权选择该状态。`synthetic_fixture` 在 ARS 原文中保留给仓库测试，不擅自作为真实交接来源。
+3.24.2 的规划产物回执定位于 `shared/references/cross_document_consistency_advisory_protocol.md`，指定 builder 为 `scripts/build_cross_document_consistency_advisory.py`。这只是版本基线导航，升级后以当前原文核对。执行工具仅限本次授权的来源、输入和产出，测试身份不能移入真实交接。
 
-## 3. 责任
+## 3. 责任与拒绝
 
-- wfh-spec 本身只写 Brief，不运行 builder、不创建 Passport。
-- 后续执行方仅在合法的内部链/作者明确声明且任务授权时调用指定 builder；作者状态或声明时间未提供时保留未决并停下。
-- builder 的成功只证明契约构造成功，不证明研究有效、已预注册、已获作者确认或已通过完整 ARS 门禁。
+wfh-spec 只整理方案，不构造内部身份。真正需要内部工具时由当前 ARS 流程负责，用户未提供的研究状态、声明或日期保持未决。工具成功只证明契约构造完成，不能证明研究有效或原生门禁通过。
 
-## 4. 被 ARS 拒绝时
-
-明确外部入口仍被 ARS 拒绝时，记录实际缺项与 `rejected_by: ars-intake`，保留 `ars_invoked: true`，停止当前任务。可报告来源条件存在歧义；不静默转入口、生成缺失声明或要求忽略校验。
+实际调用被拒绝时记录 `rejected_by: ars-intake`、`ars_invoked: true`、准确缺项及原响应，停止受影响动作。回退和恢复按原生契约，不静默切换外部入口。
