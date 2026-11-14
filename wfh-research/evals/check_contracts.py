@@ -92,6 +92,29 @@ class ContractChecks(unittest.TestCase):
         self.assertIn('原生必需确认', execution)
         self.assertIn('高级手动入口仍停在指定任务', execution)
 
+    def test_grill_has_no_spec_loading_dependency(self):
+        # A manual discussion entry must not acquire a dependency on the
+        # separate spec implementation through either entry or shared protocol.
+        for relative in ('wfh-grill/SKILL.md',
+                         'wfh-research/references/grilling_protocol.md'):
+            text = self.text(relative)
+            targets = re.findall(r'\[[^\]\n]+\]\(([^)\n]+)\)', text)
+            self.assertFalse(any(t.endswith('wfh-spec/SKILL.md') for t in targets), relative)
+        intro = self.ref('grilling_protocol').split('## 0.', 1)[1].split('### 0.1', 1)[0]
+        self.assertNotRegex(intro, r'(?m)^\| `BRIEF\.md` \|')
+        self.assertIn('../wfh-spec/SKILL.md', self.text('wfh/SKILL.md'))
+
+    def test_default_spec_requires_explicit_generation_request(self):
+        dispatch = self.ref('dispatch_protocol')
+        self.assertIn('### 3.1 方案整理的触发与入口边界', dispatch)
+        self.assertIn('默认入口有明确生成请求', dispatch)
+        self.assertIn('默认入口只有讨论或确认', dispatch)
+        self.assertIn('直接使用高级入口', dispatch)
+        for name in ('grilling_protocol', 'flow_details', 'dispatch_protocol',
+                     'execution_protocol', 'user_output_protocol'):
+            self.assertNotIn('默认入口和单独设计入口共用该规则', self.ref(name), name)
+            self.assertNotIn('确认后直接整理并链接“研究方案”', self.ref(name), name)
+
     def test_state_writer_is_unambiguous(self):
         task = self.ref('tickets_template')
         execution = self.ref('execution_protocol')
@@ -127,6 +150,11 @@ class ContractChecks(unittest.TestCase):
         self.assertEqual(data['evaluation_kind'], 'protocol-dry-run-with-mocked-ARS')
         self.assertEqual(len({case['id'] for case in data['evals']}), len(data['evals']))
         self.assertGreaterEqual(len(data['evals']), 4)
+        self.assertTrue({
+            'explicit-default-spec-versus-standalone-grill',
+            'default-discussion-confirmation-only',
+            'standalone-grill-preserves-existing-brief',
+        }.issubset({case['name'] for case in data['evals']}))
         for case in data['evals']:
             self.assertTrue(case['prompt'])
             self.assertGreaterEqual(len(case['assertions']), 3)

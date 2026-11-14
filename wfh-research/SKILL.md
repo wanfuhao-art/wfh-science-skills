@@ -15,7 +15,7 @@ user-invocable: false
 | 失败回复 | [失败翻译](references/failure_translation.md)，只在失败时读 |
 | 默认开始／推进／验收 | [动作分派](references/dispatch_protocol.md) |
 | 咨询能力 | [分流协议](references/routing_protocol.md)、[生成索引](references/skills_index.md) |
-| 研究设计 | [盘问协议](references/grilling_protocol.md) §1–6、§8、[决定分类](references/decision_classes.md)；排轮读 [盘问树](references/grilling_tree.md)，收尾读 [盘问自检](references/grilling_failures.md) |
+| 研究设计 | [盘问协议](references/grilling_protocol.md) §1–9、[决定分类](references/decision_classes.md)；排轮读 [盘问树](references/grilling_tree.md)，收尾读 [盘问自检](references/grilling_failures.md) |
 | 写研究方案 | [方案模板](references/spec_template.md) §1–4 |
 | 安排步骤 | [步骤规则](references/tickets_template.md) §2–6；写具体类型时读 [类型模板](references/tickets_types.md)，需要样例读 [任务样例](references/tickets_examples.md) |
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |

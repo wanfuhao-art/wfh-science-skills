@@ -5,7 +5,7 @@
 - 来源 ARS：`academic-research-skills@3.24.2`；运行时显式提供当前根，不保存安装路径。
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 执行入口：8（默认 1，高级 7）；可读入口：8
-- 来源指纹 SHA-256：`db6c0516d4ef019bf466fe2a158197c6692a25062a12d55ed69e8fbbe84e03fc`；输入文件：278
+- 来源指纹 SHA-256：`70da306f1fb34e06ac2ca510c26a2aef1d6464bf1bc79ac2c015b6735e80f1d5`；输入文件：278
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断
@@ -16,10 +16,10 @@ OK：已按当前来源生成；每次咨询仍需 --check。
 
 | 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |
 |---|---|---|---|---|
-| wfh | /wfh | 科研流程入口：澄清研究想法、比较设计方案、整理研究方案、安排步骤、查看进度、推进已授权目标或验收结果。也可衔接独立检索、写作、审稿和改稿请求，按需调用 ARS。用于‘我想研究……’‘现在做到哪了’‘继续’‘这个结论站不住’或需要跨阶段衔接的研究工作；明确指定 ARS 或其他技能时尊重选择，不抢占其入口。 | [SKILL](../../wfh/SKILL.md) | [dispatch_protocol](dispatch_protocol.md)、[user_output_protocol](user_output_protocol.md)、[ars_intent_map](ars_intent_map.md) |
+| wfh | /wfh | 科研统一入口：用自然语言讨论研究想法、比较设计、按自然语言请求生成研究方案、安排步骤、查看进度、推进已授权目标或验收结果。也可准备接手说明、演示但不执行、恢复既有工作，并按需调用 ARS 完成检索、写作、审稿和改稿。用于‘我想研究……’‘帮我从想法做到成稿’‘现在做到哪了’‘继续’或跨阶段研究工作；用户无需切换高级命令，明确指定其他技能时尊重选择。 | [SKILL](../../wfh/SKILL.md) | [dispatch_protocol](dispatch_protocol.md)、[user_output_protocol](user_output_protocol.md)、[ars_intent_map](ars_intent_map.md) |
 | wfh-ask | /wfh-ask | 高级只读入口：查看课题进度，或咨询现有材料接下来适合做什么。 | [SKILL](../../wfh-ask/SKILL.md) | [routing_protocol](routing_protocol.md)、[skills_index](skills_index.md)、[state_protocol](state_protocol.md)、[flow_template](flow_template.md) |
 | wfh-close | /wfh-close | 高级入口：按真实产物和原标准验收研究工作，核对 ARS 检查记录并更新已有课题进度；研究解释或设计变化交作者确认。 | [SKILL](../../wfh-close/SKILL.md) | [state_protocol](state_protocol.md)、[flow_template](flow_template.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md)、[reopen_template](reopen_template.md) |
-| wfh-grill | /wfh-grill | 高级入口：问清研究问题与设计，比较有依据的候选方案，记录作者确认的研究决定；已有答案不重复问。 | [SKILL](../../wfh-grill/SKILL.md) | [grilling_protocol](grilling_protocol.md)、[decision_classes](decision_classes.md)、[terms_template](terms_template.md)、[mdr_template](mdr_template.md)、[reopen_template](reopen_template.md) |
+| wfh-grill | /wfh-grill | 高级入口：问清研究问题与设计，比较有依据的候选，记录研究决定；术语与重要方法决定按需生成，已有答案不重复问。确认后交付讨论记录，不生成研究方案，不代替 wfh-spec。 | [SKILL](../../wfh-grill/SKILL.md) | [grilling_protocol](grilling_protocol.md)、[decision_classes](decision_classes.md)、[terms_template](terms_template.md)、[mdr_template](mdr_template.md)、[reopen_template](reopen_template.md) |
 | wfh-implement-spec | /wfh-implement-spec | 高级入口：准备单个研究步骤，确认后在新会话开展，返回后逐项验收；每次只推进一步。 | [SKILL](../../wfh-implement-spec/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 | wfh-next | /wfh-next | 高级入口：准备当前步骤的接手或恢复说明，先检查材料和先后顺序；只准备，不执行。 | [SKILL](../../wfh-next/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 | wfh-spec | /wfh-spec | 高级入口：把已确认的研究决定整理成研究方案，保留未决信息，不重复访谈。 | [SKILL](../../wfh-spec/SKILL.md) | [spec_template](spec_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |

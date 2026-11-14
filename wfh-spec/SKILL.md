@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # 整理研究方案
 
-先读 [研究者界面](../wfh-research/references/user_output_protocol.md)。
+先读 [研究者界面](../wfh-research/references/user_output_protocol.md)。本高级入口负责单独整理、更新已有研究方案，独立于 `/wfh-grill`。默认 `/wfh` 收到明确的方案生成请求时，可按 [动作分派](../wfh-research/references/dispatch_protocol.md) §3.1 通过 Read 复用本实现，用户无需输入本命令。自动整理与手动整理使用同一模板、确认规则和原有路径。
 
 ## 判断与读取
 
