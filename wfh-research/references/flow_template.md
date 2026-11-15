@@ -2,7 +2,7 @@
 
 > wfh-research 共享包 · 2026-11-13
 > 位置：`research/<slug>/FLOW.md`
-> 写入者：`wfh-tickets` 创建任务区与初始状态；发起方按 execution_protocol 在实际启动时同步 doing、按 `wfh-close` 在验收后同步结果；执行会话不改状态；`wfh-ask`（status 模式）只读；`wfh-next` 生成提示词后写「下一步」；`wfh-grill` / `wfh-spec` / `wfh-tickets` 收尾时也写「下一步」。
+> 写入者：`wfh-tickets` 创建任务区与初始状态；发起方按 execution_protocol 在实际启动时同步 doing、按 `wfh-close` 在验收后同步结果；执行子代理 / 执行会话不改状态；`wfh-ask`（status 模式）只读；`wfh-next` 生成提示词后写「下一步」；`wfh-grill` / `wfh-spec` / `wfh-tickets` 收尾时也写「下一步」。
 > 状态计算、冲突与同步的行为以 [state_protocol.md](state_protocol.md) 为准；ARS 来源和字段预检以 [ars_handoff_protocol.md](ars_handoff_protocol.md) 为准。本文件维护布局与阶段定义。
 > 原则：**一个文件看全貌；状态只从产物和任务文件推导，不凭记忆。**
 
@@ -34,7 +34,7 @@ grill 初始化和确认、spec 合成、tickets 安排、next 准备及 close �
 | 未决问题（带消费任务） | 新的研究决策 |
 | 下一步启动提示词 | 历史对话 |
 
-判断标准：**新会话只读 `FLOW.md` + 一条任务文件 + 该任务声明的输入，能不能开始干活？** 能，就够。
+判断标准：**新的执行上下文只读 `FLOW.md` + 一条任务文件 + 该任务声明的输入，能不能开始干活？** 能，就够。
 
 ---
 
@@ -94,6 +94,8 @@ Updated: YYYY-MM-DD
 | T03 | <标题> | claim | todo | T01, T02 | direct | `tasks/T03-<slug>.md` | M |
 | T04 | 成稿整合 | integrate | todo | T01, T02, T03 | `ARS:academic-paper:full` | `artifacts/05-draft.md` | L |
 ```
+
+「会话预算」按单个执行子代理或独立会话计，不是主会话的累计上下文；同一主会话推进多个步骤时，每步另开新子代理。
 
 任务类型：`claim` / `prep` / `ec` / `integrate` / `revision`；`human` 是执行方式，不是类型。`integrate` 是终端整合任务（阶段 5 与阶段 7 各一次）；`revision` 是阶段 7 的单条审稿意见簇任务，编号用 `R01` 起。
 

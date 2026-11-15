@@ -5,7 +5,7 @@
 - 来源 ARS：`academic-research-skills@3.24.2`；运行时显式提供当前根，不保存安装路径。
 - ARS 状态：LOCATED（宿主加载状态另查）
 - 实际 ARS 模式记录：35；wfh 执行入口：8（默认 1，高级 7）；可读入口：8
-- 来源指纹 SHA-256：`ce393eaedb32f89499e7fdc1c35077982205d0cd3efd39f04c2efe0c96e42a7a`；输入文件：278
+- 来源指纹 SHA-256：`212b70fd1f91e1ddc7496e73666281d01ea9e64bb163cabf7b464b839480fdd4`；输入文件：278
 - 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)
 
 ## 诊断
@@ -20,7 +20,7 @@ OK：已按当前来源生成；每次咨询仍需 --check。
 | wfh-ask | /wfh-ask | 高级只读入口：查看课题进度，或咨询现有材料接下来适合做什么。 | [SKILL](../../wfh-ask/SKILL.md) | [routing_protocol](routing_protocol.md)、[skills_index](skills_index.md)、[state_protocol](state_protocol.md)、[flow_template](flow_template.md) |
 | wfh-close | /wfh-close | 高级入口：按真实产物和原标准验收研究工作，核对 ARS 检查记录并更新已有课题进度；研究解释或设计变化交作者确认。 | [SKILL](../../wfh-close/SKILL.md) | [state_protocol](state_protocol.md)、[flow_template](flow_template.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md)、[reopen_template](reopen_template.md) |
 | wfh-grill | /wfh-grill | 高级入口：问清研究问题与设计，比较有依据的候选，记录研究决定；术语与重要方法决定按需生成，已有答案不重复问。确认后交付讨论记录，不生成研究方案，不代替 wfh-spec。 | [SKILL](../../wfh-grill/SKILL.md) | [grilling_protocol](grilling_protocol.md)、[decision_classes](decision_classes.md)、[terms_template](terms_template.md)、[mdr_template](mdr_template.md)、[reopen_template](reopen_template.md) |
-| wfh-implement-spec | /wfh-implement-spec | 高级入口：准备单个研究步骤，确认后在新会话开展，返回后逐项验收；每次只推进一步。 | [SKILL](../../wfh-implement-spec/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
+| wfh-implement-spec | /wfh-implement-spec | 高级入口：准备单个研究步骤，默认在新子代理中开展，需要可观察会话时另开独立会话；返回后逐项验收，每次只推进一步。 | [SKILL](../../wfh-implement-spec/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 | wfh-next | /wfh-next | 高级入口：准备当前步骤的接手或恢复说明，先检查材料和先后顺序；只准备，不执行。 | [SKILL](../../wfh-next/SKILL.md) | [state_protocol](state_protocol.md)、[tickets_template](tickets_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 | wfh-spec | /wfh-spec | 高级入口：把已确认的研究决定整理成研究方案，保留未决信息，不重复访谈。 | [SKILL](../../wfh-spec/SKILL.md) | [spec_template](spec_template.md)、[ars_handoff_protocol](ars_handoff_protocol.md) |
 | wfh-tickets | /wfh-tickets | 高级入口：从已确认研究方案或审稿意见安排可验证的研究步骤，确认顺序、工作范围和验收要求。 | [SKILL](../../wfh-tickets/SKILL.md) | [tickets_template](tickets_template.md)、[flow_template](flow_template.md)、[spec_template](spec_template.md) |

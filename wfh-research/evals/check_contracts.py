@@ -117,6 +117,19 @@ class ContractChecks(unittest.TestCase):
             self.assertNotIn('默认入口和单独设计入口共用该规则', self.ref(name), name)
             self.assertNotIn('确认后直接整理并链接“研究方案”', self.ref(name), name)
 
+    def test_each_task_gets_fresh_execution_context(self):
+        execution = self.ref('execution_protocol')
+        self.assertIn('一任务一上下文', execution)
+        self.assertIn('只传指针，不传正文', execution)
+        self.assertIn('执行子代理与验收子代理必须是不同上下文', execution)
+        self.assertIn('不改任务状态、FLOW', execution)
+        self.assertNotIn('输入可容纳时在当前会话完成目标', execution)
+        task = self.ref('tickets_template')
+        self.assertIn('每条任务一个全新的执行上下文', task)
+        self.assertIn('不复用执行子代理', task)
+        for name in ('wfh', 'wfh-implement-spec', 'wfh-next', 'wfh-close', 'wfh-tickets'):
+            self.assertIn('子代理', self.text(name + '/SKILL.md'), name)
+
     def test_state_writer_is_unambiguous(self):
         task = self.ref('tickets_template')
         execution = self.ref('execution_protocol')

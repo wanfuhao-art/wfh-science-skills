@@ -21,7 +21,7 @@ user-invocable: false
 | 查进度／准备／验收 | [状态协议](references/state_protocol.md) §1–4／§5／§6 |
 | 整稿或终稿验收 | [交付检查](references/integrity_selfcheck.md)，只在 `integrate` 或最终稿时读，核对 ARS 实际检查记录 |
 | 更新进度布局 | [进度模板](references/flow_template.md)；写完整模板或对接时读 [进度细节](references/flow_details.md) |
-| 接续会话执行 | [执行协议](references/execution_protocol.md) |
+| 执行步骤与接续 | [执行协议](references/execution_protocol.md)（每个步骤一个新子代理） |
 | 选择研究生产能力 | [意图映射](references/ars_intent_map.md) |
 | 调用生产或核验其结果 | [交接协议](references/ars_handoff_protocol.md) 对应来源分支；内部链读 [内部链](references/ars_internal_chain.md) |
 | 结论或设计失败 | [回环模板](references/reopen_template.md) |
