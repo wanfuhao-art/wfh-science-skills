@@ -12,9 +12,41 @@ INTERNAL = re.compile(
 FILES = re.compile(r'(?<![\w.-])(?:[\w.-]+/)*[\w.-]+\.(?:md|csv|json|png|pdf|docx)\b', re.I)
 
 
-def check(results, overrides=None):
+def case_ids(results, overrides=None, cases=None):
+    """Use declared cases plus saved directories; never silently cap the sample."""
+    ids = set()
+    manifest = cases if cases is not None else results / 'evals.json'
+    if cases is not None or manifest.is_file():
+        data = json.loads(manifest.read_text(encoding='utf-8'))
+        entries = data.get('evals') if isinstance(data, dict) else None
+        if not isinstance(entries, list) or not entries:
+            raise ValueError('Case manifest must contain a nonempty evals list')
+        for entry in entries:
+            ident = entry.get('id') if isinstance(entry, dict) else None
+            if type(ident) is not int or ident <= 0:
+                raise ValueError('Case ids must be positive integers')
+            if ident in ids:
+                raise ValueError(f'duplicate case id: {ident}')
+            ids.add(ident)
+    for root in (results, overrides):
+        if root is None:
+            continue
+        for path in root.glob('eval-*'):
+            match = re.fullmatch(r'eval-([0-9]+)', path.name)
+            if not path.is_dir() or not match:
+                continue
+            ident = int(match[1])
+            if ident <= 0 or path.name != f'eval-{ident:02}':
+                raise ValueError(f'Noncanonical case directory: {path.name}')
+            ids.add(ident)
+    if not ids:
+        raise ValueError('No evaluation cases found; provide --cases or eval-NN directories')
+    return sorted(ids)
+
+
+def check(results, overrides=None, cases=None):
     rows=[]
-    for ident in range(1,11):
+    for ident in case_ids(results, overrides, cases):
         case=results/f'eval-{ident:02}'
         source=case
         candidate=overrides/f'eval-{ident:02}' if overrides else None
@@ -50,11 +82,16 @@ if __name__=='__main__':
     parser.add_argument('--results',required=True,type=Path)
     parser.add_argument('--overrides',type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--cases',type=Path,
+                        help='Expected-case manifest; defaults to results/evals.json if present')
     args=parser.parse_args()
-    rows=check(args.results,args.overrides)
-    summary={'scope':'ten real saved replies; lexical checks only',
+    try:
+        rows=check(args.results,args.overrides,args.cases)
+    except (OSError, ValueError) as exc:
+        parser.error(str(exc))
+    summary={'scope':'saved replies; lexical checks only; no claim of real execution',
              'checked':len(rows),'passed':sum(r['lexical_passed'] for r in rows),'results':rows}
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'checked':summary['checked'],'passed':summary['passed']},ensure_ascii=False))
-    raise SystemExit(0 if summary['passed']==10 else 1)
+    raise SystemExit(0 if summary['checked'] and summary['passed']==summary['checked'] else 1)

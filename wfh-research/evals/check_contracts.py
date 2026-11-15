@@ -38,6 +38,8 @@ class ContractChecks(unittest.TestCase):
             self.assertEqual(disabled, path.parent.name != 'wfh', str(path))
             if path.parent.name == 'wfh-research':
                 self.assertRegex(header[1], r'(?m)^user-invocable: false$')
+            else:
+                self.assertNotRegex(header[1], r'(?m)^user-invocable: false$')
 
     def test_live_relative_links_and_fences(self):
         paths = list(ROOT.glob('wfh*/SKILL.md'))
@@ -154,6 +156,16 @@ class ContractChecks(unittest.TestCase):
             'explicit-default-spec-versus-standalone-grill',
             'default-discussion-confirmation-only',
             'standalone-grill-preserves-existing-brief',
+            'standalone-preparation-without-workspace',
+            'blocked-recovery-and-next-step-purpose',
+            'cancelled-step-review-and-scope-completion',
+            'negative-result-with-persistent-reopen-stop',
+            'single-pending-record-and-start-sync',
+            'explicit-drafts-preserve-confirmation-boundaries',
+            'mixed-branches-have-unambiguous-question-ids',
+            'todo-dag-and-dependency-proof-inputs',
+            'conditional-revision-and-optional-terms',
+            'unknown-installation-is-not-proven-absence',
         }.issubset({case['name'] for case in data['evals']}))
         for case in data['evals']:
             self.assertTrue(case['prompt'])

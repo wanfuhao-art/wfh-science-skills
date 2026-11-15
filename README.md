@@ -61,8 +61,9 @@ FLOW.md（进度文件）、BRIEF.md（研究方案）、TERMS.md（术语说明
 <summary>维护者资料与许可</summary>
 
 - [融合设计与验证边界](docs/ARS-INTEGRATION.md)、[领域词汇](GLOSSARY.md)。
+- [逐技能审查与本轮修复](docs/SKILLS-AUDIT.md) 记录九个技能的保留、升级和精简结论，以及离线验证范围。
 - [设计历史](wfh-research/SPEC.md) 和旧 [可用性审计](docs/UX-AUDIT.md) 保留历史结论，现行行为以技能与共享协议为准。
-- [索引工具](wfh-research/scripts/refresh_index.py) 与 [融合检查](wfh-research/evals/check_contracts.py) 供维护者使用；ARS 根由可靠来源显式传入。
+- [索引工具](wfh-research/scripts/refresh_index.py)、[融合检查](wfh-research/evals/check_contracts.py) 与 [评估工具回归](wfh-research/evals/test_eval_tools.py) 供维护者使用；ARS 根由可靠来源显式传入。[协议场景](wfh-research/evals/evals.json) 是待演练的行为案例；文档或词汇检查通过不代表真实会话行为已验收。
 - ARS 源码兼容基线为 3.24.2，读取源码、模拟调用与宿主真实运行分别记录。专业检查留在 ARS，wfh 核对实际交付和报告，不颁发其通过结论。
 - 默认入口、七个高级入口、一个内部共享包共九个技能目录；本仓库不含 ARS 生产代码，不修改其安装目录。
 - CC-BY-NC-4.0，© wanfuhao-art，见 [LICENSE](LICENSE)。盘问及步骤组织参考 mattpocock-skills，未包含其代码。

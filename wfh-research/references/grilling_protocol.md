@@ -265,8 +265,8 @@ wfh 主持研究问题与设计收敛、即时记录；ARS 承担专业规划与
   | MDR | 编号或 — |
   | 状态 | 已确认 / 待确认 / 已修订 / 未决 / 不适用 |
 
-- 台账是 `decisions/LEDGER.md` 的唯一来源；确认后按 flow_template §0 与 flow_details §8.5 同步 FLOW 的阶段、已确认决定索引、中文摘要和唯一下一步，不写未确认台账。
-- 跨会话重开先读 `decisions/REOPEN-*.md`，按 classification、affected_decisions 重开对应分支；旧行标已修订，新决定用新 ID，包内追加处理日期与 accepted / rejected；受影响步骤交给规划重新确认。
+- 台账是 `decisions/LEDGER.md` 的唯一来源；确认后按 flow_template §0 与 flow_details §8.5 同步 FLOW 的阶段、已确认决定索引、中文摘要和唯一下一步，不写正式未确认台账。用户明确要保存未完成讨论时按 §9 草稿分支处理，未确认内容和日期不冒充正式确认。
+- 跨会话重开先读 FLOW 未决区的影响、证据与解除条件，再读实际存在的 `decisions/REOPEN-*.md`；正式包尚未获确认时也能从持久未决恢复讨论，不要求补造包。按 classification、affected_decisions 或未决记录重开对应分支；旧行标已修订，新决定用新 ID，存在包时追加处理日期与 accepted / rejected。受影响方案和步骤交给各自入口同步，未决停点在裁决及必要同步证据齐全后才解除，不凭包状态放行。
 
 ---
 

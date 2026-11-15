@@ -13,6 +13,6 @@ disable-model-invocation: true
 3. ARS 生产读 [交接协议](../wfh-research/references/ars_handoff_protocol.md)，核对实际调用、停止点、产物及原生检查报告和版本；文献库使用核对实际报告证据。读取源码、提示词或完成消息不能替代执行证据。
 4. 整稿或最终稿读 [交付检查](../wfh-research/references/integrity_selfcheck.md)，复用 ARS 专业检查记录；未执行、不适用、未通过分别说明。要求的检查缺失就记缺口，不颁发 ARS PASS。
 5. 将交付完成和主张支持程度分开判定。诚实的否定结果不自动等于执行失败；原标准未满足仍不能完成。需要改变研究方案时读 [回环模板](../wfh-research/references/reopen_template.md)，请作者确认影响范围。
-6. 已有课题按状态协议由发起方同步目标任务和 FLOW，保留历史与用户备注；独立请求直接交付核对结果。验收本身不补做研究或生产，后续执行是否继续由 [执行协议](../wfh-research/references/execution_protocol.md) 的授权目标决定。
+6. 已有课题按状态协议由发起方同步目标任务和 FLOW，保留历史与用户备注；已取消步骤未获明确重开时仅复核，保持取消，不解锁依赖。需回环时持久记录受影响步骤及待裁决停点。独立请求直接交付核对结果；验收不补做研究，后续执行遵循 [执行协议](../wfh-research/references/execution_protocol.md) 的授权目标。
 
 完成标准：每条原标准有实际证据或明确缺口，交付状态与科学结论分明，已有记录同步，遗留有解决者与解除条件。

@@ -23,7 +23,11 @@ ARS 不可用时如实停止相应生产，不把执行方式改为 direct。dir
 
 执行会话只写目标声明产出及执行证据，不改任务状态、FLOW 或上游决定，不自行验收。发起方读取实际产物后，按状态协议逐条验收并同步任务和 FLOW；当前会话执行时也遵守这一责任顺序。
 
-高级入口沿用 `research/<slug>/.wfh-implement-spec/prompts/<ID>.md` 与 `.wfh-implement-spec/pending.json`。字段保留 task_id、task_file、session_name、session_id、started_at、status、expected_outputs；可追加本次目标与授权原话来源。启动前先记 starting，成功后记录真实会话标识和 waiting，失败保留真实状态。恢复时核对实际会话和产物，不重复启动或编造标识。
+高级入口沿用 `research/<slug>/.wfh-implement-spec/prompts/<ID>.md` 与 `.wfh-implement-spec/pending.json`。字段保留 task_id、task_file、session_name、session_id、started_at、status、expected_outputs；可追加本次目标与授权原话来源。
+
+每次真实启动前先读 pending；只允许一个未结束记录。已有非 closed 记录时，同一步核对实际会话和产物后恢复，另一步说明旧工作尚未结束，不覆盖、不重复启动。starting / 启动失败但结果不明时也先查宿主事实，不把失败字样当作未启动证明。旧记录关闭后保留历史，再建立新记录；写前重读检查并发变化，发现变化即停止。
+
+预检及必要确认完成后先记 starting，成功后记录真实会话标识和 waiting，并由发起方将目标任务与 FLOW 同步为 doing，追加启动依据与日期；blocked 恢复同时记录解除证据。当前会话实际开始执行时也由发起方做这一同步。启动失败保留真实状态，不虚标 doing；状态写入中断按 STATE_SYNC_INCOMPLETE 停止后续调度，保留已启动的真实会话以供恢复。恢复不编造标识，执行方仍不得改状态。
 
 启动后等待宿主事件，不轮询。完成消息是证据线索；读取实际产物后才验收。工具不可用或拒绝时，能在当前边界内执行则继续，否则给可复制的接手说明并说明尚未执行，不换工具绕过拒绝。
 

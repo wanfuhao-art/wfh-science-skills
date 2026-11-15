@@ -4,6 +4,8 @@
 
 ## 8. 模板
 
+以下示例仅用于已确认方案与步骤安排的正式执行图；阶段 1–2 和草稿初始化分别用 §8.5 与 §9 的对应分支，不照抄示例中的 done、阶段或 T01。
+
 ```markdown
 # WFH Research Flow: <课题标题>
 
@@ -21,10 +23,10 @@ Updated: YYYY-MM-DD
 | 2 | Brief 合成 | done | `BRIEF.md` | 已确认问题、主张、证据与验证；交接按当前模式 |
 | 3 | 任务图 | done | `tasks/T*.md` | 无环；五要素齐全；用户确认 |
 | 4 | 任务执行 | active | `tasks/T*.md` / `tasks/assets/` | 每条任务验收标准 |
-| 5 | 成稿整合 | todo | `artifacts/05-draft.md` | 阶段4的 claim/prep/ec 全部有效 done；整合另验收 |
+| 5 | 成稿整合 | todo | `artifacts/05-draft.md` | 保留范围内的上游全部有效 done；取消有确认及依赖处置，无未裁决回环；整合另验收 |
 | 6 | 审稿 | todo | `artifacts/06-review-report.md` | ARS reviewer |
 | 7 | 改稿 | todo | `artifacts/07-revision-roadmap.md` / `artifacts/09-response.md` | 逐条回应 |
-| 8 | 定稿 | todo | 格式化稿 + disclosure | format-convert + disclosure |
+| 8 | 定稿 | todo | 本次请求的格式化稿与适用声明 | 按实际输出分支核对；未请求的格式或声明不自动执行 |
 
 ## 任务图
 
@@ -83,24 +85,28 @@ Updated: YYYY-MM-DD
 | 修订记录 | 初版一行 |
 
 - 研究确认已保存后才将阶段 1 改 `done`。单独 `/wfh-grill` 到讨论记录为止，新课题阶段 2 保持 `todo`，`Status` 为 `stage-2-todo`，下一步指向方案整理；不得因为确认或已有一个 BRIEF 文件就将方案阶段记为完成。
-- 方案整理由独立 `/wfh-spec`，或默认 `/wfh` 按 [动作分派](dispatch_protocol.md) §3.1 的明确请求触发；开始整理才将阶段 2 记为 `active`。`BRIEF.md` 实际落盘并完成来源、未决与一致性核对后才将阶段 2 改 `done`，`Status` 改 `stage-3-active`，下一步内部记录为 `/wfh-tickets`，用户看到“安排接下来的研究步骤”。阶段 3 保持 `todo`，直到步骤安排实际完成。
+- 方案整理由独立 `/wfh-spec`，或默认 `/wfh` 按 [动作分派](dispatch_protocol.md) §3.1 的明确请求触发；开始整理才将阶段 2 记为 `active`。正式 `BRIEF.md` 实际落盘并完成来源、未决与一致性核对后才将阶段 2 改 `done`，`Status` 改 `stage-3-active`，下一步内部记录为 `/wfh-tickets`，用户看到“安排接下来的研究步骤”。阶段 3 保持 `todo`，直到步骤安排实际完成。显式未确认草稿不适用这一完成分支：保留真实阶段与待确认内容，下一步为继续讨论或确认，不凭草稿文件存在推进执行。
 - 已获授权的方案整理保存失败或中断时保留阶段 1 的真实完成情况，阶段 2 记录 `blocked` 及缺件 / 恢复动作；恢复仍限原授权，不重新访谈已确认内容。
 - 已有课题按真实记录增量同步，不因本轮访谈重置后续阶段；决定变更影响已有方案时记录需同步内容，不由 grill 改写方案。默认入口接续其他工作仍遵守研究取舍、预算、范围和人工承诺边界。
-- `wfh-tickets` 落盘后：按 §9 改为 `stage-4-active`。
+- `wfh-tickets` 正式安排获确认并落盘后：按 §9 初始化执行阶段；草稿沿用 §9 的草稿分支，不标 `stage-4-active`。
 - 已有 `FLOW.md` 时只增量更新，不覆盖用户手写内容。没有适用术语或重要决定时不创建空 TERMS / MDR；未获研究确认的草稿不标阶段 1–2 `done`。
 
 ---
 
 ## 9. 初始状态（`wfh-tickets` 落盘时）
 
-`wfh-tickets` 写 `FLOW.md` 时，按以下规则填：
+仅在方案及本次步骤安排已有确认 / 授权依据时，按下表初始化正式任务图；增量更新沿用真实状态，不重置已开始或已完成步骤。不能从模板反推阶段 1–2 已确认，也不默认 T01 就是可启动任务。
+
+**作者明确要求草稿时**：可以保存标明“草稿、未获执行确认”的方案 / 步骤建议，记录来源、待确认项和原阶段。草稿只在对话或显式指定的独立草稿位置整理，不写入正式 tasks/ 图。新课题按实际工作位置保留阶段：未确认的阶段 1–2 不记 done，确已进入规划时阶段 3 为 active 或 waiting-user，阶段 4 仍为 todo。已有最小 FLOW 时，下一步用五字段记录继续规划 / 作者确认及所需材料，不指向生产启动；不为草稿单独创建正式执行板。草稿中的状态仍用既有 token，依赖资格不代表已获执行授权。已有正式图时，不用草稿替换其任务文件、确认依据、FLOW 或运行状态；确认后才由规划入口同步正式记录。
+
+新建且已确认的正式图按以下规则填：
 
 | 字段 / 区 | 初始值 |
 |---|---|
 | `Status` | `stage-4-active` |
 | `Current stage` | `4 — 任务执行` |
-| `Current task` | `T01 — <标题>（todo）` |
-| `Frontier` | 所有无 blockers 的 `todo` 任务；通常含 T01 |
+| `Current task` | 按状态协议 §3 选择的可启动步骤；没有则 `—` 并列等待动作 |
+| `Frontier` | 所有 blockers 均为有效 done 的 `todo` 任务；全新图通常是无 blockers 的步骤 |
 | `Updated` | 落盘日期 |
 | 阶段 1 | `done`；校验写台账确认日期 |
 | 阶段 2 | `done`；有未决项在「校验」列写「含 N 项未决」 |
@@ -129,7 +135,7 @@ Updated: YYYY-MM-DD
 6. **未决项不消失。** 解决后改成具体值 / 来源，保留行与修订记录。
 7. **按适用依赖推进。** 同一课题内的成稿整合遵守其真实前序；用户直接请求评审已有稿时无需补跑阶段 1–5。未执行阶段不标 done；是否继续执行以本次授权目标为准。
 8. **不写研究内容。** `FLOW.md` 不写正文、不写新决策、不写文献综述。
-9. **下一步与 frontier / doing 一致。** 每次改任务状态后重写「下一步」；`wfh-ask` 发现指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值，不静默改。
+9. **下一步与实际用途一致。** 每次实际启动或验收同步状态后重写「下一步」；按 `state_protocol.md` §4 区分执行 / 恢复、等待补件 / 裁决和已无后续动作。合法等待可指向 blocked，完成说明可无 ID；只有实际动作与条件不符才报 `NEXT_STEP_DRIFT`，不静默改。
 
 ---
 
@@ -150,7 +156,7 @@ Updated: YYYY-MM-DD
 5. 阻塞项（`blocked` 任务与原因）；
 6. 未决问题（带消费任务）；
 7. 一句下一步建议；
-8. FLOW「下一步」与重算 frontier / doing 的一致性；指向不存在、`done` / `dropped`、或既不在 frontier 也不是 `doing` 的任务时报 `NEXT_STEP_DRIFT`，展示记录值与计算值。
+8. FLOW「下一步」与实际动作条件的一致性，按状态协议 §4 区分执行 / 恢复、等待补件 / 裁决和完成说明；真实等待与无后续动作不误报漂移，执行目标无效仍报 `NEXT_STEP_DRIFT`。
 
 不写任何文件。
 
@@ -174,10 +180,10 @@ Updated: YYYY-MM-DD
 输出：
 
 1. 按原验收标准逐条读取证据内容，判定 pass / fail / unresolved 并指向证据；
-2. 全部通过且依赖和确认齐全 → `result: complete`，任务 `done`，追加完成记录；
-3. 未通过 → `result: partial`（doing）或 `result: blocked`（blocked），保留 unresolved 与解除条件；
-4. 重算 frontier；更新 `FLOW.md` 任务行、`Status`、`Current task`、`Updated`、`下一步`；
-5. claim 失败按 `state_protocol.md` §6.1 分类；`CLAIM_REFUTED` / `DESIGN_INVALID` 写 `decisions/REOPEN-*.md`；
+2. 对未取消步骤，全部通过且依赖和确认齐全 → `result: complete`，任务 `done`，追加完成记录；dropped 未明确重开时只读复核，不转状态或解锁依赖；
+3. 未通过 → `result: partial`（doing）或 `result: blocked`（blocked），保留 unresolved 与解除条件；已有 done 复核失败按状态协议停待裁决，不自动撤销；
+4. 重算 frontier 与实际可启动性；更新 `FLOW.md` 任务行、`Status`、`Current task`、`Updated`、`下一步`；
+5. 科学结论冲突与交付缺口分别判定；按 `state_protocol.md` §6.1 持久记录回环停点，分类获作者确认后才另写 `decisions/REOPEN-*.md`；
 6. 追加修订记录。
 
 不修改任务主张、原验收标准或 `BRIEF.md`；发现 claim 问题 → 建议回 `wfh-spec`。close 不执行 ARS 研究任务，wfh 验收完成不代表 ARS PASS 或完整内部审计通过。

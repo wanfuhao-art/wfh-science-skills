@@ -30,10 +30,13 @@ def metadata(text):
         raise ValueError('missing frontmatter')
     result = {}
     for key in ('name', 'description'):
-        value = re.search(r'^' + key + r':\s*(.+)$', match[1], re.M)
-        if not value or value[1].strip() in ('|', '>', '|-', '>-'):
+        value = re.search(r'^' + key + r':[ \t]*([^\r\n]*)\r?$', match[1], re.M)
+        scalar = value[1].strip() if value else ''
+        if not scalar or re.fullmatch(r'[|>][+-]?[0-9]?', scalar):
             raise ValueError('missing/unsupported scalar ' + key)
-        result[key] = value[1].strip().strip('\"\'')
+        result[key] = scalar.strip('\"\'')
+        if not result[key]:
+            raise ValueError('missing/unsupported scalar ' + key)
     return result
 
 
@@ -124,6 +127,8 @@ def build(skills, ars, output):
     candidates = [p for p in entries if isinstance(p, dict) and p.get('name') == plugin.get('name')] if isinstance(entries, list) else []
     if len(candidates) != 1 or candidates[0].get('skills') != plugin.get('skills'):
         diagnostics.append('INDEX_INVALID: plugin and marketplace skill lists differ')
+    if len(candidates) == 1 and candidates[0].get('version') != plugin.get('version'):
+        diagnostics.append('INDEX_INVALID: plugin and marketplace versions differ')
     declared = plugin.get('skills', [])
     if not isinstance(declared, list):
         diagnostics.append('INDEX_INVALID: skills must be a list')
@@ -151,6 +156,8 @@ def build(skills, ars, output):
                 disabled = bool(re.search(r'^disable-model-invocation:\s*true\s*$', header, re.M))
                 if (name == 'wfh' and disabled) or (name != 'wfh' and not disabled):
                     raise ValueError('default/advanced invocation role differs from manifest role')
+                if re.search(r'^user-invocable:\s*false\s*$', header, re.M):
+                    raise ValueError('execution entry must remain user-invocable')
         except ValueError as exc:
             diagnostics.append(f'INDEX_INVALID: {logical(path)}: {exc}')
             data = None
@@ -172,6 +179,8 @@ def build(skills, ars, output):
         header = shared.split('---', 2)[1]
         if not re.search(r'^user-invocable:\s*false\s*$', header, re.M):
             raise ValueError('shared package must not be user-invocable')
+        if not re.search(r'^disable-model-invocation:\s*true\s*$', header, re.M):
+            raise ValueError('shared package must disable model invocation')
     except ValueError as exc:
         diagnostics.append('INDEX_INVALID: ' + str(exc))
     read(Path(__file__).resolve())
@@ -253,7 +262,7 @@ def build(skills, ars, output):
              f'- ARS 状态：{"LOCATED（宿主加载状态另查）" if available else "ARS_NOT_AVAILABLE"}',
              f'- 实际 ARS 模式记录：{len(rows)}；wfh 执行入口：{len(wfh)}（默认 1，高级 {max(0, len(wfh)-1)}）；可读入口：{sum("UNAVAILABLE" not in r for r in wfh_rows)}',
              f'- 来源指纹 SHA-256：`{digest.hexdigest()}`；输入文件：{len(sources)}',
-             '- 刷新 / 只读检查：[路由协议](routing_protocol.md)；工具：[refresh_index.py](../scripts/refresh_index.py)',
+             f'- 刷新 / 只读检查：{link(package / "references/routing_protocol.md", "路由协议")}；工具：{link(package / "scripts/refresh_index.py", "refresh_index.py")}',
              '', '## 诊断', '', *(diagnostics or ['OK：已按当前来源生成；每次咨询仍需 --check。']), '',
              f'## {len(wfh)} 个 wfh 执行入口（一个默认入口）', '', '| 名称 | slash | frontmatter 描述 | 路径 | 主要支持协议 |',
              '|---|---|---|---|---|', *wfh_rows, '', '## ARS 模式', '',
@@ -264,7 +273,7 @@ def build(skills, ars, output):
              '|---|---|---|---|---|', *ars_rows, '', '## 支持文件导航', '',
              '导航指向真实目录；具体 mode 所需文件从 SKILL 对应分支读取，目录存在不等于模式契约已核验。', '',
              '| Skill | 支持协议定位 |', '|---|---|', *support_rows, '',
-             'wfh 支持协议见 [共享总览](../SKILL.md)。ARS 路由以当前根下 shared/references/routing_core.md 与 intent_clarification_protocol.md 为准。', '']
+             f'wfh 支持协议见 {link(package / "SKILL.md", "共享总览")}。ARS 路由以当前根下 shared/references/routing_core.md 与 intent_clarification_protocol.md 为准。', '']
     return '\n'.join(lines), diagnostics
 
 

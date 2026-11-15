@@ -2,7 +2,7 @@
 
 > wfh-research 共享包 · 2026-11-13
 > 位置：`research/<slug>/FLOW.md`
-> 写入者：`wfh-tickets` 创建任务区与初始状态；`wfh-close` 更新任务状态；`wfh-ask`（status 模式）只读；`wfh-next` 生成提示词后写「下一步」；`wfh-grill` / `wfh-spec` / `wfh-tickets` 收尾时也写「下一步」。
+> 写入者：`wfh-tickets` 创建任务区与初始状态；发起方按 execution_protocol 在实际启动时同步 doing、按 `wfh-close` 在验收后同步结果；执行会话不改状态；`wfh-ask`（status 模式）只读；`wfh-next` 生成提示词后写「下一步」；`wfh-grill` / `wfh-spec` / `wfh-tickets` 收尾时也写「下一步」。
 > 状态计算、冲突与同步的行为以 [state_protocol.md](state_protocol.md) 为准；ARS 来源和字段预检以 [ars_handoff_protocol.md](ars_handoff_protocol.md) 为准。本文件维护布局与阶段定义。
 > 原则：**一个文件看全貌；状态只从产物和任务文件推导，不凭记忆。**
 
@@ -55,8 +55,8 @@ Updated: YYYY-MM-DD
   - `blocked`：等待人工测量、ARS 或外部资源。
   - `done`：阶段产出与校验都完成。
   - `todo`：阶段尚未开始。
-- `Current task`：下一个要执行的任务；优先级为合法 `doing` → 用户指定 → frontier 中首个可启动任务（与 `state_protocol.md` §3 一致）。
-- `Frontier`：所有 `status: todo` 且 blockers 全部有效 `done` 的任务；完成证明与实际可启动性的区别见 `state_protocol.md` §3。`wfh-ask`（status 模式）只在回复重算，不写缓存；`wfh-tickets` 写初始值，`wfh-close` 同步后写缓存。
+- `Current task`：当前建议处理的任务；按 `state_protocol.md` §3 在合法且可继续的 doing、frontier 和已解除阻塞的恢复候选中选择。不可启动时注明等待及解除动作，全部完成或尚在规划时可为 `—`。
+- `Frontier`：所有 `status: todo` 且 blockers 全部有效 `done` 的任务；完成证明与实际可启动性的区别见 `state_protocol.md` §3。`wfh-ask`（status 模式）只在回复重算，不写缓存；`wfh-tickets` 写初始值，发起方实际启动和 close 验收同步后写缓存。
 - `Updated`：最后一次改 `FLOW.md` 的日期。
 
 ---
@@ -106,10 +106,10 @@ Updated: YYYY-MM-DD
 ### 4.2 Frontier
 
 - `frontier = { T | T.status = todo 且 T 的所有 blockers 均为有效 done }`。有效完成证明按 `state_protocol.md` §3 核对。
-- `blocked` 任务即使 blockers 都 `done`，也不进 frontier；单独列为「等待外部资源」。
-- `doing` 任务不进 frontier；它是当前任务。
-- `done` / `dropped` 不进 frontier。
-- 初始 frontier 由 `wfh-tickets` 写；之后由 `wfh-ask`（status 模式）重算、`wfh-close` 更新。
+- `blocked` 任务不进 frontier；单列原解除条件、仍缺项与恢复资格。全部条件已满足时可列恢复候选，查询 / next 保持原 token，实际启动才由发起方同步 doing。
+- `doing` 任务不进 frontier；只有可继续且无未解停点时才建议恢复。
+- `done` / `dropped` 不进 frontier。dropped 的完成范围与依赖处置按状态协议 §3 核对，不自动解锁依赖。
+- 初始 frontier 由 `wfh-tickets` 写；之后由 `wfh-ask`（status 模式）重算、发起方在实际启动与验收同步后更新。
 
 ### 4.3 无环
 
@@ -158,7 +158,8 @@ Updated: YYYY-MM-DD
 
 - 从 `BRIEF.md` 的「未决问题」与「待核验事实」原样带入。
 - 任务图建立后，每条必须映射到图中的一个真实任务（见 `tickets_template.md` §6.7）；设计与方案阶段尚无任务图时写“消费任务：待安排”，先保留影响和解决者，不为填编号造任务。
-- 解决后不删除行；改成具体值 / 来源，并在 `FLOW.md` 的「修订记录」留痕。
+- 回环未决须列来源步骤、具体受影响步骤 ID（含必要间接依赖）、触发证据、解决者及解除条件；未获正式回环包确认也保留。受影响步骤未获解除前不得启动或继续，不靠改其他任务 token 表达停点。
+- 解决后不删除行；改成具体值 / 来源，并在 `FLOW.md` 的「修订记录」留痕。回环解除需作者裁决及必要方案 / 步骤同步证据，不能只看包的状态。
 
 ---
 
@@ -177,12 +178,12 @@ Updated: YYYY-MM-DD
 - 备注：（用户手写，技能不覆盖）
 ```
 
-- 命令必须是可直接执行的一条：`/wfh-*`、`ARS:<skill>:<mode>` 或人工动作。
+- 命令写一条明确的 `/wfh-*`、`ARS:<skill>:<mode>`、人工补件 / 裁决动作；本次范围已完成时可写“无需执行，等待新的交付目标”。不为填字段虚构可启动步骤。
 - 输入 / 产出写精确路径；不写「见任务文件」这类模糊指向。
 - `失败时` 至少写一个回退路径；claim 失败必须指向回环，不写「重试」了事。
 - 更新时机：`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-next` / `wfh-close` / `wfh-implement-spec` 的收尾。
 - 保留「备注」里的用户手写内容；不覆盖旧备注。
-- 「下一步」指向的任务必须存在，且处于 frontier 或合法的 `doing`；指向 `done` / `dropped` / 不存在 / 既不在 frontier 也不是 `doing` 时，`wfh-ask` 报 `NEXT_STEP_DRIFT`，展示记录值与计算值；不静默改。
+- 「下一步」按状态协议 §4 核对用途：执行 / 恢复须有真实且可启动的候选；等待补件 / 裁决可关联 blocked 或受影响任务并写解除条件；范围已完成允许无 ID。真实等待不误报漂移，拿 done / dropped / 不存在的任务作为执行目标仍报 `NEXT_STEP_DRIFT`，不静默改。
 - 启动提示词只引用 `FLOW.md` + 目标任务文件 + 任务声明输入 + 必要共享协议；不引用历史对话。
 - ARS 按 `ars_handoff_protocol.md` 判来源及模式；适用的字段值预检不通过 → `HANDOFF_INCOMPLETE` / `rejected_by: wfh-precheck` / `ars_invoked: false`。其他模式在执行会话读其真实要求，不全套 Schema 1。next 只生成提示词，不实际调用 ARS。
 

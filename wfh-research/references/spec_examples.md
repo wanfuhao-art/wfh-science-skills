@@ -31,8 +31,8 @@
 - AI 评分建议：本例无；如有须另列来源与限制。
 
 **Scope**:
-- In scope: LCO 与 LNO 正极；1 M LiPF₆/乙腈；3.0–4.5 V vs Li/Li⁺；恒流循环（倍率待定）；25 °C 与 45 °C
-- Out of scope: 其他正极体系；其他电解液；全电池；快充协议；长期日历老化
+- In scope: LCO 与 LNO 正极；1 M LiPF₆/乙腈及用于 SQ4 / C3 的常规碳酸酯基线对照；3.0–4.5 V vs Li/Li⁺；恒流循环（倍率待定）；25 °C 与 45 °C
+- Out of scope: 其他正极体系；除上述乙腈体系与碳酸酯基线对照之外的电解液；全电池；快充协议；长期日历老化
 - Domain: 电化学储能 / 锂离子电池
 - Timeframe: 500 个循环内的衰减行为
 - Geography: N/A（实验室研究）
