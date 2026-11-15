@@ -24,21 +24,44 @@ AI 可以提供有依据的候选与推荐；AI 建议、作者已确认和证�
 
 在支持插件的 Claude Code / Claude Desktop 中添加本插件：
 
+Claude Code 2.1.275 及之后的版本可一步安装：
+
 ```text
-/plugin marketplace add wanfuhao-art/wfh-science-skills
-/plugin install wfh-science-skills
+/plugin install wfh-science-skills --marketplace wanfuhao-art/wfh-science-skills
 ```
 
-需要研究生产能力时添加 ARS：
+也可以分两步安装，并明确指定插件所在市场：
+
+```text
+/plugin marketplace add wanfuhao-art/wfh-science-skills
+/plugin install wfh-science-skills@wfh-science-skills
+```
+
+若仓库为私有仓库，安装者需要先获得仓库访问权限，并让本机 Git 能通过自己的 GitHub 认证访问仓库。只有源码链接、没有访问权限时无法安装。网络依赖本机代理时，安装前开启代理软件。
+
+需要文献检索、写作、审稿、引用核验等科研生产能力时，另行安装 ARS：
 
 ```text
 /plugin marketplace add Imbad0202/academic-research-skills
-/plugin install academic-research-skills
+/plugin install academic-research-skills@academic-research-skills
 ```
 
-安装后使用 `/wfh`；宿主要求完整名称时用 `/wfh-science-skills:wfh`。也可描述研究流程意图自动识别；明确指定 ARS 或其他技能时尊重选择。网络依赖本机代理时保持代理软件开启。
+| 需求 | 所需组件 |
+|---|---|
+| 研究设计讨论、方案整理、步骤安排、本地进度与验收记录 | 本插件；无需安装 Matt 或 ARS |
+| 文献检索、专业规划、论文写作、审稿、引用核验 | 另装并启用 ARS；源码核对基线为 3.24.2，实际模式以所装版本为准 |
+| 日常使用 wfh | 无需 Python；维护者刷新或验证索引才需要 Python 3 |
+| 生成 Word、PDF 等文件 | 按 ARS 实际输出分支检查 Pandoc、排版编译器等工具 |
 
-本地安装可把市场地址换成本仓库绝对路径。下载源码不等于宿主已加载技能。ARS 未启用时仍可整理研究和查看本地记录；日常使用无需 Python，索引维护才需要 Python 3。Word、PDF 等依赖按实际输出分支检查。
+安装完成后重新打开会话，输入 `/` 检查技能列表，并使用完整入口：
+
+```text
+/wfh-science-skills:wfh 请说明你能帮我做什么，先不要创建文件或执行研究
+```
+
+文中的 `/wfh` 是该入口的简写；短名能否解析取决于宿主，遇到找不到命令或重名时使用完整名称。七个高级入口也可按 `/wfh-science-skills:wfh-ask` 的形式调用。也可描述研究流程意图自动识别；明确指定 ARS 或其他技能时尊重选择。
+
+本地安装可把市场地址换成本仓库绝对路径。下载源码不等于宿主已加载技能。找不到入口时先确认插件已安装并启用、当前会话已重新加载；ARS 缺失不影响上述 wfh 独立能力。安装与验证范围见 [3.2.1 发布说明](docs/RELEASE-3.2.1.md)。
 </details>
 
 <details>
