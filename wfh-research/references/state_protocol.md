@@ -44,6 +44,8 @@ frontier = 所有 status=todo 且每个 blocker 均为有效 done 的任务
 
 按 ID 升序报告。`doing` 不入 frontier，另列进行中；`blocked` 不入 frontier，单列等待与恢复资格：只读核对其原解除条件、实际补件、依赖完成证明和相关未决，全部满足时可作为恢复候选，不由查询或 next 改状态。`dropped` 不等于 done，依赖它的任务不会自动解锁，需显式重规划。无 blocker 的 human 任务可以在 frontier 中，但启动需要人工动作 / 返回物，不能解释成 AI 可代做。
 
+真实启动、恢复、重试或降级执行前，发起方还必须按 [执行协议](execution_protocol.md) §3.1 核对已有等待记录与实际执行状态；图与视图一致不代表没有执行方。只读 status 和只准备 next 不因此获得写入或启动权限。
+
 分别报告 `frontier`（依赖排程资格）与 `startability`（输入 / 外部资源 / 未决项是否满足）。缺输入不改变只读 status 的任务 token：列 `INPUT_MISSING` 与待补项。每次放行都核对 FLOW 未决区映射到该任务的回环停点；待作者裁决或待方案 / 步骤同步的影响未解除时，startability 为 blocked，即使其前置已 done 或任务仍为 doing 也不执行。未决行保留具体受影响 ID、证据、解决者及解除条件，不用仅存在回环文件替代持久阻断。未来任务缺产出通常是尚未执行，区别于 done 任务丢失证据。frontier 有任务也可能全不可启动，不因缺数据造结果。
 
 当前建议：优先保留合法且可继续的 doing；否则用户指定且可启动的 frontier 或已解除阻塞的恢复候选；否则已声明且可启动的样板任务；否则在 frontier 与恢复候选中按 ID 选首个可启动任务。恢复候选保持 blocked，直到实际开始时由发起方同步 doing。T01 只是编号，不隐含任务类型或样板身份。不可启动则给具体补件 / 人工动作。多条 doing 如实全列，不臆断单一负责人。无 frontier 不等于全部完成；逐项区分 doing、blocked、未完成依赖、dropped 阻塞及图错误。

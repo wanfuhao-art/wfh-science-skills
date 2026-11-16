@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 ## 执行
 
-1. 读取 [执行协议](../wfh-research/references/execution_protocol.md)，先核对既有等待记录，不覆盖未结束工作；按顺序完成预检、确认、启动、等待和验收。
+1. 读取 [执行协议](../wfh-research/references/execution_protocol.md)，所有执行方式先按 §3.1 核对既有等待记录与真实执行状态，不覆盖未结束工作；按顺序完成预检、确认、启动、等待和验收。
 2. 准备说明时读 [接手入口](../wfh-next/SKILL.md) 与状态协议 §5；展示用户可理解的目标、输入、产出和验收，请确认后交给新的执行子代理；用户要求可观察会话时才另开独立会话。
 3. `--dry-run` 只准备和展示，不写文件；`--resume` 从既有等待记录恢复；`--close <ID>` 只验收。
 4. 返回完成消息后读实际证据，依 [验收入口](../wfh-close/SKILL.md) 和状态协议 §6 验收。

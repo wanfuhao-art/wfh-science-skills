@@ -130,6 +130,26 @@ class ContractChecks(unittest.TestCase):
         for name in ('wfh', 'wfh-implement-spec', 'wfh-next', 'wfh-close', 'wfh-tickets'):
             self.assertIn('子代理', self.text(name + '/SKILL.md'), name)
 
+    def test_all_execution_paths_check_existing_work_before_launch(self):
+        execution = self.ref('execution_protocol')
+        gate = execution.split('### 3.1 所有执行方式共用的启动前恢复检查', 1)[1]
+        gate = gate.split('### 3.2', 1)[0]
+        self.assertIn('默认子代理、独立会话和当前会话', gate)
+        self.assertIn('pending.json', gate)
+        self.assertIn('任务与 FLOW 都是 todo', gate)
+        self.assertIn('任务为 doing 或存在启动证据时', gate)
+        self.assertIn('starting / waiting', gate)
+        self.assertIn('宿主不可查、标识缺失或结果仍未知则停止生产', gate)
+        self.assertIn('先按状态协议 §6 验收或补未完成的同步', gate)
+        self.assertIn('确认旧执行已结束且无写入者', gate)
+        default = execution.split('## 默认入口分支', 1)[1].split('## 4.', 1)[0]
+        self.assertLess(default.index('先通过 §3.1'), default.index('交给新的执行子代理'))
+        self.assertIn('恢复先通过 §3.1', execution)
+        self.assertNotIn('独立会话启动时，每次真实启动前先读 pending', execution)
+        for name in ('wfh', 'wfh-implement-spec'):
+            self.assertIn('§3.1', self.text(name + '/SKILL.md'))
+        self.assertIn('已有等待记录与实际执行状态', self.ref('state_protocol'))
+
     def test_handoff_carries_current_authorization_and_read_limits(self):
         state = self.ref('state_protocol')
         template = state.split('任务：<ID / 标题>', 1)[1].split('```', 1)[0]
@@ -208,6 +228,7 @@ class ContractChecks(unittest.TestCase):
             'standalone-close-reconciles-matching-pending',
             'narrowed-authorization-survives-task-handoff',
             'bare-continue-does-not-authorize-sibling-tasks',
+            'default-resume-checks-existing-execution-before-launch',
         }.issubset({case['name'] for case in data['evals']}))
         isolation = next(case for case in data['evals']
                          if case['name'] == 'one-task-one-fresh-execution-context')

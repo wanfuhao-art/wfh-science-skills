@@ -16,7 +16,7 @@ description: "科研统一入口：用自然语言讨论研究想法、比较设
 | 安排长期课题步骤 | 读 [步骤安排](../wfh-tickets/SKILL.md)，按证据和依赖组织 |
 | 看看进度 / 为什么卡住 / 怎么做 | 读 [只读查询](../wfh-ask/SKILL.md)，只查看或解释，不改记录、不开始研究 |
 | 更新能力清单 | 读查询入口的显式 `refresh` 分支，只按 [咨询分流](../wfh-research/references/routing_protocol.md) 刷新能力索引，不开展研究；普通查询不刷新 |
-| 继续 / 完成当前目标 | 读 [执行协议](../wfh-research/references/execution_protocol.md) 默认分支，在已授权目标内执行、核对和同步；每个步骤交给新的子代理，主会话只调度和验收 |
+| 继续 / 完成当前目标 | 读 [执行协议](../wfh-research/references/execution_protocol.md) 默认分支，先按 §3.1 核对既有执行，再在已授权目标内执行、核对和同步；每个步骤交给新的子代理，主会话只调度和验收 |
 | 带我从想法做到成稿 | 读 [动作分派](../wfh-research/references/dispatch_protocol.md)，先明确交付范围，衔接讨论、文档、步骤安排和实际研究；实际研究阶段每一步交给新的子代理；遇到必需决定或缺件时停下 |
 | 先准备交给下一次执行的说明，别执行 | 独立请求按 [动作分派](../wfh-research/references/dispatch_protocol.md) §1.1 整理说明；已有课题读 [接手准备](../wfh-next/SKILL.md)，仅准备，不开展研究 |
 | 先演示怎么做，别写文件也别执行 | 独立请求按动作分派 §1.1 只展示；已有课题读 [高级执行](../wfh-implement-spec/SKILL.md) 的 `--dry-run` 分支；均不写文件、不启动会话 |
