@@ -166,7 +166,8 @@ Updated: YYYY-MM-DD
 
 输出：可复制的启动提示词；随后写 `## 下一步`（五字段），保留用户备注。此节含：
 
-- 要读的文件清单（`FLOW.md`、任务文件、任务输入）；
+- 按 `state_protocol.md` §5 携带本轮授权范围、限制及来源；仅准备不构成执行授权；
+- 要读的文件清单（`FLOW.md`、任务文件、授权允许的任务输入）；
 - 执行上下文：新子代理（默认）或独立会话；只写声明产出，返回短报告；
 - 任务的适用最小层与原验收标准；
 - 执行方式（`direct` / `ARS:<skill>:<mode>` / `human`）；
@@ -176,7 +177,7 @@ Updated: YYYY-MM-DD
 
 ### 11.3 `wfh-close`（校验 + 更新）
 
-输入：任务文件 + 产出。
+输入：任务文件 + 产出；存在等待记录时按 `state_protocol.md` §6 第1项核对归属和执行已停写，再进入状态同步。
 
 输出：
 
@@ -185,6 +186,6 @@ Updated: YYYY-MM-DD
 3. 未通过 → `result: partial`（doing）或 `result: blocked`（blocked），保留 unresolved 与解除条件；已有 done 复核失败按状态协议停待裁决，不自动撤销；
 4. 重算 frontier 与实际可启动性；更新 `FLOW.md` 任务行、`Status`、`Current task`、`Updated`、`下一步`；
 5. 科学结论冲突与交付缺口分别判定；按 `state_protocol.md` §6.1 持久记录回环停点，分类获作者确认后才另写 `decisions/REOPEN-*.md`；
-6. 追加修订记录。
+6. 追加修订记录；任务和 FLOW 同步成功后按 `state_protocol.md` §6 第9项收尾匹配等待记录，失败停止后续调度。
 
 不修改任务主张、原验收标准或 `BRIEF.md`；发现 claim 问题 → 建议回 `wfh-spec`。close 不执行 ARS 研究任务，wfh 验收完成不代表 ARS PASS 或完整内部审计通过。

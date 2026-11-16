@@ -96,6 +96,35 @@ class OutputChecks(unittest.TestCase):
         self.assertEqual(data['passed'], 2)
         self.assertNotIn('real saved', data['scope'])
 
+    def test_empty_replies_fail_including_overrides(self):
+        for text in ('', '   \n\t'):
+            with self.subTest(text=text):
+                self.reply(1, text)
+                row = outputs.check(self.root)[0]
+                self.assertTrue(row['reply_exists'])
+                self.assertTrue(row['empty_reply'])
+                self.assertFalse(row['lexical_passed'])
+        self.reply(1, '已核对材料。')
+        overrides = self.root / 'rerun'
+        self.reply(1, '', root=overrides)
+        row = outputs.check(self.root, overrides)[0]
+        self.assertTrue(row['empty_reply'])
+        self.assertFalse(row['lexical_passed'])
+        self.assertIn(str(overrides), row['source'])
+
+    def test_cli_rejects_empty_reply(self):
+        self.manifest([1])
+        self.reply(1, '\n')
+        report = self.root / 'report.json'
+        result = subprocess.run([sys.executable, '-I', str(SCRIPT), '--results',
+                                 str(self.root), '--output', str(report)],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        data = json.loads(report.read_text(encoding='utf-8'))
+        self.assertEqual(data['checked'], 1)
+        self.assertEqual(data['passed'], 0)
+        self.assertTrue(data['results'][0]['empty_reply'])
+
     def test_paths_still_require_chinese_explanation(self):
         self.reply(1, 'BRIEF.md\n')
         row = outputs.check(self.root)[0]

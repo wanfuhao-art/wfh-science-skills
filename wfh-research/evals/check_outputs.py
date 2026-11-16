@@ -56,7 +56,8 @@ def check(results, overrides=None, cases=None):
         if not path.is_file():
             rows.append({'eval_id':ident,'reply_exists':False,'lexical_passed':False,'missing_reply':True})
             continue
-        text=path.read_text()
+        text=path.read_text(encoding='utf-8')
+        empty_reply=not text.strip()
         # File names are compatible internal paths, allowed with a Chinese explanation.
         leaks=INTERNAL.findall(FILES.sub('',text))
         missing=[]
@@ -72,7 +73,8 @@ def check(results, overrides=None, cases=None):
                 missing.append(found.group())
         rows.append({'eval_id':ident,'reply_exists':True,'source':str(path),
                      'leaked_terms':leaks,'files_without_chinese_explanation':missing,
-                     'lexical_passed':not leaks and not missing,
+                     'empty_reply':empty_reply,
+                     'lexical_passed':not empty_reply and not leaks and not missing,
                      'semantic_behavior':'requires artifact and human review; not implied by lexical pass'})
     return rows
 

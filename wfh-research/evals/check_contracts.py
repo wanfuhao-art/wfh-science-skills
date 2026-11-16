@@ -130,6 +130,32 @@ class ContractChecks(unittest.TestCase):
         for name in ('wfh', 'wfh-implement-spec', 'wfh-next', 'wfh-close', 'wfh-tickets'):
             self.assertIn('子代理', self.text(name + '/SKILL.md'), name)
 
+    def test_handoff_carries_current_authorization_and_read_limits(self):
+        state = self.ref('state_protocol')
+        template = state.split('任务：<ID / 标题>', 1)[1].split('```', 1)[0]
+        for field in ('本次已授权目标：', '当前限制与授权来源：', '执行边界：'):
+            self.assertIn(field, template)
+        self.assertIn('本轮授权允许读取的声明输入', template)
+        self.assertIn('仅准备时写尚未授权执行', template)
+        for text in (state, self.ref('execution_protocol')):
+            self.assertIn('执行范围取本次授权与任务范围的交集', text)
+            self.assertIn('完成子集不能', text)
+        self.assertIn('授权排除的输入不读取', state)
+        self.assertIn('先交步骤规划拆分', state)
+
+    def test_standalone_close_reconciles_only_matching_pending(self):
+        state = self.ref('state_protocol')
+        close = state.split('## 6. close：', 1)[1]
+        self.assertIn('task_id、task_file 及工作区', close)
+        self.assertIn('是否结束无法确认时，只读复核', close)
+        self.assertIn('仅在目标任务和 FLOW 同步成功且一致后', close)
+        self.assertIn('partial / blocked 保持未关闭', close)
+        self.assertIn('身份或内容自核对后变化', close)
+        self.assertIn('恢复只补未完成的收尾', close)
+        self.assertIn('不改其他任务的记录', close)
+        self.assertIn('按 §6 第9项收尾', self.text('wfh-close/SKILL.md'))
+        self.assertIn('状态协议 §6 第1、9项', self.ref('execution_protocol'))
+
     def test_state_writer_is_unambiguous(self):
         task = self.ref('tickets_template')
         execution = self.ref('execution_protocol')
@@ -179,7 +205,13 @@ class ContractChecks(unittest.TestCase):
             'todo-dag-and-dependency-proof-inputs',
             'conditional-revision-and-optional-terms',
             'unknown-installation-is-not-proven-absence',
+            'standalone-close-reconciles-matching-pending',
+            'narrowed-authorization-survives-task-handoff',
+            'bare-continue-does-not-authorize-sibling-tasks',
         }.issubset({case['name'] for case in data['evals']}))
+        isolation = next(case for case in data['evals']
+                         if case['name'] == 'one-task-one-fresh-execution-context')
+        self.assertIn('本轮明确授权', isolation['prompt'])
         for case in data['evals']:
             self.assertTrue(case['prompt'])
             self.assertGreaterEqual(len(case['assertions']), 3)

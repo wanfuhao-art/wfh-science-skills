@@ -186,7 +186,7 @@ Updated: YYYY-MM-DD
 - 更新时机：`wfh-grill` / `wfh-spec` / `wfh-tickets` / `wfh-next` / `wfh-close` / `wfh-implement-spec` 的收尾。
 - 保留「备注」里的用户手写内容；不覆盖旧备注。
 - 「下一步」按状态协议 §4 核对用途：执行 / 恢复须有真实且可启动的候选；等待补件 / 裁决可关联 blocked 或受影响任务并写解除条件；范围已完成允许无 ID。真实等待不误报漂移，拿 done / dropped / 不存在的任务作为执行目标仍报 `NEXT_STEP_DRIFT`，不静默改。
-- 启动提示词只引用 `FLOW.md` + 目标任务文件 + 任务声明输入 + 必要共享协议；不引用历史对话。
+- 启动提示词按 `state_protocol.md` §5 携带本轮授权范围、限制及来源，只引用 `FLOW.md` + 目标任务文件 + 授权允许的声明输入 + 必要共享协议；不引用历史对话。
 - ARS 按 `ars_handoff_protocol.md` 判来源及模式；适用的字段值预检不通过 → `HANDOFF_INCOMPLETE` / `rejected_by: wfh-precheck` / `ars_invoked: false`。其他模式在执行会话读其真实要求，不全套 Schema 1。next 只生成提示词，不实际调用 ARS。
 
 ---
