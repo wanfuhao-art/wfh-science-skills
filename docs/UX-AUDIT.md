@@ -18,7 +18,7 @@
 
 用户另行要求把 ARS 文件包下载到当前文件夹，已完成。来源为官方仓库标签 [v3.24.2](https://github.com/Imbad0202/academic-research-skills/tree/v3.24.2)，提交 `fd5ff1b858374219b4d342e38587b66e18f61cbd`。标签对象为 `ecc156277f7a0f2e39110125ba8a41264cfac5de`；压缩包 SHA-256 为 `673e5f18d68b48789a3f413f6cac2db652aa70d5dd5afadf956db377de8d72d3`。
 
-本地只读副本位于 [ARS 审计目录](../ars-audit-3.24.2-xijalnlx/)，来源记录见 [SOURCE.json](../ars-audit-3.24.2-xijalnlx/SOURCE.json)。这是下载资料，不是插件安装，不作为新的运行依赖，也不纳入 wfh 发布清单。没有写入本机已安装 ARS 的目录，没有执行下载包内的脚本。当前会话没有可调用的 ARS Skill，故没有声称拿到了 Skill 返回的根目录；改用下载副本遵循了用户后续指示。
+审计时使用该标签的[源码压缩包](https://github.com/Imbad0202/academic-research-skills/archive/refs/tags/v3.24.2.zip)作为本地只读副本；原 `SOURCE.json` 的来源信息已保留在上一段。本地下载副本已移至废纸篓，可恢复；本文源码引用改为上游 v3.24.2 链接，不再依赖该本地目录。这是下载资料，不是插件安装，不作为新的运行依赖，也不纳入 wfh 发布清单。没有写入本机已安装 ARS 的目录，没有执行下载包内的脚本。审计时会话没有可调用的 ARS Skill，故没有声称拿到了 Skill 返回的根目录；当时改用下载副本遵循了用户后续指示。
 
 ## 2. 统计口径与现状诊断
 
@@ -36,7 +36,7 @@
 | 协议与模板 | 11 份，2,802 行 | 去掉生成索引；加上 SPEC 343 行后为 3,145 行，不直接沿用“约 3,300 行”的口径 |
 | 最大模板 | 步骤模板 812 行 | [模板](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/references/tickets_template.md#L1) |
 | 失败、诊断或失败分类标记 | 41 种 | 47 种大写下划线标识中，排除 4 种配置/文件/代码符号及 2 种成功标记；这不是“41 种同类错误码”的断言 |
-| ARS | 5 个技能、35 条模式/入口记录、16 份命令文件 | [注册表](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:3)；35 条含一个整流程入口和一个恢复入口，不宜统称 35 个普通 mode |
+| ARS | 5 个技能、35 条模式/入口记录、16 份命令文件 | [注册表](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L3)；35 条含一个整流程入口和一个恢复入口，不宜统称 35 个普通 mode |
 
 | SKILL.md | 行数 | 是否超过 60 行 |
 |---|---:|---|
@@ -106,10 +106,10 @@
 
 生成文件第 5 行写入本机缓存绝对路径。生成器虽然把 ARS 导航写成相对根路径，却仍把根目录直接渲染到正文；来源指纹的键对外部文件使用绝对路径，对下载在仓库内的文件又使用相对仓库路径。移动同一份源文件也会改变指纹。依据：[生成索引](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/references/skills_index.md#L5)、[指纹算法](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/scripts/refresh_index.py#L184)、[根目录渲染](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/scripts/refresh_index.py#L191)。
 
-实际执行：
+审计时实际执行（以下用 `<ARS 文档根>` 代替当时的本机路径；复现时需提供有效路径）：
 
 ```bash
-python3 -I wfh-research/scripts/refresh_index.py --ars-root /Users/wanfuhao/Documents/ClaudeProjects/wfh-science-skills/ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2 --check
+python3 -I wfh-research/scripts/refresh_index.py --ars-root '<ARS 文档根>' --check
 ```
 
 实际输出及退出码：
@@ -123,15 +123,15 @@ exit code: 1
 
 ### 2.6 ARS 原文核对带来的额外发现
 
-ARS 的 16 份命令文件已逐份读取：13 份生产模式命令和 3 份阅读声明/缓存维护命令，不能把 16 个命令都当作研究模式。模式命令要求先加载真实核心技能，例如 [审稿命令](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/commands/ars-reviewer.md:7)、[改稿命令](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/commands/ars-revision.md:8)。
+ARS 的 16 份命令文件已逐份读取：13 份生产模式命令和 3 份阅读声明/缓存维护命令，不能把 16 个命令都当作研究模式。模式命令要求先加载真实核心技能，例如 [审稿命令](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/commands/ars-reviewer.md#L7)、[改稿命令](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/commands/ars-revision.md#L8)。
 
 - **命名空间有实质性错配。** 官方命令使用 `academic-research-skills:<核心技能>`；wfh 当前生成器的无斜杠备用示例却写 `wfh-science-skills:<核心技能>`，SPEC 的调用说明也保留了这个旧前缀。生成器解析时兼容两种前缀，不代表错误前缀能在宿主成功调用。依据：[生成器:151](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/scripts/refresh_index.py#L151)、[生成器:200](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/scripts/refresh_index.py#L200)、[SPEC:176](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-research/SPEC.md#L176)。实施时以实际外部插件身份和真实命令为准，不继续输出错误示例。
-- **章节新写没有明确的原生模式。** 写作技能的模式表没有单节模式；指南还把“只要特定章节”排除在整篇模式外，却未指明那个专用模式。写作 agent 能按大纲逐节写、调整先后顺序，但默认仍要求完整稿。不能把“引言先写”推成“只写引言并结束”已获保证。依据：[模式表](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/SKILL.md:332)、[指南](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/references/mode_selection_guide.md:51)、[写作 agent](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/draft_writer_agent.md:55)。已有稿件只改引言则可按改稿分支的精确范围处理，见 [改稿适用范围](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/references/mode_selection_guide.md:103)。
-- **返修的作者判断不能自动代填。** 未结构化意见通常先整理回应路线；已有明确修改意图和授权时可直接改稿。当前回应组织器要求作者逐条表态并指定修改位置，不能从意见严重程度推断全部接受。旧外部审稿说明仍有“默认全部接受”的句子，存在上游文本冲突；wfh 采用保留作者逐条判断的边界，不改 ARS 原文。依据：[作者裁定](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/revision_coach_agent.md:204)、[旧说明](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-pipeline/references/external_review_protocol.md:77)。
-- **格式输出的工具依赖分支不同。** 核心提示技能不统一要求 Python；实际 DOCX 需要 Pandoc，实际 PDF 需要具体编译路径和字体；修改补丁、核验等脚本另有解释器和库要求。没有对应工具时不冒充已经交付目标文件。依据：[安装说明](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/docs/SETUP.md:17)、[DOCX](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/formatter_agent.md:109)、[PDF](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/formatter_agent.md:747)。
-- **外部来源识别仍需实测。** intake 按若干常见材料标题识别交接输入；外部笔记也可能有同名标题。保存真实来源，不用标题伪造内部身份；给外部方案的来源说明是否被实际接收，仍要观察响应。依据：[识别条件](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/intake_agent.md:29)、[内部检查](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper/agents/intake_agent.md:41)。
+- **章节新写没有明确的原生模式。** 写作技能的模式表没有单节模式；指南还把“只要特定章节”排除在整篇模式外，却未指明那个专用模式。写作 agent 能按大纲逐节写、调整先后顺序，但默认仍要求完整稿。不能把“引言先写”推成“只写引言并结束”已获保证。依据：[模式表](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/SKILL.md#L332)、[指南](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/references/mode_selection_guide.md#L51)、[写作 agent](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/draft_writer_agent.md#L55)。已有稿件只改引言则可按改稿分支的精确范围处理，见 [改稿适用范围](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/references/mode_selection_guide.md#L103)。
+- **返修的作者判断不能自动代填。** 未结构化意见通常先整理回应路线；已有明确修改意图和授权时可直接改稿。当前回应组织器要求作者逐条表态并指定修改位置，不能从意见严重程度推断全部接受。旧外部审稿说明仍有“默认全部接受”的句子，存在上游文本冲突；wfh 采用保留作者逐条判断的边界，不改 ARS 原文。依据：[作者裁定](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/revision_coach_agent.md#L204)、[旧说明](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-pipeline/references/external_review_protocol.md#L77)。
+- **格式输出的工具依赖分支不同。** 核心提示技能不统一要求 Python；实际 DOCX 需要 Pandoc，实际 PDF 需要具体编译路径和字体；修改补丁、核验等脚本另有解释器和库要求。没有对应工具时不冒充已经交付目标文件。依据：[安装说明](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/docs/SETUP.md#L17)、[DOCX](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/formatter_agent.md#L109)、[PDF](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/formatter_agent.md#L747)。
+- **外部来源识别仍需实测。** intake 按若干常见材料标题识别交接输入；外部笔记也可能有同名标题。保存真实来源，不用标题伪造内部身份；给外部方案的来源说明是否被实际接收，仍要观察响应。依据：[识别条件](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/intake_agent.md#L29)、[内部检查](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper/agents/intake_agent.md#L41)。
 
-ARS 的路由次序为明确意图优先、跨阶段且无明确目标才澄清，筛选另有显式意图边界，见 [路由核心](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/shared/references/routing_core.md:14)。审稿配置本身有需要用户确认的研究检查点，自动选择能力不等于绕过它，见 [配置确认](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/academic-paper-reviewer/SKILL.md:222)。这些大多是提示层约束，文本存在不证明运行时已强制执行，见 [控制可用性](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/docs/CONTROL_AVAILABILITY.md:101)。
+ARS 的路由次序为明确意图优先、跨阶段且无明确目标才澄清，筛选另有显式意图边界，见 [路由核心](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/shared/references/routing_core.md#L14)。审稿配置本身有需要用户确认的研究检查点，自动选择能力不等于绕过它，见 [配置确认](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/academic-paper-reviewer/SKILL.md#L222)。这些大多是提示层约束，文本存在不证明运行时已强制执行，见 [控制可用性](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/docs/CONTROL_AVAILABILITY.md#L101)。
 
 ## 3. 需要随界面重构澄清的协议冲突
 
@@ -270,23 +270,23 @@ README 的快速开始保持 ≤15 行，只说装什么、用 `/wfh` 加一句�
 
 | 意图 | 默认内部选择 | 分流与必要输入 | 注册表依据 |
 |---|---|---|---|
-| 检索：快速了解方向 | DR `quick` | 主题、范围；输出研究短报，不冒称系统综述 | [15–16 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:15) |
-| 检索：深入研究具体问题 | DR `full` | 明确问题与研究范围；不是默认跑整篇论文 | [15 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:15) |
-| 检索：核实一个说法 | DR `fact-check` | 待核对说法和来源；与作者决定是否更换结论分开 | [20 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:20) |
-| 开始：研究问题尚不清楚 | DR `socratic` 或 wfh 盘问 | 前者探索研究问题；已有明确问题才用 wfh 收敛设计；两者不混为 ≤4 轮同一承诺 | [21 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:21)、[原分工](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-grill/SKILL.md#L20) |
-| 综述：梳理已有证据 | DR `lit-review` | 问题、范围、文献；研究综述与发表型综述文章区分 | [18 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:18) |
-| 综述：写综述论文 | AP `lit-review` | 已有文献材料与写作意图 | [34 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:34) |
-| 综述：明确要求系统综述 | DR `systematic-review` | 具体研究问题、纳排标准等；不因“综述”二字一律选系统综述 | [22 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:22) |
-| 写作：写提纲 | AP `outline-only` | 已有研究问题、证据和写作边界 | [30 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:30) |
-| 写作：写引言等章节 | 已有稿件改引言用 AP `revision`；从零新写的映射暂不定案 | 没有独立章节模式，且 full 指南排除仅特定章节；受限写作是待验证的衔接候选，不能当作已支持默认路径 | [28 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:28) |
-| 写作：写摘要 | AP `abstract-only` | 正文、研究结果与语言要求；不把摘要写作映射到整篇生产 | [33 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:33) |
-| 审稿：投稿前全面自审 | REV `full` | 稿件与需要确认的审稿配置 | [44 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:44) |
-| 审稿：快速看 / 只看方法 | REV `quick` / `methodology-focus` | 以用户限定范围分流，不都用五视角全面审稿 | [46–47 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:46) |
-| 改稿：审稿意见回来了 | AP `revision-coach` → wfh 改稿步骤 | 先收原文、稿件，组织逐条回应与待确认策略，再切步骤；不自动决定更换科学主张 | [31–32 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:31) |
-| 改稿：按已确认策略修改 | AP `revision` | 原稿、意见、已确认回应策略；逐步执行后验收 | [31 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:31) |
-| 改稿：检查已有回复草稿 | AP `rebuttal-audit` | 审稿意见与已有回复；不把只收到意见的情况送去此分支 | [38 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:38) |
-| 格式：转 Word、LaTeX、PDF / 引用格式 | AP `format-convert` | 可转换的稿件、目标格式及该格式所需工具；转换不等于科学验收 | [35 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:35) |
-| 格式：核引用 / 使用声明 | AP `citation-check` / `disclosure` | 按需求分别选；使用声明需目标期刊或政策信息 | [36–37 行](../ars-audit-3.24.2-xijalnlx/academic-research-skills-3.24.2/MODE_REGISTRY.md:36) |
+| 检索：快速了解方向 | DR `quick` | 主题、范围；输出研究短报，不冒称系统综述 | [15–16 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L15) |
+| 检索：深入研究具体问题 | DR `full` | 明确问题与研究范围；不是默认跑整篇论文 | [15 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L15) |
+| 检索：核实一个说法 | DR `fact-check` | 待核对说法和来源；与作者决定是否更换结论分开 | [20 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L20) |
+| 开始：研究问题尚不清楚 | DR `socratic` 或 wfh 盘问 | 前者探索研究问题；已有明确问题才用 wfh 收敛设计；两者不混为 ≤4 轮同一承诺 | [21 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L21)、[原分工](https://github.com/wanfuhao-art/wfh-science-skills/blob/4105918de626c0c7c118534b07cd60348f511763/wfh-grill/SKILL.md#L20) |
+| 综述：梳理已有证据 | DR `lit-review` | 问题、范围、文献；研究综述与发表型综述文章区分 | [18 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L18) |
+| 综述：写综述论文 | AP `lit-review` | 已有文献材料与写作意图 | [34 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L34) |
+| 综述：明确要求系统综述 | DR `systematic-review` | 具体研究问题、纳排标准等；不因“综述”二字一律选系统综述 | [22 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L22) |
+| 写作：写提纲 | AP `outline-only` | 已有研究问题、证据和写作边界 | [30 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L30) |
+| 写作：写引言等章节 | 已有稿件改引言用 AP `revision`；从零新写的映射暂不定案 | 没有独立章节模式，且 full 指南排除仅特定章节；受限写作是待验证的衔接候选，不能当作已支持默认路径 | [28 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L28) |
+| 写作：写摘要 | AP `abstract-only` | 正文、研究结果与语言要求；不把摘要写作映射到整篇生产 | [33 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L33) |
+| 审稿：投稿前全面自审 | REV `full` | 稿件与需要确认的审稿配置 | [44 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L44) |
+| 审稿：快速看 / 只看方法 | REV `quick` / `methodology-focus` | 以用户限定范围分流，不都用五视角全面审稿 | [46–47 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L46) |
+| 改稿：审稿意见回来了 | AP `revision-coach` → wfh 改稿步骤 | 先收原文、稿件，组织逐条回应与待确认策略，再切步骤；不自动决定更换科学主张 | [31–32 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L31) |
+| 改稿：按已确认策略修改 | AP `revision` | 原稿、意见、已确认回应策略；逐步执行后验收 | [31 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L31) |
+| 改稿：检查已有回复草稿 | AP `rebuttal-audit` | 审稿意见与已有回复；不把只收到意见的情况送去此分支 | [38 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L38) |
+| 格式：转 Word、LaTeX、PDF / 引用格式 | AP `format-convert` | 可转换的稿件、目标格式及该格式所需工具；转换不等于科学验收 | [35 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L35) |
+| 格式：核引用 / 使用声明 | AP `citation-check` / `disclosure` | 按需求分别选；使用声明需目标期刊或政策信息 | [36–37 行](https://github.com/Imbad0202/academic-research-skills/blob/v3.24.2/MODE_REGISTRY.md#L36) |
 
 保留 ARS 自身的明确意图和多阶段歧义处理。一次给出原稿、意见和文献但没有明确要做什么时，只问一个研究目标问题，不把 35 个模式列给用户挑。筛选已有文献记录只有用户明确要求筛选时才转 `sr-screener`，不能因系统综述自动切过去。真实的内部交接材料继续遵守 ARS 原契约，不伪装 wfh 外部方案为已验证的内部材料。
 

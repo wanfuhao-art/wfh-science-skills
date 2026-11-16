@@ -4,6 +4,8 @@ import argparse
 import importlib.util
 import json
 from pathlib import Path
+import re
+from urllib.parse import unquote
 import shutil
 import subprocess
 import sys
@@ -115,6 +117,56 @@ class NavigationChecks(unittest.TestCase):
         path = self.suite / 'wfh-research/SKILL.md'
         path.write_text(path.read_text().replace('user-invocable: false', 'user-invocable: true'))
         self.assertTrue(any('not be user-invocable' in p for p in self.build()[1]))
+
+    def test_custom_output_keeps_all_package_links_valid(self):
+        output = self.base / 'reports with spaces/index.md'
+        command = [sys.executable, '-I', str(SCRIPT), '--skills-root', str(self.suite),
+                   '--ars-root', str(self.ars_root), '--output', str(output)]
+        saved = subprocess.run(command, capture_output=True, text=True)
+        self.assertEqual(saved.returncode, 0, saved.stderr)
+        targets = re.findall(r'\[[^\]\n]+\]\(([^)\n]+)\)', output.read_text())
+        self.assertTrue(targets)
+        for target in targets:
+            self.assertTrue((output.parent / unquote(target)).is_file(), target)
+        checked = subprocess.run(command + ['--check'], capture_output=True, text=True)
+        self.assertEqual(checked.returncode, 0, checked.stderr)
+        self.assertIn('INDEX_CURRENT', checked.stdout)
+
+    def test_manifest_version_mismatch_rejected(self):
+        path = self.suite / '.claude-plugin/marketplace.json'
+        data = json.loads(path.read_text())
+        data['plugins'][0]['version'] = '0.0.0'
+        path.write_text(json.dumps(data))
+        self.assertTrue(any('versions differ' in p for p in self.build()[1]))
+
+    def test_shared_package_must_disable_model_invocation(self):
+        path = self.suite / 'wfh-research/SKILL.md'
+        path.write_text(path.read_text().replace('disable-model-invocation: true',
+                                                'disable-model-invocation: false'))
+        self.assertTrue(any('disable model invocation' in p for p in self.build()[1]))
+
+    def test_advanced_entry_must_remain_user_invocable(self):
+        path = self.suite / 'wfh-ask/SKILL.md'
+        path.write_text(path.read_text().replace('name: wfh-ask\n',
+                                                'name: wfh-ask\nuser-invocable: false\n'))
+        self.assertTrue(any('user-invocable' in p for p in self.build()[1]))
+
+    def test_empty_frontmatter_scalar_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'description'):
+            index.metadata('---\nname: demo\ndescription:\nuser-invocable: false\n---\n')
+
+    def test_frontmatter_scalar_accepts_crlf(self):
+        self.assertEqual(index.metadata('---\r\nname: demo\r\ndescription: "测试"\r\n---\r\n'),
+                         {'name': 'demo', 'description': '测试'})
+
+    def test_default_wfh_support_references_are_fingerprinted(self):
+        before, problems = self.build()
+        self.assertFalse(problems)
+        path = self.suite / 'wfh/SKILL.md'
+        path.write_text(path.read_text() + '\n新增入口约定。\n')
+        after, problems = self.build()
+        self.assertFalse(problems)
+        self.assertNotEqual(before, after)
 
     def test_duplicate_registry_rows_rejected(self):
         registry = '## demo (2 modes)\n| Mode | Spectrum | Output | Oversight | Triggers |\n|---|---|---|---|---|\n| `full` | x | y | z | a |\n| `full` | x | y | z | a |\n'

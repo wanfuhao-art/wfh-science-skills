@@ -1,6 +1,6 @@
 # BRIEF.md 示例（合成，非真实数据）
 
-> 只在需要填好的样例时读取；模板与规则见 [方案模板](spec_template.md)。示例只演示格式，不是真实数据或真实确认。
+> 本例 Dxx 仅为合成台账真实 ID，key 来自该台账内容，不代表通用编号语义。只在需要填好的样例时读取；模板与规则见 [方案模板](spec_template.md)。示例只演示格式，不是真实数据或真实确认。
 
 ```markdown
 # 乙腈电解液中 LCO 与 LNO 循环寿命差异的机理研究 — Research Brief
@@ -10,14 +10,14 @@
 - 来源：合成案例的 `TERMS.md`、`decisions/LEDGER.md`、`decisions/MDR-0001-acetonitrile-electrolyte.md`、预置盘问对话
 - 状态：合成预置确认（仅演示，不代表真实用户确认）
 - 入口身份：外部作者材料（由 wfh-spec 整理；非 ARS deep-research 产物）
-- 字段参考：ARS Schema 1（RQ Brief 内容结构；不声明内部 handoff 已通过）
+- 字段参考：按需兼容 RQ Brief；本例演示方案记录，尚未选择交接模式
 - ARS 接收状态：尚未调用；用户确认和 wfh 预检结果分别记录
 
 ## RQ Brief
 
-> Schema 1 字段：`research_question` · `sub_questions` · `finer_scores` · `scope`
+> 材料课题适用字段示例；FINER 为演示来源保留，不是方案完成的通用门。
 
-**Research Question**: 在 1 M LiPF₆/乙腈电解液中，LCO 与 LNO 的循环寿命差异由哪些界面与体相过程主导？（合成自 D01、D03、D04、D05）
+**Research Question**: 在 1 M LiPF₆/乙腈电解液中，LCO 与 LNO 的循环寿命差异由哪些界面与体相过程主导？（合成自 contribution（D01）、evidence_source（D03）、claim_strength（D04）、research_design（D05））
 
 **Sub-Questions**:
 1. LCO 与 LNO 在相同电压窗口与温度下的容量保持率差异有多大？
@@ -27,11 +27,12 @@
 
 **FINER Scores**: Feasible: 3, Interesting: 4, Novel: 3, Ethical: 5, Relevant: 4
 - 评分人：合成角色预置（2026-11-13；非真实作者评分）
-- 阈值检查：平均 3.8（≥3.0）；最低 3（≥2）→ 通过
+- 来源：合成台账 FINER 节；原预置值保留，未执行任何 FINER 门槛判定。
+- AI 评分建议：本例无；如有须另列来源与限制。
 
 **Scope**:
-- In scope: LCO 与 LNO 正极；1 M LiPF₆/乙腈；3.0–4.5 V vs Li/Li⁺；恒流循环（倍率待定）；25 °C 与 45 °C
-- Out of scope: 其他正极体系；其他电解液；全电池；快充协议；长期日历老化
+- In scope: LCO 与 LNO 正极；1 M LiPF₆/乙腈及用于 SQ4 / C3 的常规碳酸酯基线对照；3.0–4.5 V vs Li/Li⁺；恒流循环（倍率待定）；25 °C 与 45 °C
+- Out of scope: 其他正极体系；除上述乙腈体系与碳酸酯基线对照之外的电解液；全电池；快充协议；长期日历老化
 - Domain: 电化学储能 / 锂离子电池
 - Timeframe: 500 个循环内的衰减行为
 - Geography: N/A（实验室研究）
@@ -41,29 +42,31 @@
 
 | 字段 | 值 | 来源 |
 |---|---|---|
-| 材料体系 | LCO（LiCoO₂）与 LNO（LiNiO₂）正极；1 M LiPF₆/乙腈；Li 金属对电极 | D03、TERMS |
-| 电压窗口 | 3.0–4.5 V vs Li/Li⁺ | D05 |
-| 倍率 | [UNRESOLVED] | D05 只写「常规倍率」 |
-| 温度 | 25 °C 与 45 °C | D06 |
+| 材料体系 | LCO（LiCoO₂）与 LNO（LiNiO₂）正极；1 M LiPF₆/乙腈；Li 金属对电极 | evidence_source（D03）、TERMS |
+| 电压窗口 | 3.0–4.5 V vs Li/Li⁺ | research_design（D05） |
+| 倍率 | [UNRESOLVED] | research_design（D05） 只写「常规倍率」 |
+| 温度 | 25 °C 与 45 °C | test_temperature（D06） |
 
 ## 问题陈述
 
-LCO 与 LNO 在乙腈电解液中的循环寿命差异及其主导过程尚不清楚；常规碳酸酯中两种材料衰减都快，差异可能被溶剂分解产物掩盖（MDR-0001）。用户要补同体系、同条件下的对照与分解式证据（D01）。
+LCO 与 LNO 在乙腈电解液中的循环寿命差异及其主导过程尚不清楚；常规碳酸酯中两种材料衰减都快，差异可能被溶剂分解产物掩盖（MDR-0001）。合成角色计划补同体系、同条件下的对照与分解式证据（contribution（D01））。
 
 ## 方案与贡献
 
-- 贡献类型（D01）：实证（机理归因）
-- 本文主张什么：在相同测试条件下，LCO 与 LNO 的寿命差异主要由 CEI 演化与过渡金属溶解的相对贡献决定，乙腈改变的是溶解路径而非消除溶解。
+- 贡献类型（contribution（D01））：实证（机理归因）
+- 作者预置确认的待检验主张（证据尚未充分支持）：在相同测试条件下，LCO 与 LNO 的寿命差异主要由 CEI 演化与过渡金属溶解的相对贡献决定，乙腈改变的是溶解路径而非消除溶解。
 - 与现有工作的差异：同体系、同电压窗口下对照 LCO/LNO，并把 CEI 与体相退化分开量化。
 
 ## 主张清单（Claim Ledger）
 
+本例的作者确认均为预置角色输入，证据状态也为合成设定，不代表真实验证。AI建议、作者已确认与证据已支持分别记录；C2/C3 仍为待检验解释。
+
 | # | 主张 | 证据状态 | 证据来源 | 验证方式 | 风险 | 溯源 |
 |---|---|---|---|---|---|---|
-| C1 | 相同条件下 LNO 的容量保持率低于 LCO | 待分析 | 循环测试 | 500 循环容量保持率 + 方差分析 | 批次差异、极片一致性 | D04、D05 |
-| C2 | 差异主要由 CEI 增厚与过渡金属溶解贡献 | 部分支持 | XPS / ICP-MS | CEI 厚度与组成随循环演化；溶解量定量 | 只能证明相关，不能排除体相开裂 | D07 |
-| C3 | 乙腈改变溶解路径但不消除溶解 | 推测 | 文献 + 对照实验 | 碳酸酯对照组的溶解量对比 | 对照体系不完全可比 | D03、MDR-0001 |
-| C4 | 对电解液与界面设计有启示 | 推测 | C1–C3 | 审稿人判断 + 设计边界讨论 | 过度延伸 | D01、D10 |
+| C1 | 相同条件下 LNO 的容量保持率低于 LCO | 待分析 | 循环测试 | 500 循环容量保持率 + 方差分析 | 批次差异、极片一致性 | claim_strength（D04）、research_design（D05） |
+| C2 | 差异主要由 CEI 增厚与过渡金属溶解贡献 | 部分支持 | XPS / ICP-MS | CEI 厚度与组成随循环演化；溶解量定量 | 只能证明相关，不能排除体相开裂 | analysis_strategy（D07） |
+| C3 | 乙腈改变溶解路径但不消除溶解 | 推测 | 文献 + 对照实验 | 碳酸酯对照组的溶解量对比 | 对照体系不完全可比 | evidence_source（D03）、MDR-0001 |
+| C4 | 对电解液与界面设计有启示 | 推测 | C1–C3 | 审稿人判断 + 设计边界讨论 | 过度延伸 | contribution（D01）、scope_boundary（D10） |
 
 ## 方法决策
 
@@ -76,7 +79,7 @@ LCO 与 LNO 在乙腈电解液中的循环寿命差异及其主导过程尚不�
 
 ## 验证与证伪
 
-- 全局证伪条件（D12）：若 LCO 与 LNO 的容量保持率差异在控制极片负载与批次后消失，或 CEI 与溶解量无法解释差异 → 放弃机理归因。
+- 全局证伪条件（validation（D12））：若 LCO 与 LNO 的容量保持率差异在控制极片负载与批次后消失，或 CEI 与溶解量无法解释差异 → 放弃机理归因。
 - 逐条主张的证伪信号：
   - C1：控制负载后差异不显著。
   - C2：CEI 厚度与溶解量和容量衰减无相关。
@@ -104,10 +107,10 @@ LCO 与 LNO 在乙腈电解液中的循环寿命差异及其主导过程尚不�
 
 | Brief 内容 | 来源 |
 |---|---|
-| RQ | 合成自 D01、D03、D04、D05 |
-| Scope | D03、D05、D06、D10、TERMS |
-| Claim ledger | D01、D04、D07、D12、MDR-0001 |
-| 材料学扩展 | D03、D05、D06、MDR-0001 |
+| RQ | 合成自 contribution（D01）、evidence_source（D03）、claim_strength（D04）、research_design（D05） |
+| Scope | evidence_source（D03）、research_design（D05）、test_temperature（D06）、scope_boundary（D10）、TERMS |
+| Claim ledger | contribution（D01）、claim_strength（D04）、analysis_strategy（D07）、validation（D12）、MDR-0001 |
+| 材料学扩展 | evidence_source（D03）、research_design（D05）、test_temperature（D06）、MDR-0001 |
 
 ## 修订记录
 
@@ -115,3 +118,5 @@ LCO 与 LNO 在乙腈电解液中的循环寿命差异及其主导过程尚不�
 |---|---|---|
 | 2026-11-13 | 初版 | 盘问确认后合成 |
 ```
+
+非材料课题省略材料学扩展；理论主张可用证明与反例检验，定性解释可用负例、三角互证与反思性检查，不强套因果 / 关联或 FINER。实际交接按 `ars_handoff_protocol.md` 当前模式契约执行，不能把本例字段视为统一要求。
