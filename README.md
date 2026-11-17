@@ -1,8 +1,51 @@
 # wfh-science-skills
 
-把研究想法变成可讨论的设计，再按证据推进到实际交付。wfh 主持研究问题与设计、维护决定和进度；ARS 提供文献检索、专业规划、写作、审稿和核验。设计借鉴 Matt skills，无需安装 Matt。
+把研究想法变成可讨论的设计，再按证据推进到实际交付。适用于自然科学、社会科学及交叉研究。
 
-适用于自然科学、社会科学及交叉研究。共同骨架是研究问题、主张、证据和验证方式；实验、计算、定性、理论与综述只使用各自适用的要求。
+**推荐配套安装：wfh 管研究设计与进度，[ARS（Academic Research Skills）](https://github.com/Imbad0202/academic-research-skills) 做文献检索、写作、审稿与核验。要使用完整科研流程，请安装并启用两个插件。**
+
+| 组件 | 负责什么 | 安装来源 |
+|---|---|---|
+| **wfh-science-skills（本仓库）** | 问清研究问题、整理方案、安排步骤、记录研究决定、查看进度和验收结果 | [wanfuhao-art/wfh-science-skills](https://github.com/wanfuhao-art/wfh-science-skills) |
+| **academic-research-skills（ARS，独立项目）** | 文献检索、专业规划、论文写作、审稿和引用核验 | [Imbad0202/academic-research-skills](https://github.com/Imbad0202/academic-research-skills) |
+
+ARS 需要单独安装，本仓库不包含其代码。只做设计讨论、方案整理和进度管理时，wfh 可以独立使用；涉及上述科研生产能力时需要 ARS。设计借鉴 Matt skills，无需安装 Matt。
+
+## 安装：先装两个插件，再从 wfh 开始
+
+推荐使用最新版 **Claude Code**，或 **Claude Desktop 的 Code 标签页**。以下是会话输入框中的插件命令，请**逐条发送**，不要放进系统终端。
+
+先添加并安装 wfh：
+
+```text
+/plugin marketplace add wanfuhao-art/wfh-science-skills
+```
+
+```text
+/plugin install wfh-science-skills@wfh-science-skills
+```
+
+再添加并安装 ARS：
+
+```text
+/plugin marketplace add Imbad0202/academic-research-skills
+```
+
+```text
+/plugin install academic-research-skills@academic-research-skills
+```
+
+**安装完成后重新打开会话**，输入 `/` 检查 wfh 和 ARS 的入口。第一次可以发送：
+
+```text
+/wfh-science-skills:wfh 请检查 wfh 和 ARS 是否已安装、启用并在当前会话中可调用，说明各自用途；先不要创建文件或执行研究。无法确认的项目请明确说明。
+```
+
+之后从 `/wfh` 描述你的目标即可，无需手动切换每个 ARS 模式。本文的 `/wfh` 是简写；找不到命令或遇到重名时，使用完整入口 `/wfh-science-skills:wfh`。
+
+> 安装前请确保本机能访问 GitHub；使用代理的用户先开启代理。私有仓库需要维护者授予访问权限及本机 GitHub 认证，仅有链接无法安装。下载源码也不等于插件已被加载。
+
+更多方式与排错见 [完整安装指南](docs/INSTALL.md)：包括终端安装、Desktop 普通聊天的区别、更新与卸载。ARS 的可选工具与其他平台安装方式见 [ARS 官方指南](https://github.com/Imbad0202/academic-research-skills/blob/main/docs/SETUP.md)。
 
 ## 快速开始
 
@@ -20,51 +63,6 @@ AI 可以提供有依据的候选与推荐；AI 建议、作者已确认和证�
 独立请求直接交付结果。设计讨论确认后给出研究决策记录、按需术语 / 重要方法决定和必要进度；研究方案由高级 `/wfh-spec` 单独整理。普通用户通过 `/wfh` 明确说要生成或整理方案时，系统会自动衔接，无需学习高级命令；仅讨论或回答“确认”不会触发生成。原有 BRIEF.md、decisions/LEDGER.md、FLOW.md 等路径及兼容字段保留，文档内增加中文阅读说明；长期课题日常主要查看进度，已有记录继续可用。
 
 也可以直接说“看看进度”“只准备接手说明，先别执行”“先演示，不写文件”“恢复上次等待的工作”或“只验收，不补做”。系统保留各自的操作边界；普通用户无需学习高级命令和参数。
-
-<details>
-<summary>安装方法</summary>
-
-在支持插件的 Claude Code / Claude Desktop 中添加本插件：
-
-Claude Code 2.1.275 及之后的版本可一步安装：
-
-```text
-/plugin install wfh-science-skills --marketplace wanfuhao-art/wfh-science-skills
-```
-
-也可以分两步安装，并明确指定插件所在市场：
-
-```text
-/plugin marketplace add wanfuhao-art/wfh-science-skills
-/plugin install wfh-science-skills@wfh-science-skills
-```
-
-若仓库为私有仓库，安装者需要先获得仓库访问权限，并让本机 Git 能通过自己的 GitHub 认证访问仓库。只有源码链接、没有访问权限时无法安装。网络依赖本机代理时，安装前开启代理软件。
-
-需要文献检索、写作、审稿、引用核验等科研生产能力时，另行安装 ARS：
-
-```text
-/plugin marketplace add Imbad0202/academic-research-skills
-/plugin install academic-research-skills@academic-research-skills
-```
-
-| 需求 | 所需组件 |
-|---|---|
-| 研究设计讨论、方案整理、步骤安排、本地进度与验收记录 | 本插件；无需安装 Matt 或 ARS |
-| 文献检索、专业规划、论文写作、审稿、引用核验 | 另装并启用 ARS；源码核对基线为 3.24.2，实际模式以所装版本为准 |
-| 日常使用 wfh | 无需 Python；维护者刷新或验证索引才需要 Python 3 |
-| 生成 Word、PDF 等文件 | 按 ARS 实际输出分支检查 Pandoc、排版编译器等工具 |
-
-安装完成后重新打开会话，输入 `/` 检查技能列表，并使用完整入口：
-
-```text
-/wfh-science-skills:wfh 请说明你能帮我做什么，先不要创建文件或执行研究
-```
-
-文中的 `/wfh` 是该入口的简写；短名能否解析取决于宿主，遇到找不到命令或重名时使用完整名称。七个高级入口也可按 `/wfh-science-skills:wfh-ask` 的形式调用。也可描述研究流程意图自动识别；明确指定 ARS 或其他技能时尊重选择。
-
-本地安装可把市场地址换成本仓库绝对路径。下载源码不等于宿主已加载技能。找不到入口时先确认插件已安装并启用、当前会话已重新加载；ARS 缺失不影响上述 wfh 独立能力。安装与验证范围见 [3.2.2 发布说明](docs/RELEASE-3.2.2.md)。
-</details>
 
 <details>
 <summary>高级入口与已有课题</summary>
